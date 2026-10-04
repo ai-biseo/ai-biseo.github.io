@@ -1487,6 +1487,11 @@ body.home-mode .qm b{white-space:nowrap}
   body.home-mode .gvis .gsearch{margin-top:18px!important}
   body.home-mode .gcols > .gbox:nth-child(2) .gprof,body.home-mode .gcols > .gbox:nth-child(3) .ghelp{margin-bottom:10px!important}
 }
+/* 관련 기관: 기관 이름 띠 (A안) */
+.gbox-sub.org{display:flex!important;align-items:center;font-size:.78rem;font-weight:800;color:#22604C;background:#E8F5EE;border-radius:6px;padding:4px 10px;margin:0!important}
+.glinks.sub{margin-top:0!important}
+@media (min-width:900px) and (max-height:800px){ .gbox-sub.org{padding:3px 10px;font-size:.74rem} }
+@media (min-width:900px) and (max-height:640px){ .gbox-sub.org{display:none!important} }
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -3384,9 +3389,10 @@ function renderHome(){
       </section>
       <section class="gbox">
         <div class="gbox-h"><h2>관련 기관 바로가기</h2></div>
-        <p class="gbox-sub">한국장애인복지시설협회</p>
+        <p class="gbox-sub org">한국장애인복지시설협회 바로가기</p>
         <ul class="glinks">${KAWID.map(([t,u,d])=>`<li><a href="${u}" target="_blank" rel="noopener"><b>${t}</b><span>${d}</span>${ico("link","sm")}</a></li>`).join("")}</ul>
-        <ul class="glinks sub"><li><a href="https://kcpass.or.kr/board/view?boardStyle=&amp;categoryId=&amp;continent=&amp;country=&amp;linkId=LhJZCVwlqt&amp;menuId=MENU002030702000000&amp;no1=8&amp;pageNum=1&amp;rowCnt=10&amp;schText=&amp;schType=0" target="_blank" rel="noopener"><b>2026 평가지표</b><span>중앙사회서비스원 · 공동생활가정</span>${ico("link","sm")}</a></li></ul>
+        <p class="gbox-sub org">중앙사회서비스원 바로가기</p>
+        <ul class="glinks sub"><li><a href="https://kcpass.or.kr/board/view?boardStyle=&amp;categoryId=&amp;continent=&amp;country=&amp;linkId=LhJZCVwlqt&amp;menuId=MENU002030702000000&amp;no1=8&amp;pageNum=1&amp;rowCnt=10&amp;schText=&amp;schType=0" target="_blank" rel="noopener"><b>2026 평가지표</b><span>장애인공동생활가정</span>${ico("link","sm")}</a></li></ul>
         <button type="button" class="ghelp" data-goto="help">${ico("help")}<span><b>처음 쓰는 법</b> · PC로 보내기 · 안전수칙</span></button>
       </section>
     </div>
