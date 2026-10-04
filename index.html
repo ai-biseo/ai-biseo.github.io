@@ -1346,6 +1346,53 @@ body:has(.tpage) .gfoot, body:has(.fpage) .gfoot{display:none}
 .f-delbox > label{color:#8A3B2E!important}
 .f-delbox select{flex:1;min-width:10em;min-height:40px;border:1px solid var(--line);border-radius:8px;padding:0 8px;background:#fff;font:inherit}
 .f-delbox .pill{background:#fff!important;border-color:#C98A7C!important;color:#8A3B2E!important}
+
+/* ===== 낮은 화면(노트북 125% 배율 등): 한 화면에 꼭 맞추기 ===== */
+@media (min-width:900px) and (max-height:800px){
+  .gnb-top{display:none!important}
+  .gnb-in{min-height:48px!important}
+  .gnb-logo small{font-size:.66rem!important}
+  .gnb nav button{padding:6px 10px!important;font-size:.9rem!important}
+  .gnb-prof{padding:5px 12px!important;font-size:.82rem!important}
+  body.home-mode .wrap{gap:8px!important}
+  .ghome{gap:8px!important}
+  .gvis{min-height:0!important;height:clamp(88px,17vh,130px)!important}
+  .gvis-txt{padding:10px 22px!important;gap:4px!important}
+  .gvis h1{font-size:clamp(1.15rem,1.9vw,1.5rem)!important}
+  .gsearch input{min-height:36px!important;font-size:.88rem!important}
+  .gsearch{margin-top:2px!important}
+  .gcols{gap:10px!important}
+  .gbox{padding:8px 12px!important;gap:6px!important}
+  .gbox-h{padding-bottom:5px!important}
+  .gbox-h h2{font-size:.95rem!important}
+  .bd li{padding:2px 0!important}
+  .bd-t{font-size:.86rem!important}
+  .bd-btn{padding:2px 7px!important;font-size:.72rem!important}
+  .bd-up{padding:6px 10px!important;font-size:.78rem!important}
+  .qgrid{gap:6px!important}
+  .qm{padding:6px 4px!important;gap:2px!important}
+  .qm .ic{width:22px!important;height:22px!important}
+  .qm b{font-size:.82rem!important}
+  .qm span{display:none!important}
+  .gprof{padding:7px 10px!important}
+  .gprof .ic{width:20px!important;height:20px!important}
+  .glinks a{padding:5px 2px!important}
+  .glinks b{font-size:.85rem!important}
+  .gbox-sub{display:none}
+  .ghelp{padding:6px 10px!important;font-size:.78rem!important}
+  .gfoot{padding-block:6px!important;gap:3px!important;font-size:.72rem!important;line-height:1.5!important}
+  .gf-top span:not(.gf-links){display:none}
+  .gf-top b{font-size:.8rem!important}
+  .gf-me{padding-top:3px!important}
+  .dn-head{padding:8px 16px!important}
+  .dn-head h2{font-size:1.1rem!important}
+  .dn-flow li{padding:5px 8px!important}
+  .fbar .back,.fbar-btns .pill{min-height:36px!important}
+  .fbar h2{font-size:1.1rem!important}
+  body:has(.fpage) .wrap,body:has(.tpage) .wrap{padding-block:8px!important;gap:6px!important}
+}
+
+@media (min-width:900px) and (max-height:640px){ .bd-up{display:none!important} .bd li{padding:1px 0!important} .bd-btn{padding:1px 6px!important} .gvis{height:84px!important} .gvis-img{display:none!important} body.home-mode .gvis{grid-template-columns:1fr!important} }
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
