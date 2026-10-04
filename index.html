@@ -1529,6 +1529,8 @@ details.plan-more .aibar{border-style:dashed}
 .ph-ok{display:flex;margin:6px 0}
 #ph-text{width:100%}
 .phpage .btn[disabled]{opacity:.45;cursor:not-allowed}
+.fmemo-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;border:1.5px solid #2E7D64;background:#E8F5EE;border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.fmemo-box b{display:block;color:#22604C;font-size:.92rem}.fmemo-box span{font-size:.78rem;color:var(--muted)}.fmemo-box>div{flex:1 1 260px}
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -2346,7 +2348,7 @@ const FORMS = [
    {k:"next",label:"다음 지원 계획",type:"area",opt:1,ph:"예: 다음 주에도 새 반찬을 한 가지씩 권해 본다."},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"이름은 ○○님으로, 진단명·약 이름·주민번호는 적지 마세요. 상담 내용은 들은 말 그대로, 의견은 따로 적어요.",
+ {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"짧게 메모하듯 적으면 오른쪽에 보고서 문장으로 풀어 써져요. 상담자 의견·향후 계획을 비워 두면 초안이 자동으로 들어가요 (꼭 확인). 이름은 ○○님으로, 진단명은 적지 마세요.",
   fields:[
    {k:"title",label:"상담 주제",ph:"예: 주말 귀가 일정 상의",short:1},
    {k:"target",label:"상담 대상",ph:"예: 이용인 ○○님 / 보호자(○○님 어머니)",short:1},
@@ -2586,10 +2588,70 @@ function reportFmt(text,group){
   if(used<2) return sents.map(x=>"○ "+g(x)).join("\n");
   return [["보호자 진술",G.보호자],["이용인 진술",G.이용인],["함께 확인한 내용",G.기타]].filter(([,a])=>a.length).map(([h,a])=>`[${h}]\n${a.map(x=>"○ "+g(x)).join("\n")}`).join("\n");
 }
+/* 상담일지: 짧은 메모를 보고서 서술형으로 풀어 쓰기 */
+const CS_FIX=[[/(다툼|갈등|문제|어려움|변화)\s*있음/g,"$1이 있음"],[/입소\s*후|입소후/g,"입소 후"],[/퇴소후/g,"퇴소 후"],[/생활적응/g,"생활 적응"],[/동료관계/g,"동료 관계"],[/(적응|만족|관계|생활|식사|프로그램|건강|수면)(내용|상황|정도|여부|상태)/g,"$1 $2"],[/대체적으로/g,"대체로"],[/입소자/g,"이용인"]];
+const CS_TOP=[[/적응/,"시설 생활 적응"],[/식사|밥|급식|반찬|식단/,"식사"],[/프로그램/,"프로그램 참여"],[/동료|친구|관계|룸메이트|같은 방/,"동료 이용인과의 관계"],[/수면|잠/,"수면 상태"],[/건강|병원|아프/,"건강 상태"],[/가족|보호자|귀가|면회/,"가족 관계 및 귀가"],[/직장|일자리|작업|근로/,"직장 생활"],[/용돈|금전|돈/,"금전 관리"],[/외출/,"외출"],[/위생|목욕|청소/,"위생 관리"],[/갈등|다툼|싸움/,"갈등 상황"],[/취미|여가/,"여가 생활"]];
+function csNorm(t){ let x=String(t||""); CS_FIX.forEach(([r,w])=>{ x=x.replace(r,w); }); return x.trim(); }
+function csFrags(t){ return csNorm(t).split(/\n|[.,·;]|(?:\s등\s*)$/).map(s=>s.replace(/\s*등$/,"").replace(/^(\s|○(?!○)|•|-)+/,"").trim()).filter(Boolean); }
+function csTopic(f){ for(const [r,n] of CS_TOP){ if(r.test(f)) return /만족/.test(f)&&!/적응/.test(n)?n.replace(/ 참여$/,"")+" 만족도":n; } return f.replace(/\s*(상담|관련|문제|내용)$/,"").trim(); }
+const csIsSent=f=>/(다|요|함|음|임|됨)$/.test(f) && f.length>=14 && !/상담함$/.test(f);
+function csReason(t){
+  const fr=csFrags(t); if(!fr.length) return "";
+  if(fr.every(csIsSent)) return fr.map(x=>"○ "+toGaejo(x).replace(/^○\s*/,"")).join("\n");
+  const req=fr.find(f=>/요청|정기|의뢰/.test(f)); let reqS="";
+  if(req){ const who=(req.match(/(보호자|이용인|본인|가족|관계\s*기관|담당자)/)||[])[1]; reqS = /정기/.test(req)?"정기 상담 일정에 따라 상담을 실시함":`${who?(who==="본인"?"이용인":who)+"의 ":""}요청에 따라 상담을 실시함`; fr.splice(fr.indexOf(req),1); if(!fr.length) return "○ "+reqS; }
+  const tops=[...new Set(fr.flatMap(f=>{ const hits=CS_TOP.filter(([r])=>r.test(f)).map(([,n])=>/만족/.test(f)&&!/적응/.test(n)?n.replace(/ 참여$/,"")+" 만족도":n); return hits.length?hits:[csTopic(f)]; }))], ad=/입소/.test(t);
+  const main = tops.includes("시설 생활 적응") ? `${ad?"입소 후 ":""}시설 생활 적응 상태를 확인하기 위하여 상담을 실시함` : `${tops[0]} 관련 상황을 확인하기 위하여 상담을 실시함`;
+  const rest=tops.filter(x=>x!=="시설 생활 적응" && !main.startsWith(x));
+  if(reqS) return `○ ${reqS}\n○ 주요 확인 사항: ${tops.join(", ")}`;
+  return `○ ${main}${rest.length?`\n○ 주요 확인 사항: ${rest.join(", ")}`:""}`;
+}
+function csContent(t){
+  const fr=csFrags(t); if(!fr.length) return "";
+  return fr.map(f=>{
+    if(csIsSent(f) && !/만족|불만|어렵|힘들/.test(f)) return "○ "+toGaejo(f).replace(/^○\s*/,"");
+    const tp=csTopic(f.replace(/(대체로|매우|아주|조금|다소)?\s*(만족|불만족|불만)\S*/,"")) || "시설 생활";
+    const deg=/대체로/.test(f)?"대체로 ":/매우|아주/.test(f)?"매우 ":"";
+    if(/다고\s*(함|했다|말함|말했다|하심|하셨다)$/.test(f)) return `○ ${/^(이용인|보호자|어머니|아버지|○○)/.test(f)?"":"이용인은 "}${f.replace(/다고\s*(함|했다|말함|말했다|하심|하셨다)$/,"다고 이야기함")}`;
+    if(/불만|어렵|힘들|싫|불편/.test(f)) return `○ 이용인은 ${tp||"시설 생활"}에 대하여 불편함과 어려움이 있다고 이야기함`;
+    if(/만족/.test(f)) return `○ 이용인은 ${/상담/.test(tp)||!tp?"시설 생활":tp} 전반에 대하여 ${deg}만족한다고 응답함`;
+    if(/상담/.test(f)) return `○ ${tp.replace(/\s*상담\S*$/,"")}에 대하여 이야기를 나누며 현재 생활 모습을 확인함`;
+    const said=csSaid(f); if(said) return `○ 이용인은 ${said}고 이야기함`;
+    return "○ "+toGaejo(f).replace(/^○\s*/,"");
+  }).join("\n");
+}
+function csSaid(f){ let x=f.trim(); if(/(다|요)$/.test(x)) return "";
+  const R=[[/(잠을\s*)?못\s*잠$/,"잠을 잘 자지 못한다"],[/잘\s*잠$/,"잠을 잘 잔다"],[/있음$/,"있다"],[/없음$/,"없다"],[/싶음$/,"싶다"],[/좋음$/,"좋다"],[/함$/,"한다"],[/잠$/,"잔다"],[/먹음$/,"먹는다"],[/감$/,"간다"],[/봄$/,"본다"]];
+  for(const [r,w] of R){ if(r.test(x)) return x.replace(r,w).replace(/잠을 못 잠을/,"잠을"); } return ""; }
+function csOpinion(v){
+  const all=csNorm((v.reason||"")+" "+(v.content||"")); if(!all.trim()) return "";
+  const tops=[...new Set(csFrags(all).map(csTopic))].filter(x=>/(적응|식사|프로그램|관계|수면|건강|가족|직장|금전|외출|위생|갈등|여가)/.test(x));
+  const L=[];
+  if(/불만|어렵|힘들|싫|불편|못\s/.test(all)) L.push(`${(tops.find(x=>!/가족/.test(x))||tops[0]||"생활")}에 대한 지속적인 관심과 지원이 필요한 것으로 보임`);
+  if(/만족/.test(all)) L.push(/입소/.test(all)?"입소 초기임에도 시설 생활에 비교적 안정적으로 적응하고 있는 것으로 보임":"현재 생활에 대체로 만족하며 안정적으로 지내고 있는 것으로 보임");
+  if(!L.length) L.push(`${tops[0]||"현재 생활"}에 대하여 지속적인 관찰이 필요한 것으로 보임`);
+  return L.map(x=>"○ "+x).join("\n");
+}
+function csPlan(v){
+  const all=csNorm((v.reason||"")+" "+(v.content||"")); if(!all.trim()) return "";
+  const P=[[/적응|입소/,"정기 상담을 통해 시설 생활 적응 상태를 지속적으로 확인할 예정임"],[/식사|밥|식단/,"식사 선호도를 확인하여 식단 구성에 반영함"],[/프로그램/,"프로그램 참여 모습을 관찰하여 개별지원계획에 반영함"],[/동료|관계|친구/,"생활 속 관찰을 통해 동료 이용인과의 관계를 지속적으로 살핌"],[/수면|잠/,"취침 시간을 기록하여 수면 상태를 확인함"],[/가족|보호자|귀가/,"보호자와 정기적으로 소통하며 귀가 일정을 조율함"],[/건강|병원/,"건강 상태를 지속적으로 확인하고 필요시 보호자와 공유함"]];
+  const L=P.filter(([r])=>r.test(all)).map(([,s])=>s);
+  if(!L.length) L.push("다음 정기 상담에서 변화된 모습을 다시 확인할 예정임");
+  return L.map(x=>"○ "+x).join("\n");
+}
+/* 관찰일지·프로그램 일지: 메모 정리 + 빈 칸 초안 */
+const POS=/(잘|스스로|혼자|웃|즐거|좋아|만족|적극|먼저|도와|칭찬|성공|끝까지)/, NEG=/(못|거부|남김|남겼|싫|울|화를|화냄|다툼|갈등|힘들|어려|불안|짜증|거절|중단)/;
+function memoFmt(t){ const fr=csFrags(t); if(!fr.length) return ""; return fr.map(f=>"○ "+toGaejo(f.replace(/○○/g,"\u0001")).replace(/^○\s*/,"").replace(/\u0001/g,"○○")).join("\n"); }
+function obsThink(v){ const a=csNorm(v.fact||""); if(!a) return ""; const tp=[...new Set(csFrags(a).flatMap(f=>CS_TOP.filter(([r])=>r.test(f)).map(([,n])=>n)))][0];
+  const L=[]; if(POS.test(a)) L.push(`${tp?tp+"에서 ":""}스스로 해 보려는 모습과 긍정적인 변화가 나타나고 있는 것으로 보임`); if(NEG.test(a)) L.push(`${tp?tp+"에 대한 ":""}불편함이 있는 것으로 보여 원인을 세심하게 살필 필요가 있음`); if(!L.length) L.push("관찰된 모습이 반복되는지 지속적으로 살펴볼 필요가 있음"); return L.map(x=>"○ "+x).join("\n"); }
+function obsNext(v){ const a=csNorm(v.fact||""); if(!a) return ""; const L=["같은 상황을 1~2주간 지속적으로 관찰하여 기록함"]; if(POS.test(a)) L.push("잘한 점을 구체적으로 칭찬하여 긍정적인 행동이 이어지도록 지원함"); if(NEG.test(a)) L.push("불편함의 원인을 확인하고 필요시 보호자·동료 직원과 공유함"); return L.map(x=>"○ "+x).join("\n"); }
+function progEval(v){ const a=csNorm(v.obs||""); if(!a) return ""; const L=[]; if(POS.test(a)) L.push("참여자들이 즐겁게 참여하여 활동 목표에 맞게 진행된 것으로 보임"); if(NEG.test(a)) L.push("일부 참여자가 어려움을 보여 활동 방법과 시간 조정이 필요함"); if(!L.length) L.push("계획한 활동을 진행하였으며 참여 모습을 지속적으로 관찰할 필요가 있음"); L.push("다음 회기에는 참여자의 반응을 반영하여 진행할 예정임"); return L.map(x=>"○ "+x).join("\n"); }
 function docBlocks(f,v){
-  if(f.id==="sangdam"){ v={...v, reason:reportFmt(v.reason), content:reportFmt(v.content,true), opinion:reportFmt(v.opinion), plan:reportFmt(v.plan)}; }
-  const RF={gwanchal:["fact","think","support","next"],program:["content","obs","eval"],hoeui:["discuss","decide","todo"]}[f.id];
-  if(RF){ v={...v}; RF.forEach(k=>{ v[k]=reportFmt(v[k]); }); }
+  if(f.id==="sangdam"){ const grp=/[“"']|(보호자|어머니|아버지).*(말|하셨|하심)/.test(v.content||"");
+    v={...v, reason:csReason(v.reason), content:grp?reportFmt(v.content,true):csContent(v.content), opinion:(v.opinion||"").trim()?reportFmt(v.opinion):csOpinion(v), plan:(v.plan||"").trim()?reportFmt(v.plan):csPlan(v)}; }
+  if(f.id==="gwanchal"){ v={...v, fact:memoFmt(v.fact), think:(v.think||"").trim()?reportFmt(v.think):obsThink(v), support:reportFmt(v.support), next:(v.next||"").trim()?reportFmt(v.next):obsNext(v)}; }
+  if(f.id==="program"){ v={...v, content:reportFmt(v.content), obs:memoFmt(v.obs), eval:(v.eval||"").trim()?reportFmt(v.eval):progEval(v)}; }
+  if(f.id==="hoeui"){ v={...v, discuss:memoFmt(v.discuss)||"", decide:reportFmt(v.decide), todo:reportFmt(v.todo)}; }
   const B=docBlocks0(f,v), c=signCfg(f);
   if(c.n>0) B.unshift({t:"approval",labels:c.labels});
   if(c.sign){
@@ -2861,6 +2923,7 @@ function renderForm(f){
     <p class="status fstat" id="fstatus" role="status" aria-live="polite">${f.note?`꼭 지켜요 · ${esc(f.note)}`:(hasMic?"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 마이크 버튼으로 말해도 돼요. 이름·진단명은 말하지 마세요.":"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 이름·진단명은 말하지 마세요.")}</p>
     <div class="fsplit">
       <section class="fin" id="fin" aria-label="입력">
+        ${["hoeui","sangdam","gwanchal","program"].includes(f.id)?`<div class="fmemo-box"><div><b>📷 ${f.id==="hoeui"?"회의":f.id==="sangdam"?"상담":"기록"} 메모 사진으로 채우기</b><span>손글씨 메모·화이트보드 사진을 올리면, AI가 사진을 읽어 아래 칸을 채우도록 도와드려요.${(v._imgs||[]).length?` (지금 ${(v._imgs||[]).length}장 올림)`:""}</span></div><label class="pill b3d main" for="fmemo-top-img">메모 사진 올리기</label><input type="file" id="fmemo-top-img" class="sr-file" accept="image/*" multiple></div>`:""}
         <div class="fgrid">${shortF.map(x=>fieldHTML(f,v,x)).join("")}</div>
         ${longF.map(x=>fieldHTML(f,v,x)).join("")}
         ${customHTML(f)}
@@ -4511,6 +4574,7 @@ app.addEventListener("change",e=>{
   if(e.target.name==="mk-kind"){ mk.kind=e.target.value; if(!mk.touched){ mk.labels=(mk.kind==="ledger"?["번호","일자","내용","담당","비고"]:["일시","대상","내용","비고","작성자"]).join("\n"); mk.preset=null; } renderMake(); return; }
   if(e.target.id==="pend-img" && e.target.files.length){ const fl=e.target.files; addMemoImgs(fl,pendImgs).then(()=>mimgRefresh(pendImgs,"pend")); e.target.value=""; return; }
   if(e.target.id==="umemo-img" && up && e.target.files.length){ const fl=e.target.files; addMemoImgs(fl,up.imgs||(up.imgs=[])).then(()=>{ mimgRefresh(up.imgs,"umemo"); updateUpLink(); }); e.target.value=""; return; }
+  if(e.target.id==="fmemo-top-img" && curForm && e.target.files.length){ const f=curForm, v=getF(f), fl=e.target.files; addMemoImgs(fl,v._imgs||(v._imgs=[])).then(()=>{ openAIOnRender=true; renderForm(f); }); e.target.value=""; return; }
   if(e.target.id==="fmemo-img" && curForm && e.target.files.length){ const f=curForm, v=getF(f), fl=e.target.files; addMemoImgs(fl,v._imgs||(v._imgs=[])).then(()=>{ mimgRefresh(v._imgs,"fmemo"); updateFormLink(f); }); e.target.value=""; return; }
   if(e.target.id==="up-file" && e.target.files[0]){ loadUpload(e.target.files[0]); e.target.value=""; return; }
   if(curForm && e.target.id==="fattach" && e.target.files[0]){ attachTemplate(curForm, e.target.files[0]); e.target.value=""; return; }
