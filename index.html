@@ -2316,8 +2316,8 @@ const FORMS = [
    {k:"where",label:"장소",ph:"예: 센터 거실",short:1},
    {k:"people",label:"참석자",ph:"예: 시설장, 사회재활교사 2명 (총 3명)",short:1},
    {k:"agenda",label:"안건",type:"area",ph:"예: 1. 가을 나들이 계획\n2. 11월 식단 조정"},
-   {k:"discuss",label:"논의 내용",type:"area"},
-   {k:"decide",label:"결정 사항",type:"area"},
+   {k:"discuss",label:"논의 내용",type:"area",ph:"오간 이야기를 편하게 적으면 보고서 형식으로 정리돼요.\n예: 나들이 장소로 오동도와 공원이 나왔다. 이동 거리를 생각해 공원이 좋겠다는 의견이 많았다."},
+   {k:"decide",label:"결정 사항",type:"area",ph:"예: 10월 25일 공원 나들이를 가기로 했다."},
    {k:"todo",label:"할 일 (담당·기한)",type:"area",ph:"예: 차량 예약 - 시설장 - 10/18까지"},
    {k:"writer",label:"작성자",ph:"예: 시설장 ○○○",short:1},
    {k:"org",label:"기관명",short:1}]},
@@ -2331,8 +2331,8 @@ const FORMS = [
    {k:"leader",label:"진행자",ph:"예: 사회재활교사 ○○○",short:1},
    {k:"goal",label:"목표",type:"area",ph:"예: 작물을 함께 가꾸며 책임감과 성취감 경험"},
    {k:"content",label:"진행 내용",type:"area"},
-   {k:"obs",label:"참여 모습",type:"area",ph:"본 그대로 적어요. 예: ○○님이 물뿌리개를 먼저 챙김"},
-   {k:"eval",label:"평가 및 다음 계획",type:"area"},
+   {k:"obs",label:"참여 모습",type:"area",ph:"본 그대로 편하게 적으면 보고서 형식으로 정리돼요.\n예: ○○님이 물뿌리개를 먼저 챙겼다. 다 끝나고 재밌다고 말했다."},
+   {k:"eval",label:"평가 및 다음 계획",type:"area",ph:"예: 모두 끝까지 참여했다. 다음에는 활동 시간을 조금 줄인다."},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
  {id:"gwanchal", em:"👀", name:"관찰일지", desc:"사실과 해석을 나눠 쓰는 관찰 기록", kind:"generic", note:"이름은 ○○님으로, 진단명·약 이름은 적지 마세요. '본 것'에는 사실만, '생각'에는 작성자 의견을 나눠 적어요.",
@@ -2340,10 +2340,10 @@ const FORMS = [
    {k:"who",label:"대상",def:"○○님",short:1},
    {k:"date",label:"날짜",type:"date",def:"today",short:1},
    {k:"time",label:"시간·장소",ph:"예: 18:00 저녁 식사 시간, 식탁",short:1},
-   {k:"fact",label:"본 것·들은 것 (사실)",type:"area",ph:"예: 반찬을 스스로 덜어 먹고 '맛있다'고 두 번 말함"},
-   {k:"think",label:"작성자 생각 (해석)",type:"area",ph:"예: 새 반찬에 대한 거부감이 줄어든 것으로 보임"},
-   {k:"support",label:"지원한 내용",type:"area",opt:1},
-   {k:"next",label:"다음 지원 계획",type:"area",opt:1},
+   {k:"fact",label:"본 것·들은 것 (사실)",type:"area",ph:"본 그대로 편하게 적으면 오른쪽에서 보고서 형식으로 정리돼요.\n예: 저녁 시간에 반찬을 스스로 덜어 먹었다. 맛있다고 두 번 말했다."},
+   {k:"think",label:"작성자 생각 (해석)",type:"area",ph:"예: 새 반찬에 대한 거부감이 줄어든 것 같다."},
+   {k:"support",label:"지원한 내용",type:"area",opt:1,ph:"예: 반찬 그릇을 가까이 놓아 드렸다."},
+   {k:"next",label:"다음 지원 계획",type:"area",opt:1,ph:"예: 다음 주에도 새 반찬을 한 가지씩 권해 본다."},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
  {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"이름은 ○○님으로, 진단명·약 이름·주민번호는 적지 마세요. 상담 내용은 들은 말 그대로, 의견은 따로 적어요.",
@@ -2352,20 +2352,20 @@ const FORMS = [
    {k:"target",label:"상담 대상",ph:"예: 이용인 ○○님 / 보호자(○○님 어머니)",short:1},
    {k:"date",label:"상담 일시",type:"date",def:"today",short:1},
    {k:"time",label:"시간·장소",ph:"예: 15:00~15:40, 센터 상담실",short:1},
-   {k:"method",label:"상담 방법",ph:"예: 대면 / 전화 / 가정 방문 / 문자",short:1},
+   {k:"method",label:"상담 방법",ph:"예: 대면, 전화, 가정 방문",short:1},
    {k:"counselor",label:"상담자",ph:"예: 사회재활교사 ○○○",short:1},
-   {k:"reason",label:"상담 계기",type:"area",ph:"예: 보호자 요청 / 정기 상담 / 생활 변화 관찰"},
-   {k:"content",label:"상담 내용",type:"area",ph:"들은 말 그대로 적어요. 예: 보호자: “요즘 주말에 집에 오면 잠을 잘 못 잔다”고 말씀하심"},
-   {k:"opinion",label:"상담자 의견",type:"area",ph:"예: 주말 생활 리듬 변화가 영향을 주는 것으로 보임"},
-   {k:"plan",label:"조치 및 향후 계획",type:"area",ph:"예: 주중 취침 시간 기록 → 2주 뒤 보호자와 다시 상담"},
+   {k:"reason",label:"상담 계기",type:"area",ph:"편하게 적어요. 예: 보호자님이 전화로 요청하셨다. 최근 주말 귀가 뒤 잠을 잘 못 잔다고 하셨다."},
+   {k:"content",label:"상담 내용",type:"area",ph:"줄글로 편하게 적으면 오른쪽에서 보고서 형식으로 정리돼요.\n예: 어머니는 주말에 집에 오면 밤늦게까지 TV를 본다고 하셨다. ○○님은 집에 가는 게 좋다고 말했다. 취침 시간을 함께 정해 보기로 했다."},
+   {k:"opinion",label:"상담자 의견",type:"area",ph:"예: 주말에 생활 리듬이 바뀌는 것이 영향을 주는 것 같다."},
+   {k:"plan",label:"조치 및 향후 계획",type:"area",ph:"예: 2주 동안 취침 시간을 기록한다. 2주 뒤 보호자님과 다시 상담한다."},
    {k:"nextdate",label:"다음 상담 예정일",opt:1,ph:"예: 2026. 10. 25.",short:1},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"yokgu", em:"🌱", name:"욕구조사지", desc:"이용인이 원하는 것을 묻는 쉬운 조사지", kind:"survey", scale:["원해요","보통이에요","원하지 않아요"],
+ {id:"yokgu", em:"🌱", name:"프로그램 희망조사", desc:"하고 싶은 프로그램 묻기", kind:"survey", scale:["원해요","보통이에요","원하지 않아요"],
   fields:[
-   {k:"title",label:"조사 제목",def:"하고 싶은 것을 알려주세요",short:1},
+   {k:"title",label:"조사 제목",def:"하고 싶은 프로그램을 알려주세요",short:1},
    {k:"period",label:"조사 기간",ph:"예: 2026. 11. 1. ~ 11. 15.",short:1},
-   {k:"intro",label:"안내 문구",type:"area",def:"우리 집에서 하고 싶은 것을 알려주세요. 정답은 없어요. 편하게 골라주세요."},
+   {k:"intro",label:"안내 문구",type:"area",def:"우리 집에서 해 보고 싶은 프로그램을 알려주세요. 정답은 없어요. 편하게 골라주세요."},
    {k:"qs",label:"문항 (한 줄에 하나)",type:"area",def:"다 같이 나들이를 가고 싶어요\n새로운 요리를 배워 보고 싶어요\n운동을 하고 싶어요\n혼자 장보기를 연습하고 싶어요\n친구나 가족을 더 자주 만나고 싶어요\n내 방을 꾸미고 싶어요\n돈 관리하는 법을 배우고 싶어요"},
    {k:"open",label:"자유 질문",def:"그 밖에 하고 싶은 것이 있나요?",short:1},
    {k:"org",label:"기관명",short:1}]},
@@ -2573,7 +2573,23 @@ function signCfg(f){
   return c;
 }
 function setSign(f,patch){ const c={...signCfg(f),...patch}; if(patch.n!==undefined) c.labels=(SG_DEF[c.n]||[]).slice(); SIGN[f.id]={n:c.n,labels:c.labels,sign:c.sign}; saveSign(); }
+/* 상담일지: 줄글을 보고서 형식(○ 개조식)으로 정리해 미리보기·워드에 넣기 */
+function reportFmt(text,group){
+  const t=String(text||"").trim(); if(!t) return t;
+  if(t.split("\n").every(l=>!l.trim()||/^\s*(○(?!○)|[●■□※\-\[]|\d+[.)])/.test(l))) return t;
+  const sents=t.replace(/\r/g,"").split(/\n+|(?<=[.!?。])\s+|(?<=(?:다|요|함|음))\.\s*/).map(x=>x.trim()).filter(Boolean);
+  const g=s=>toGaejo(s.replace(/○○/g,"\u0001")).replace(/^○\s*/,"").replace(/\u0001/g,"○○");
+  if(!group) return sents.map(x=>"○ "+g(x)).join("\n");
+  const G={보호자:[],이용인:[],기타:[]};
+  sents.forEach(x=>{ if(/(보호자|어머니|아버지|어머님|아버님|가족|언니|오빠|누나|형님|동생|할머니|할아버지)/.test(x)) G.보호자.push(x); else if(/(이용인|○○님|본인|당사자)/.test(x)) G.이용인.push(x); else G.기타.push(x); });
+  const used=Object.values(G).filter(a=>a.length).length;
+  if(used<2) return sents.map(x=>"○ "+g(x)).join("\n");
+  return [["보호자 진술",G.보호자],["이용인 진술",G.이용인],["함께 확인한 내용",G.기타]].filter(([,a])=>a.length).map(([h,a])=>`[${h}]\n${a.map(x=>"○ "+g(x)).join("\n")}`).join("\n");
+}
 function docBlocks(f,v){
+  if(f.id==="sangdam"){ v={...v, reason:reportFmt(v.reason), content:reportFmt(v.content,true), opinion:reportFmt(v.opinion), plan:reportFmt(v.plan)}; }
+  const RF={gwanchal:["fact","think","support","next"],program:["content","obs","eval"],hoeui:["discuss","decide","todo"]}[f.id];
+  if(RF){ v={...v}; RF.forEach(k=>{ v[k]=reportFmt(v[k]); }); }
   const B=docBlocks0(f,v), c=signCfg(f);
   if(c.n>0) B.unshift({t:"approval",labels:c.labels});
   if(c.sign){
@@ -2781,7 +2797,7 @@ function formPrompt(f,v){
     RULES(["초안과 메모에 없는 숫자, 날짜, 성과는 만들지 마.","이용인 이름은 ○○님으로 쓰고, 진단명이나 건강 정보는 넣지 마.","'입소자', '수용' 같은 표현은 '이용인'으로 바꿔줘."]);
 }
 /* 간단 정리: 규칙으로 개조식 문장 끝 맞추기 (AI 없이) */
-const ENDS=[[/(했|하였)(어요|습니다|다|음)$/,"함"],[/(해요|합니다|한다|하다)$/,"함"],[/(됐|되었)(어요|습니다|다)$/,"됨"],[/(돼요|됩니다|된다|되다)$/,"됨"],[/있(어요|습니다|다|음)$/,"있음"],[/없(어요|습니다|다)$/,"없음"],[/(이에요|예요|입니다|이다)$/,"임"],[/같(아요|습니다|다)$/,"같음"],[/고 싶(어요|습니다|다)$/,"고자 함"],[/(였|었|았)(어요|습니다|다)$/,"$1음"],[/도록$/,"도록 함"],[/(겠|ㄹ게)(어요|습니다|다)?$/,"$1음"]];
+const ENDS=[[/(하)?셨(어요|습니다|다|음)$/,"$1심"],[/(했|하였)(어요|습니다|다|음)$/,"함"],[/(해요|합니다|한다|하다)$/,"함"],[/(됐|되었)(어요|습니다|다)$/,"됨"],[/(돼요|됩니다|된다|되다)$/,"됨"],[/있(어요|습니다|다|음)$/,"있음"],[/없(어요|습니다|다)$/,"없음"],[/(이에요|예요|입니다|이다)$/,"임"],[/같(아요|습니다|다)$/,"같음"],[/고 싶(어요|습니다|다)$/,"고자 함"],[/(였|었|았)(어요|습니다|다)$/,"$1음"],[/도록$/,"도록 함"],[/(겠|ㄹ게)(어요|습니다|다)?$/,"$1음"],[/(왔|갔|봤|줬|췄|웠|랐|졌|켰|쳤|냈|섰|겼|났|뤘|썼|챙겼|렸|셨)(어요|습니다|다)$/,"$1음"]];
 const SPACE_FIX=[[/(할|될|볼|배울|갈|올|줄|쓸|알|살|먹을|만들|읽을|느낄|도울|나눌|즐길|이해할|참여할|표현할)수(있|없)/g,"$1 수 $2"],[/(할|될|볼|배울|갈|올|줄|쓸|알|살|먹을|만들|읽을|느낄|도울|나눌|즐길|이해할|참여할|표현할)수 /g,"$1 수 "],[/입소자/g,"이용인"],[/수용인/g,"이용인"],[/\s{2,}/g," "]];
 function toGaejo(t){
   if(!t||!t.trim()) return t;
@@ -3233,7 +3249,7 @@ function exCore(title){ return (title||"").trim().replace(/입소자|입소인/g
 const b = a => a.map(s=>"○ "+s).join("\n");
 const FILLX = {
  saeop(v){ const c=exCore(v.title), T=exTopic(v.title); return {
-  need:b([T.why, `‘${c}’ 관련 이용인 의견: 욕구조사 결과를 적어주세요 (예: ○명 중 ○명이 “______” 희망)`, `${T.area} 영역의 개별지원계획 목표와 연결하여 체계적으로 지원할 필요가 있음`]),
+  need:b([T.why, `‘${c}’ 관련 이용인 의견: 프로그램 희망조사 결과를 적어주세요 (예: ○명 중 ○명이 “______” 희망)`, `${T.area} 영역의 개별지원계획 목표와 연결하여 체계적으로 지원할 필요가 있음`]),
   goal:`[목적]\n${T.aim}\n\n[목표]\n${T.goals.map((g,i)=>`${i+1}) ${g}`).join("\n")}`,
   content:`[추진 일정]\n${T.steps.map((s,i)=>`${i+1}단계 (○월) ${s[0]}: ${s[1]}`).join("\n")}\n\n[운영 방법]\n○ 장소: ${T.place}\n○ 인원: 이용인 ○명, 직원 ○명\n○ 유의 사항: ${T.safety}`,
   budget:`${T.budget.map(x=>`○ ${x[0]}: ${x[1]} = ○○,○○○원`).join("\n")}\n○ 합계: ○○○,○○○원 (재원: 운영비 / 후원금 / 보조금 중 선택)`,
@@ -3248,9 +3264,7 @@ const FILLX = {
   next:b([T.nx,"만족도 조사에서 나온 의견을 다음 사업 계획에 반영함"])}; },
  program(v){ const c=exCore(v.title), T=exTopic(v.title), m=T.steps[2]||T.steps[0]; return {
   goal:b([T.aim, T.goals[1]||T.goals[0]]),
-  content:`1. 도입 (○분): 인사, 컨디션 확인, 오늘 활동 소개\n2. 활동 (○분): ${m[1]}\n3. 마무리 (○분): 소감 나누기, 뒷정리, 다음 시간 안내`,
-  obs:`○ ○○님: ______을(를) 하며 “______”라고 말함\n○ ○○님: ______ 단계에서 도움을 요청한 뒤 스스로 ______함\n※ 본 그대로 고쳐 적어주세요 (해석은 ‘평가’ 칸에)`,
-  eval:`○ 목표 달성: ${T.goals[1]||T.goals[0]} → ______\n○ 좋았던 점: ______\n○ 다음 회기: ______ 부분을 보완하여 진행함`}; },
+  content:`1. 도입 (○분): 인사, 컨디션 확인, 오늘 활동 소개\n2. 활동 (○분): ${m[1]}\n3. 마무리 (○분): 소감 나누기, 뒷정리, 다음 시간 안내`}; },
  gongmun(v){ const c=exCore(v.title), T=exTopic(v.title), t=(v.title||"").replace(/\s+/g,"");
   const kind=/제출|결과/.test(t)?"submit":/협조|요청|지원/.test(t)?"req":/안내|알림|개최/.test(t)?"notice":"req";
   const head = kind==="submit" ? `「${c}」 결과를 아래와 같이 제출합니다.` : kind==="notice" ? `우리 기관에서는 이용인의 ${T.area} 지원을 위하여 「${c}」을(를) 아래와 같이 실시하오니 참고하여 주시기 바랍니다.` : `우리 기관에서는 이용인의 ${T.area} 지원을 위하여 「${c}」을(를) 아래와 같이 추진하고자 하오니 협조하여 주시기 바랍니다.`;
@@ -3267,16 +3281,8 @@ const FILLX = {
    "운영위원회":["지난 분기 운영 보고(사업·예산)","다음 분기 사업 계획 심의","후원금 사용 계획 보고","기타 안건"],
    "보호자 간담회":["센터 운영 및 이용인 생활 안내","올해 프로그램 결과 공유","보호자 의견 듣기","다음 행사 안내"],
    "사례회의":["대상 이용인 현재 모습 공유 (○○님)","지원 목표 및 방법 논의","역할 분담 및 점검 일정"]}[type];
-  return { agenda:ag.map((a,i)=>`${i+1}. ${a}`).join("\n"),
-   discuss:ag.map((a,i)=>`[안건 ${i+1}] ${a}\n○ (발언 요지) ______\n○ (다른 의견) ______`).join("\n"),
-   decide:`1. ______하기로 함\n2. ______은(는) 다음 회의에서 다시 논의함`,
-   todo:`○ ______ - 담당: ○○○ - 기한: ○/○\n○ ______ - 담당: ○○○ - 기한: ○/○` }; },
+  return { agenda:ag.map((a,i)=>`${i+1}. ${a}`).join("\n") }; },
  yokgu(v){ const T=exTopic(v.title); if(!T.hit||!T.yq) return {}; return { qs:T.yq.join("\n"), open:`그 밖에 ${T.n}에서 하고 싶은 것이 있나요?` }; },
- sangdam(v){ return {
-  reason:"○ (정기 상담 / 보호자 요청 / 이용인 요청 / 생활 변화 관찰 중 고르기)\n○ 계기가 된 일: ______",
-  content:"○ 이용인 ○○님: “______”라고 말함\n○ 보호자: “______”라고 말씀하심\n○ 함께 확인한 내용: ______\n※ 들은 말 그대로 적어 주세요",
-  opinion:"○ ______ 부분에서 지원이 필요한 것으로 보임\n○ 이용인·보호자의 바람: ______",
-  plan:"○ ______ 하기로 함 (담당: ○○○, 기한: ○/○)\n○ 보호자에게 ______ 안내 예정\n○ 다음 상담에서 ______ 확인" }; },
  manjok(v){ const T=exTopic(v.title); if(!T.hit) return {}; return { qs:T.q.join("\n"), open:`${T.n}에서 더 바라는 점이 있나요?` }; }
 };
 /* 제목이 바뀌면: 비어 있거나 '지난번 예시 그대로'인 칸만 새 예시로 바꿈. 직접 고친 칸은 건드리지 않음 */
@@ -3578,7 +3584,7 @@ function homeBody(){
   const card=(attrs,cls,em,title,desc,meta)=>`<button type="button" class="hcard b3d ${cls}" ${attrs}><span class="em">${em}</span><b>${title}</b><span>${desc}</span>${meta?`<em>${meta}</em>`:""}</button>`;
   return `${favHTML}
     <button type="button" class="forms-cta b3d" data-goto="forms">
-      <span class="tx"><span class="kick">시설장님 업무의 중심</span><b>📂 서식함</b><span>공문·사업계획·결과보고·안내문·회의록·일지·욕구/만족도 조사지를 빈칸만 채워 <strong>워드 파일</strong>로 받아요</span></span>
+      <span class="tx"><span class="kick">시설장님 업무의 중심</span><b>📂 서식함</b><span>공문·사업계획·결과보고·안내문·회의록·일지·프로그램 희망조사·만족도조사지를 빈칸만 채워 <strong>워드 파일</strong>로 받아요</span></span>
       <span class="go">→</span></button>
     <div class="quick">${["gongmun","gyeolgwa","gwanchal","manjok"].map(id=>`<button type="button" class="b3d" data-form="${id}">${FBY[id].em} ${FBY[id].name}</button>`).join("")}<button type="button" class="b3d" data-goto="upload">📤 내 서식 올리기</button></div>
     <section class="sec"><h2 class="sec-title">무엇을 도와드릴까요?</h2>
@@ -3838,13 +3844,15 @@ function newsStory(raw,polite){
 }
 /* 짧은 단어·반말 메모를 감사 문장으로 다듬기 */
 function spaceWord(w){ return String(w||"").trim().replace(/([가-힣])(나들이|여행|소풍|견학|캠프|체험|파티|잔치|행사|축제|교실|만들기)$/,"$1 $2"); }
-function storyFix(raw,polite){
+function storyFix(raw,polite,present,noSubj){
   let s=String(raw||"").trim(); if(!s) return "";
   s=s.replace(/입소자(분)?들?/g,"이용인분들").replace(/입소자/g,"이용인분").replace(/[.!~]+$/,"");
-  const R=polite?[[/했다$/,"했습니다"],[/였다$/,"였습니다"],[/었다$/,"었습니다"],[/았다$/,"았습니다"],[/이다$/,"입니다"],[/했음$/,"했습니다"],[/함$/,"했습니다"],[/좋아함$/,"좋아했습니다"]]
-                :[[/했다$/,"했어요"],[/였다$/,"였어요"],[/었다$/,"었어요"],[/았다$/,"았어요"],[/이다$/,"이에요"],[/했음$/,"했어요"],[/함$/,"했어요"],[/좋아함$/,"좋아했어요"]];
+  const E=polite?"습니다":"어요";
+  const R=[[/좋아함$/,polite?(present?"좋아합니다":"좋아했습니다"):(present?"좋아해요":"좋아했어요")],[/(하고\s*있)음$/,"$1"+E],[/했음$/,"했"+E],[/함$/,present?(polite?"합니다":"해요"):"했"+E],[/이다$/,polite?"입니다":"이에요"],[/임$/,polite?"입니다":"이에요"]];
   let hit=false; for(const [re,to] of R){ if(re.test(s)){ s=s.replace(re,to); hit=true; break; } }
-  if(!hit && !/(요|니다|어|지)$/.test(s)) s = /(행복|기쁨|즐거움|웃음|만족)$/.test(s) ? `${s}이 가득한 시간이었${polite?"습니다":"어요"}` : `${josa(s,"이","가")} 있었${polite?"습니다":"어요"}`;
+  if(!hit && /다$/.test(s)){ const c=s.charCodeAt(s.length-2); if(c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28===20){ s=s.slice(0,-1)+E; hit=true; } }
+  if(!hit && !/(요|니다|어|지)$/.test(s)) s = /(행복|기쁨|즐거움|웃음|만족)$/.test(s) ? `${s}이 가득한 시간이었${E}` : `${josa(s,"이","가")} 있었${E}`;
+  if(!noSubj && !/(이용인|모두|우리|저희|들이|님이|님은|분들|○○|^[가-힣]+(이|가|은|는)\s)/.test(s) && /(요|니다)$/.test(s)) s="이용인분들이 "+s;
   return s+".";
 }
 /* 짧은 단어를 후원자가 뿌듯해할 문장으로 풀기 */
@@ -3852,7 +3860,7 @@ function storyRich(raw,polite){
   const r=String(raw||"").trim(); if(!r) return "";
   const E=polite?"습니다":"어요";
   const w=r.replace(/[.!~]+$/,"").replace(/입소자(분)?들?/g,"이용인분들").replace(/입소자/g,"이용인분").trim();
-  const isSentence=/(요|다|니다|음|함)$/.test(w) && w.length>8;
+  const isSentence=/(요|다|니다|음|함)$/.test(w) && w.length>=4;
   if(!isSentence){
     if(/(행복|기쁨|기뻐|즐거|웃음|신남|신나|좋아|만족|감동)/.test(w))
       return `보내주신 후원 덕분에 이용인분들의 얼굴에 행복한 웃음이 가득했${E}. 서로 마주 보며 기뻐하는 모습을 보면서, 후원자님의 나눔이 이분들의 하루를 얼마나 환하게 바꾸는지 다시 한번 느꼈${E}.`;
@@ -3864,6 +3872,7 @@ function storyRich(raw,polite){
       return `보내주신 후원 덕분에 이용인분들이 ${josa(w,"을","를")} 맛있게 나눠 먹었${E}. "맛있다"며 그릇을 싹 비우는 모습에 저희도 마음이 따뜻해졌${E}.`;
     return `보내주신 후원 덕분에 ${josa(w,"이","가")} 가능했${E}. 덕분에 이용인분들의 일상이 한결 풍성하고 든든해졌${E}.`;
   }
+  if(/(행복|기쁨|기뻐|즐거|웃음|신나|좋아|만족|감동)/.test(w)) return `${storyFix(w,polite)} 얼굴마다 환한 웃음이 가득했고, 서로 마주 보며 기뻐하는 모습에 저희도 마음이 따뜻해졌${E}. 후원자님의 나눔이 이분들의 하루를 이렇게 환하게 바꾸고 있${E}.`;
   return `${storyFix(w,polite)} 후원자님의 나눔이 이렇게 이용인분들의 일상을 따뜻하게 바꾸고 있${E}.`;
 }
 /* 어려운 안내문을 쉬운 말로 (규칙 기반 초안) */
@@ -3885,6 +3894,35 @@ function easyText(orig,short){
   const list=(short?fin.slice(0,3):fin);
   return list.map((s,i)=>`${i+1}. ${s}${short?"":(pic(s)?`  [그림: ${pic(s)}]`:"")}`).join("\n");
 }
+/* 후원금 사용처를 자연스러운 문장으로 */
+function wonFix(s){ return String(s||"").replace(/(\d[\d,.]*)\s*만\s*원/g,"$1만 원").replace(/(\d[\d,.]*)\s*원/g,(m,a)=>a+"원").trim(); }
+function useItem(raw){
+  let t=String(raw||"").trim(), amt="";
+  const m=t.match(/[\s(]*(\d[\d,.]*\s*(만\s*)?원)\)?\s*$/); if(m){ amt=wonFix(m[1]); t=t.slice(0,m.index).trim(); }
+  t=t.replace(/^(봄|여름|가을|겨울)(?=[가-힣]{2})/,"$1 ").replace(/([가-힣]{2})(구입|구매|마련|준비|교체|수리|지원|비용)$/,"$1 $2");
+  t=spaceWord(t);
+  const core=t.replace(/\s*(구입|구매|마련|준비|교체|비용|지원|비)$/,"").trim()||t;
+  return {title:t, core, amt};
+}
+function useDesc(x,polite){
+  const E=polite?"습니다":"어요", D=polite?"했습니다":"했어요", B=polite?"되었습니다":"되었어요";
+  const w=x.title, c=x.core, a=x.amt?`${x.amt}을 들여 `:"";
+  const R=[
+   [/이불|담요|침구|매트리스|베개/, `이용인분들이 따뜻하고 편안하게 잠들 수 있도록 ${a}포근한 ${c}을(를) 마련${D}. 덕분에 올겨울을 한결 따뜻하게 보낼 수 있게 ${B}.`],
+   [/난방|보일러|가스|전기|연료|등유/, `추운 날씨에도 집 안을 따뜻하게 지킬 수 있도록 ${a}난방비로 사용${D}. 이용인분들이 감기 걱정을 덜고 따뜻하게 지내고 있${E}.`],
+   [/식사|식재료|장보기|반찬|쌀|김장|부식|식비/, `이용인분들의 건강한 밥상을 위해 ${a}신선한 식재료를 구입하는 데 사용${D}. 매일 함께 나누는 식사가 한층 풍성하고 든든해졌${E}.`],
+   [/간식|과일|떡|케이크|음료|빵/, `${a}이용인분들이 함께 나눌 ${c}을(를) 준비${D}. 둘러앉아 나눠 먹으며 웃음꽃이 피는 시간을 보냈${E}.`],
+   [/옷|의류|신발|외투|패딩|내복|양말|모자/, `계절에 맞는 ${c}을(를) ${a}마련${D}. 이용인분들이 날씨 걱정 없이 따뜻하고 단정하게 지낼 수 있게 ${B}.`],
+   [/나들이|여행|소풍|견학|캠프|체험|공연|영화|관람|문화/, `이용인분들과 함께 ${josa(c,"을","를")} 다녀오는 데 ${a}필요한 비용으로 사용${D}. 평소에 하기 어려운 경험을 함께하며 소중한 추억을 만들었${E}.`],
+   [/생일|파티|잔치|행사|송년|명절|추석|설날|축하/, `${josa(c,"을","를")} 준비하는 데 ${a}사용${D}. 모두 함께 축하하고 웃으며 마음까지 따뜻해지는 시간을 보냈${E}.`],
+   [/세탁기|냉장고|티비|TV|tv|청소기|가전|가구|식탁|의자|침대|에어컨|선풍기|밥솥|전자레인지/, `생활에 꼭 필요한 ${josa(c,"을","를")} ${a}새로 마련${D}. 이용인분들의 생활이 더 편리하고 안전해졌${E}.`],
+   [/생필품|생활용품|세제|휴지|위생|목욕|화장지|샴푸/, `생활에 꼭 필요한 생필품을 ${a}구입하는 데 사용${D}. 이용인분들이 더 깨끗하고 쾌적하게 생활하고 있${E}.`],
+   [/병원|진료|건강|검진|약|치료|재활|의료/, `이용인분들의 건강을 지키는 데 ${a}사용${D}. 아픈 곳 없이 건강하게 지낼 수 있도록 앞으로도 꼼꼼히 챙기겠${E==="습니다"?"습니다":"어요"}.`],
+   [/프로그램|교실|재료|강사|교육|수업|만들기|미술|음악|운동|체육|원예|텃밭/, `이용인분들이 즐겁게 참여하는 ${c} 활동에 ${a}사용${D}. 새로운 것을 배우고 스스로 해내는 기쁨을 함께 나눴${E}.`],
+   [/수리|보수|도배|장판|공사|교체|페인트/, `${w}에 ${a}사용${D}. 집이 한결 깨끗하고 안전해져 이용인분들이 더 편안하게 지내고 있${E}.`]];
+  for(const [re,t] of R){ if(re.test(w)) return t.replace(/(\S+)을\(를\)/g,(m,n)=>josa(n,"을","를")); }
+  return `${josa(w,"을","를")} 위해 ${a}소중히 사용${D}. 이용인분들의 생활에 꼭 필요한 곳에 쓰였${E}.`;
+}
 function useExplain(w,polite){
   const E=polite?"습니다":"어요", go=/(나들이|여행|소풍|견학|캠프|산책|구경|등산|체험|방문)$/.test(w), party=/(파티|잔치|행사|축제|대회|송년회|생일)$/.test(w), buy=/(구입|구매|마련|교체|수리|설치)$/.test(w);
   const m=w.match(/^(.+?)\s*(구입|구매|마련|교체|수리|설치)$/);
@@ -3905,23 +3943,25 @@ const OUTS = {
  "donor-use": v=>{
    const polite = v.tone==="정중하게", E=polite?"습니다":"어요";
    const call = v.who==="단체·기업" ? "후원해주신 관계자 여러분" : v.who==="정기 후원자님" ? "늘 한결같이 함께해주시는 후원자님" : "후원자님";
-   const pr=(v.period||"").trim(), per = pr ? `${pr}에 보내주신` : "보내주신";
-   const items=(v.items||"").split("\n").map(s=>s.replace(/^[-•·○■\s]+/,"").trim()).filter(Boolean).map(spaceWord);
-   const list = items.length ? items.map((s,i)=>`${i+1}. ${s}\n${useExplain(s,polite)}`).join("\n") : "1. [사용 내역]\n   → [어디에 어떻게 썼는지]";
-   const total = (v.total||"").trim();
-   const story = storyRich(v.story,polite);
-   const useS = items.length ? useSentence(items,polite) : `[사용 내역]에 소중히 사용했${E}.`;
-   const tail = story ? story : `후원자님 덕분에 이용인분들의 일상이 한결 든든해졌${E}.`;
+   const pr=(v.period||"").trim();
+   const items=(v.items||"").split("\n").map(s=>s.replace(/^[-•·○■\s\d.)]+/,"").trim()).filter(Boolean).map(useItem);
+   const total=wonFix((v.total||"").trim());
+   const story=storyRich(v.story,polite);
+   const money = `${pr?pr+"에 ":""}보내주신 후원금${total?" "+total:""}`;
+   const titles = items.map(x=>x.title);
+   const list = items.length ? items.map((x,i)=>`${i+1}. ${x.title}${x.amt?` (${x.amt})`:""}\n   ${useDesc(x,polite)}`).join("\n\n") : "1. [사용 내역]\n   [어디에 어떻게 썼는지 적어 주세요]";
+   const close = polite ? "보내주신 소중한 마음은 이용인분들의 일상 곳곳에 따뜻하게 스며들고 있습니다. 자세한 사용 내역이 궁금하시면 언제든 연락 주십시오. 앞으로도 투명하고 정성스럽게 사용하겠습니다." : "보내주신 마음이 이용인분들의 하루하루에 따뜻하게 닿고 있어요. 자세한 내역이 궁금하시면 언제든 연락 주세요. 앞으로도 투명하고 정성스럽게 쓸게요.";
+   const joinT = titles.length ? `${titles.slice(0,3).join(", ")}${titles.length>3?" 등":""}` : "[사용 내역]";
    if(v.len==="짧은 문자") return [
-     ["요약형",`${call}, ${pr?pr+"에 ":""}${useS} ${story?story+" ":""}${total?`(사용 금액 ${total}) `:""}함께해 주셔서 감사합니다.\n- [센터 이름] 드림`],
-     ["감사 강조형",`보내주신 마음, 허투루 쓰지 않았${E}. ${useS} ${story||"이용인분들의 일상에 든든한 힘이 됐"+E+"."} 진심으로 고맙습니다.\n- [센터 이름] 드림`]];
+     ["요약형",`${call}, ${money}${total?"은":"은"} ${joinT}에 소중히 사용했${E}. ${items[0]?useDesc(items[0],polite).split(". ").slice(-1)[0].replace(/\.?$/,"."):""} 함께해 주셔서 감사합니다.\n- [센터 이름] 드림`],
+     ["감사 강조형",`보내주신 마음, 허투루 쓰지 않았${E}. ${money}으로 ${josa(joinT,"을","를")} 할 수 있었${E}. ${story?story.split(". ")[0].replace(/\.?$/,"."):"이용인분들의 일상에 든든한 힘이 되었"+E+"."} 진심으로 고맙습니다.\n- [센터 이름] 드림`]];
    return [
-     ["내역 정리형",`[후원금 사용 안내]\n\n${call}, ${polite?"늘 보내주시는 관심과 사랑에 깊이 감사드립니다.":"늘 함께해주셔서 고맙습니다."}\n${per} 후원금을 아래와 같이 사용하였기에 알려드립니다.\n\n■ 사용 내역 안내\n${list}${total?`\n\n■ 사용 금액 합계: ${total}`:""}\n\n${story?"■ 후원 덕분에 달라진 일상\n":""}${tail}\n\n자세한 내역이 궁금하시면 언제든 연락 주세요. 보내주신 마음을 앞으로도 투명하고 정성스럽게 쓰겠습니다.\n\n[센터 이름] ${polite?"올림":"드림"}`],
-     ["이야기형",`${call}, ${GREET} 안부 전합니다. [센터 이름]이에요.\n\n${per} 후원이 어디에 쓰였는지 소식 전해드릴게요.\n${items.length?useSentence(items,false):"[사용 내역]에 소중히 사용했어요."}${total?` (모두 ${total})`:""}\n\n${story?storyRich(v.story,false):"후원자님 덕분에 이용인분들의 일상이 한결 든든해졌어요."}\n후원자님의 마음이 이렇게 일상 곳곳에 닿고 있다는 걸 꼭 전해드리고 싶었어요. 정말 고맙습니다.\n\n[센터 이름] 드림`]];
+     ["내역 정리형",`[후원금 사용 안내]\n\n${call}, ${polite?"안녕하십니까. [센터 이름]입니다.\n늘 변함없는 관심과 사랑으로 함께해 주셔서 깊이 감사드립니다.":"안녕하세요. [센터 이름]이에요.\n늘 함께해 주셔서 고맙습니다."}\n${money}${total?"을":"을"} 아래와 같이 소중히 사용하였기에 알려드립니다.\n\n■ 사용 내역 안내\n${list}${total?`\n\n■ 사용 금액 합계: ${total}`:""}${story?`\n\n■ 후원 덕분에 달라진 일상\n${story}`:""}\n\n${close}\n\n[센터 이름] ${polite?"올림":"드림"}`],
+     ["이야기형",`${call}, ${GREET} 안부 전합니다. [센터 이름]이에요.\n\n${money}으로 이번에 이런 일들을 할 수 있었어요.\n\n${items.length?items.map(x=>useDesc(x,false)).join("\n\n"):"[사용 내역]에 소중히 사용했어요."}${story?"\n\n"+storyRich(v.story,false):""}\n\n후원자님의 마음이 이렇게 일상 곳곳에 닿고 있다는 걸 꼭 전해드리고 싶었어요. 정말 고맙습니다.\n\n[센터 이름] 드림`]];
  },
  "donor-ask": v=>{
-   const need=val(v,"need","[필요한 것]"), how=(v.how||"").trim(), polite=v.tone==="정중하게", story=storyRich(v.story,polite);
-   const kindLine = v.kind==="정기 후원자 모집" ? "매달 작은 정기 후원으로 함께해 주실 분을 찾고 있어요" : v.kind==="물품 후원 요청" ? `${need}이(가) 필요해 이웃분들께 조심스럽게 손을 내밀어 봅니다` : "함께 나누는 자리에 이웃분들을 초대하고 싶어요";
+   const need=val(v,"need","[필요한 것]"), how=(v.how||"").trim(), polite=v.tone==="정중하게", story=storyFix(v.story,polite);
+   const kindLine = v.kind==="정기 후원자 모집" ? "매달 작은 정기 후원으로 함께해 주실 분을 찾고 있어요" : v.kind==="물품 후원 요청" ? `${josa(need,"이","가")} 필요해 이웃분들께 조심스럽게 손을 내밀어 봅니다` : "함께 나누는 자리에 이웃분들을 초대하고 싶어요";
    const howLine = how ? `\n\n■ 함께하는 방법: ${how}` : "\n\n■ 함께하는 방법: [후원 계좌·연락처]";
    if(v.ch==="소식지 한 줄") return [
      ["한 줄 안내형",`[센터 이름]과 함께해 주세요. ${need}에 쓰일 ${v.kind==="정기 후원자 모집"?"정기 후원":"후원"}을 기다립니다.${how?" "+how:""}`],
@@ -3929,7 +3969,7 @@ const OUTS = {
    const A = `${polite?"안녕하십니까. [센터 이름]입니다.":"안녕하세요, [센터 이름]이에요."}\n\n저희는 이용인분들이 지역 안에서 자신의 속도대로 살아가는 작은 집이에요.${story?"\n"+story:""}\n\n${kindLine}.\n후원은 ${need}에 소중히 쓰이고, 사용 내역은 꼭 다시 알려드릴게요.${howLine}\n\n${polite?"작은 관심이 큰 힘이 됩니다. 함께해 주시면 감사하겠습니다.":"부담 없이, 마음 가는 만큼만 함께해 주세요. 고맙습니다!"}`;
    const B = v.ch==="SNS·블로그"
      ? `[함께해요] ${need}\n\n우리 동네 작은 집, [센터 이름]의 이야기예요.${story?"\n"+story:"\n이용인분들과 함께 장도 보고, 밥도 짓고, 계절마다 나들이를 다니며 지내고 있어요."}\n\n${kindLine}.\n여러분의 마음은 ${need}에 쓰이고, 쓰인 곳은 이 공간에서 다시 소식으로 전해드릴게요.${howLine}\n\n#나눔 #이웃 #함께사는동네 #[센터 이름]`
-     : `${polite?"[센터 이름]에서 정중히 안내드립니다.":"[센터 이름]에서 작은 부탁 드려요."}\n\n${need}이(가) 필요한 때가 되었어요.\n${kindLine}.\n${story?story+"\n":""}보내주신 마음은 한 푼도 허투루 쓰지 않고, 사용한 내역을 꼭 알려드리겠습니다.${howLine}`;
+     : `${polite?"[센터 이름]에서 정중히 안내드립니다.":"[센터 이름]에서 작은 부탁 드려요."}\n\n${josa(need,"이","가")} 필요한 때가 되었어요.\n${kindLine}.\n${story?story+"\n":""}보내주신 마음은 한 푼도 허투루 쓰지 않고, 사용한 내역을 꼭 알려드리겠습니다.${howLine}`;
    return [["소개형",A],[v.ch==="SNS·블로그"?"SNS 게시글형":"짧은 부탁형",B]];
  },
  "donor-thanks": v=>{
@@ -3978,14 +4018,14 @@ const OUTS = {
      "연말":["올해도 어느덧 마지막 달이 되었어요.","한 해 동안 정말 고마웠습니다. 따뜻한 연말 보내시고, 새해에도 좋은 일만 가득하시길 바랍니다.","올 한 해 정말 고마웠습니다"],
      "가정의 달":["초록이 짙어지는 가정의 달 5월이에요.","가정에 웃음과 평안이 늘 가득하시길 바랍니다.","행복한 5월 보내세요"]}[v.day];
    const th={"후원자님":"한결같이 보내주시는 응원은 저희 식구들에게 늘 큰 힘이 됩니다.","보호자님":"늘 믿고 함께해주셔서, 저희도 더 힘을 내어 정성껏 함께하고 있어요.","지역 기관·이웃":"언제나 따뜻한 이웃으로 곁에 있어주셔서 정말 고맙습니다."}[v.to];
-   const ex=sent(v.extra), to=v.to==="지역 기관·이웃"?"이웃 여러분":v.to;
+   const ex=storyFix(v.extra,v.tone==="정중하게",false,true), to=v.to==="지역 기관·이웃"?"이웃 여러분":v.to;
    const warm=`${to}, 안녕하세요. [센터 이름]입니다.\n${D[0]}\n\n${th}${ex?"\n"+ex:""}\n\n${D[1]}\n[센터 이름] 식구들 드림`;
    const pol=`${to}께 ${v.day==="연말"?"연말":v.day} 인사 올립니다.\n\n${D[0].replace(/어요\.$/,"습니다.").replace("왔어요","왔습니다").replace("밝았어요","밝았습니다").replace("되었어요","되었습니다").replace("5월이에요","5월입니다")}\n${th}${ex?"\n"+ex:""}\n\n${D[1]}\n[센터 이름] 올림`;
    const short=`${to}, ${D[2]}! ${th}\n- [센터 이름] 드림`;
    return [["마음을 담은 인사",v.tone==="정중하게"?pol:warm],["짧은 인사",short]];
  },
  "guardian-checkin": v=>{
-   const g=sent(val(v,"good","[요즘 좋았던 모습]"));
+   const g=(v.good||"").trim()?storyFix(v.good,false,true).replace(/^이용인분들이 /,"○○님이 "):"[요즘 좋았던 모습]";
    const warm=`○○님 보호자님, 안녕하세요. [센터 이름]입니다.\n${GREET}, 잘 지내고 계시지요?\n요즘 ○○님 모습을 전해드리고 싶어 연락드려요.\n\n${g}\n\n그 모습을 보며 저희도 참 기뻤어요. 늘 믿고 함께해주셔서 감사드리고, 궁금하신 점은 언제든 편하게 연락 주세요.`;
    const plain=`○○님 보호자님, 안녕하세요. [센터 이름]입니다.\n○○님 근황을 전해드립니다.\n\n${g}\n\n앞으로도 ○○님이 편안하고 즐겁게 지내실 수 있도록 정성껏 함께하겠습니다. 궁금하신 점은 언제든 연락 주세요.`;
    const short=`○○님 보호자님, [센터 이름]입니다. 요즘 ○○님 소식 전해드려요. ${g} 늘 감사드려요.`;
@@ -4005,13 +4045,17 @@ const OUTS = {
    const rd=v.reader==="지역 주민"?"이웃 여러분":v.reader, mo=new Date().getMonth()+1;
    const greet={"후원자님":`늘 따뜻한 마음으로 함께해 주시는 후원자님, ${GREET} 잘 지내고 계신가요?`,"보호자님":`보호자님, ${GREET} 평안하신지요? 이번 달 저희 집 이야기를 전해드려요.`,"지역 주민":`이웃 여러분, ${GREET} 안녕하세요. 우리 동네 작은 집 [센터 이름]의 소식을 전해요.`}[v.reader];
    const thank={"후원자님":"후원자님의 관심과 나눔 덕분에 이용인분들의 하루가 더 풍성해지고 있어요. 진심으로 감사드립니다.","보호자님":"늘 믿고 함께해 주셔서 감사합니다. 궁금하신 점은 언제든 연락 주세요.","지역 주민":"앞으로도 좋은 이웃으로 함께 살아가겠습니다. 오가다 반갑게 인사 나눠 주세요."}[v.reader];
-   const story=e=>{ const w=e.replace(/\s+/g," "); if(/[.!?]$/.test(w)||/(요|다)$/.test(w)) return sent(w);
-     const go=/(나들이|소풍|여행|견학|캠프|산책|구경|등산|체험|방문)$/.test(w), party=/(파티|잔치|행사|축제|대회|송년회|생일|회)$/.test(w), got=/(후원|기부|받음|받았)/.test(w);
-     if(got) return `${sent(w.replace(/받음$/,"받았어요"))} 보내주신 분께 깊이 감사드려요.`;
-     return `이용인분들과 함께 ${josa(w,"을","를")} ${go?"다녀왔어요":party?"열었어요":"했어요"}. 서로 웃으며 즐거운 시간을 보냈어요.`; };
+   const story=e=>{ const w=e.replace(/\s+/g," ").replace(/[.]$/,""); if(/(요|다|니다)$/.test(w)) return storyFix(w,false);
+     const g=w.match(/^(.+?)\s*(을|를)?\s*후원\s*받(음|았음|았다)?$/);
+     if(g) return `${josa(g[1],"을","를")} 후원받았어요. 보내주신 분께 깊이 감사드려요. 이용인분들이 매일 더 편안하고 즐겁게 쓰고 있어요.`;
+     const go=/(나들이|소풍|여행|견학|캠프|산책|구경|등산|체험|방문)$/.test(w), party=/(파티|잔치|행사|축제|대회|송년회|생일|회)$/.test(w), share=/(나눔|봉사|기부)$/.test(w);
+     if(go) return `이용인분들과 함께 ${josa(w,"을","를")} 다녀왔어요. 계절을 함께 느끼며 서로 사진도 찍고, 웃음 가득한 하루를 보냈어요.`;
+     if(party) return `${josa(w,"을","를")} 열었어요. 모두 함께 축하하고 맛있는 음식을 나누며 즐거운 시간을 보냈어요.`;
+     if(share) return `이용인분들이 직접 ${josa(w,"을","를")} 했어요. 받기만 하는 이웃이 아니라 함께 나누는 이웃이 되는 뜻깊은 시간이었어요.`;
+     return `이용인분들과 함께 ${josa(w,"을","를")} 했어요. 서로 도우며 끝까지 즐겁게 참여했어요.`; };
    const list=ev.length?ev:["[이번 달 있었던 일]"];
    const longT=`[센터 이름] ${mo}월 소식\n\n${greet}\n\n${list.map((e,i)=>`■ ${e}\n${story(e)}\n[사진: ${e} 모습]`).join("\n\n")}\n\n${thank}\n\n[센터 이름] 드림`;
-   const shortT=`[센터 이름] ${mo}월 소식\n\n${greet}\n\n이번 달에는 ${list.map(e=>e.replace(/\.$/,"")).join(", ")} 등 여러 일이 있었어요. ${list.length?story(list[0]):""}\n\n${thank}\n[센터 이름] 드림`;
+   const shortT=`[센터 이름] ${mo}월 소식\n\n${greet}\n\n이번 달에는 이런 일들이 있었어요.\n${list.map(e=>`· ${story(e).split(". ")[0].replace(/\.?$/,".")}`).join("\n")}\n\n${thank}\n[센터 이름] 드림`;
    const sms=`[센터 이름] ${mo}월 소식: ${list.join(", ")}. ${v.reader==="후원자님"?"함께해 주셔서 감사합니다.":"늘 감사드립니다."}`;
    return [["소식지 원고",v.len==="짧게 3문단"?shortT:longT],["문자·SNS용 요약",sms]];
  },
