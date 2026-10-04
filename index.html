@@ -2839,7 +2839,6 @@ function renderForm(f){
         <label class="pill b3d" for="fattach" title="센터에서 쓰는 워드·한글 서식을 첨부하면 그 서식에 채워 드려요">내 서식 첨부</label><input type="file" id="fattach" class="sr-file" accept=".docx,.hwpx,.hwp,.pdf">
         <button type="button" class="pill b3d main" id="fdown">${ATT[f.id]?"내 서식으로 받기":"워드 받기"}</button>
         <button type="button" class="pill b3d" id="fcopy">복사</button>
-        <button type="button" class="pill b3d" data-blank="${f.id}" title="아무것도 적히지 않은 이 서식을 워드 파일로 내려받아요. 인쇄해서 손으로 쓰거나 한글·워드에서 직접 작성할 때 써요.">빈 서식</button>
       </div>
     </div>
     <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">✍️ 입력</button><button type="button" role="tab" data-ftab="pv">📄 미리보기</button></div>
@@ -3519,7 +3518,7 @@ const saveDNL=()=>{ try{ localStorage.setItem("aibox-dnlist",JSON.stringify(DNL)
 function dnList(){ const hide=new Set(DNL.hide||[]); return [...DN_FORMS.filter(d=>!hide.has(d.id)).map(d=>FBY[d.id]),...(DNL.add||[]).map(id=>FBY[id]).filter(Boolean)]; }
 function renderDonate(){
   const hidN=(DNL.hide||[]).length;
-  const fm=dnList().map(d=>`<li><button type="button" class="bd-t" data-form="${d.id}">${esc(d.name)}<small>${esc(d.desc)}</small></button><span class="bd-act"><button type="button" class="bd-btn pri" data-form="${d.id}">${ico("pen")}작성</button><button type="button" class="bd-btn" data-blank="${d.id}">${ico("down")}빈 서식</button><button type="button" class="bd-btn dn-x" data-dnx="${d.id}" title="목록에서 빼기">빼기</button></span></li>`).join("");
+  const fm=dnList().map(d=>`<li><button type="button" class="bd-t" data-form="${d.id}">${esc(d.name)}<small>${esc(d.desc)}</small></button><span class="bd-act"><button type="button" class="bd-btn pri" data-form="${d.id}">${ico("pen")}작성</button><button type="button" class="bd-btn dn-x" data-dnx="${d.id}" title="목록에서 빼기">빼기</button></span></li>`).join("");
   const msgs=[["donor-thanks","후원 감사 문자","후원을 받았을 때"],["donor-use","후원금 사용 안내 문자","어디에 썼는지 알릴 때"],["donor-news","후원자 안부·소식 문자","오랜만에 안부 전할 때"],["holiday-greeting","명절·연말 인사","명절·연말에"],["donor-ask","후원 홍보·모집 문자","새 후원자님을 모실 때"],["sns-post","SNS·블로그 홍보 글","센터 활동을 알릴 때"]];
   app.innerHTML=`<div class="ghome dn fade">
     <div class="dn-head"><h2>후원 관리</h2><p>후원을 받고 → 감사드리고 → 쓰고 → 알려드리는 흐름을 한곳에서 해요.</p></div>
@@ -3629,7 +3628,7 @@ const KAWID = [
 ];
 function renderHome(){
   const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}<small>${f.desc}</small></button>
-      <span class="bd-act"><button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button><button type="button" class="bd-btn" data-blank="${f.id}" title="아무것도 적히지 않은 이 서식을 워드 파일로 내려받아요. 인쇄해서 손으로 쓰거나 한글·워드에서 직접 작성할 때 써요.">${ico("down")}빈 서식</button></span></li>`).join("");
+      <span class="bd-act"><button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
   const q=(attrs,ic,t,d)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
   app.innerHTML = `<div class="ghome fade">
     <section class="gvis">
