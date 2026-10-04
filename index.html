@@ -1499,6 +1499,10 @@ body.home-mode .qm b{white-space:nowrap}
 .plan-head span{font-size:.8rem;color:var(--muted)}
 .plan-paper{max-height:none}
 .plan-btns{display:flex;gap:8px;flex-wrap:wrap}
+.plan-hint{font-size:.78rem;margin:0}
+.plan-tpl{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;border:1.5px solid #2E7D64;background:#E8F5EE;border-radius:10px;padding:10px 12px;margin-bottom:10px}.plan-tpl b{color:#22604C;font-size:.92rem}.plan-tpl span{font-size:.78rem;color:var(--muted);flex:1 1 220px}
+.plan-cust{margin-top:10px}
+.menu-paper .d-table{font-size:.78em}.menu-paper .d-table td{vertical-align:top;line-height:1.45}
 @media (max-width:600px){ .plan-paper{font-size:.8rem;padding:10px!important} }
 details.plan-more summary{font-size:.9rem!important;min-height:44px!important;padding:10px 14px!important}
 details.plan-more .aibar{border-style:dashed}
@@ -1783,9 +1787,12 @@ const TASKS = [
 {id:"sns-post",cat:"promo",title:"SNS·블로그 홍보 글",situation:"센터 활동을 SNS에 올리고 싶어요",
  desc:"활동 하나를 올리기 좋은 짧은 글로 바꿔요.",
  chips:[{k:"where",label:"어디에 올리나요?",opts:["인스타그램","네이버 블로그","카카오톡 채널"]},
-        {k:"tone",label:"어떤 분위기로 쓸까요?",opts:["따뜻하게","밝고 경쾌하게","차분하게"]}],
- inputs:[{k:"act",label:"올릴 활동",ph:"예: 이용인분들과 함께 만든 김장 김치를 이웃과 나눴어요"}],
- build:v=>`그룹홈 활동을 ${v.where}에 올릴 글로 ${v.tone} 써줘.\n활동: ${F(v,"act","활동 내용")}\n`+(v.where==="인스타그램"?"본문은 5줄 이내로 쓰고, 해시태그 5개를 붙여줘.":v.where==="네이버 블로그"?"제목, 도입, 활동 내용, 마무리 순서로 써줘.":"3줄 이내로 쓰고, 끝에 한 줄 인사를 넣어줘.")+
+        {k:"tone",label:"어떤 분위기로 쓸까요?",opts:["따뜻하게","밝고 경쾌하게","차분하게"]},
+        {k:"blen",label:"블로그 글 길이 (네이버 블로그일 때)",opts:["짧게 (약 500자)","보통 (약 1000자)","길게 (약 1500자)"],def:1}],
+ inputs:[{k:"act",label:"올릴 활동",ph:"예: 이용인분들과 함께 만든 김장 김치를 이웃과 나눴어요"},
+         {k:"chars",label:"원하는 글자 수 (선택)",opt:true,ph:"예: 800 (적으면 위 길이 대신 이 글자 수에 맞춰요)"},
+         {k:"detail",label:"넣고 싶은 내용 (선택)",opt:true,area:true,ph:"예: 직접 배추에 속을 넣었어요, 이웃 어르신 10가구에 나눴어요"}],
+ build:v=>`그룹홈 활동을 ${v.where}에 올릴 글로 ${v.tone} 써줘.\n활동: ${F(v,"act","활동 내용")}\n`+(v.where==="인스타그램"?"본문은 5줄 이내로 쓰고, 해시태그 5개를 붙여줘.":v.where==="네이버 블로그"?`제목, 도입, 활동 내용, 마무리 순서로 공백 포함 약 ${parseInt(v.chars)||parseInt((v.blen||"").replace(/\D/g,""))||1000}자로 써줘.`+O(v,"detail","\n넣을 내용: ",""):"3줄 이내로 쓰고, 끝에 한 줄 인사를 넣어줘.")+
    RULES(["이용인 이름은 넣지 마.",NOFAKE,"장애를 불쌍하게 그리는 표현은 쓰지 마."]),
  tip:"이용인 얼굴이 나온 사진은 본인과 보호자 동의를 받은 뒤에 올리세요.",
  warn:true,
@@ -1888,12 +1895,12 @@ const TASKS = [
  tip:"휴관일과 경사로·화장실 같은 편의시설은 방문 전에 전화로 꼭 확인하세요.",
  next:["보호자님께 보낼 나들이 안내 문자를 써줘.","점심 먹기 좋은 곳의 조건을 정리해줘.","다녀온 뒤 쓸 결과보고서 틀을 만들어줘."]},
 
-{id:"menu",cat:"life",title:"일주일 식단·장보기",situation:"이번 주 식단 짜기가 막막해요",
+{id:"menu",cat:"life",cal:1,title:"일주일 식단·장보기",situation:"이번 주 식단 짜기가 막막해요",
  desc:"있는 재료로 일주일 식단과 장보기 목록을 만들어요.",
  chips:[{k:"style",label:"어떤 식단이 좋을까요?",opts:["집밥 위주","간편식 조금 섞기"]},
         {k:"meal",label:"몇 끼를 짤까요?",opts:["저녁만","아침·저녁","하루 세 끼"]}],
- inputs:[{k:"people",label:"인원",ph:"예: 5명"},
-         {k:"have",label:"지금 있는 재료",opt:true,ph:"예: 감자, 두부, 달걀, 김치"},
+ inputs:[{k:"people",label:"인원",ph:"예: 7명"},
+         {k:"have",label:"지금 있는 재료 (장 볼 때 쓰고 싶은 재료)",opt:true,ph:"예: 감자, 두부, 달걀, 김치, 돼지고기"},
          {k:"avoid",label:"피할 음식",opt:true,ph:"예: 너무 매운 음식, 딱딱한 음식"}],
  build:v=>`${F(v,"people","인원")}이 먹을 일주일 식단을 ${v.style}으로 짜줘. (${v.meal})`+O(v,"have","\n있는 재료: ","")+O(v,"avoid","\n피할 음식: ","")+`\n요일별 표로 보여주고, 마지막에 장보기 목록을 정리해줘.`+
    RULES(["조리가 너무 복잡한 메뉴는 빼줘.","영양 정보는 참고용이라고 표시해줘."]),
@@ -2451,10 +2458,97 @@ function planVals(t){
   const safety = [...P.safe, t.id==="outing"?"휴관일·운영 시간·편의시설은 전화로 확인":"", "비상 연락망과 구급함 챙기기"].filter(Boolean).map(s=>"■ "+s).join("\n");
   return {title, date:(v.date||"").trim(), where, people, budget, writer:"", goal:goal2, roles, items:P.items.map(s=>"■ "+s).join("\n"), budgetd, steps, care, safety};
 }
-function planHTML(t){ const pv=planVals(t); const pf=profFill(); const v={...pv, org:pf.org||"", writer:pf.writer||""}; return blocksHTML(docBlocks(PFORM,v)); }
-function planText(t){ const p=planVals(t); return `[${PFORM.name}]\n프로그램명: ${p.title}\n일시: ${p.date||"[ ]"}\n장소: ${p.where}\n참여 인원: ${p.people}\n예산: ${p.budget}\n\n목적\n${p.goal}\n\n역할 분담\n${p.roles}\n\n준비물\n${p.items}\n\n예산 내역\n${p.budgetd}\n\n진행 순서\n${p.steps}\n\n개별 지원·고려할 점\n${p.care}\n\n안전 유의사항\n${p.safety}`; }
+document.addEventListener("change",e=>{
+  if(e.target.id!=="plan-att" || !e.target.files[0] || !current || !current.plan) return;
+  const file=e.target.files[0], pv=planVals(current), pf=profFill();
+  fvals.progplan={...pv, ...planExtraVals(current), org:pf.org||"", writer:pf.writer||"", _memo:"", _paste:""};
+  location.hash="form-progplan";
+  setTimeout(()=>{ if(curForm && curForm.id==="progplan") attachTemplate(curForm,file); },80);
+});
+/* ================= 일주일 식단 달력 + 장보기 목록 ================= */
+const DISH={
+ soup:[["된장찌개",["두부","된장","애호박","양파","대파"],"콩"],["김치찌개",["김치","돼지고기","두부","대파"],"고기"],["미역국",["미역","소고기","다진 마늘"],"고기"],["콩나물국",["콩나물","대파","다진 마늘"],"채소"],["달걀국",["달걀","대파"],"달걀"],["어묵국",["어묵","무","대파"],"생선"],["소고기무국",["소고기","무","대파"],"고기"],["순두부찌개",["순두부","달걀","대파","고춧가루"],"콩"],["북엇국",["북어채","달걀","무"],"생선"],["감자국",["감자","양파","대파"],"채소"],["배추된장국",["배추","된장"],"채소"],["시금치된장국",["시금치","된장"],"채소"]],
+ main:[["제육볶음",["돼지고기","양파","대파","고추장"],"고기"],["소불고기",["소고기","양파","당근","간장"],"고기"],["닭볶음탕",["닭고기","감자","당근","양파"],"고기"],["고등어구이",["고등어"],"생선"],["두부조림",["두부","대파","간장"],"콩"],["달걀말이",["달걀","대파","당근"],"달걀"],["오징어볶음",["오징어","양파","양배추","고추장"],"생선"],["닭갈비",["닭고기","양배추","고구마","고추장"],"고기"],["동그랑땡",["돼지고기","두부","달걀"],"고기"],["달걀찜",["달걀","대파"],"달걀"],["삼치구이",["삼치"],"생선"],["잡채",["당면","시금치","당근","양파","돼지고기"],"고기"],["돼지고기 장조림",["돼지고기","메추리알","간장"],"고기"],["두부부침",["두부","달걀"],"콩"]],
+ side:[["시금치나물",["시금치"]],["콩나물무침",["콩나물"]],["감자조림",["감자","간장"]],["어묵볶음",["어묵","양파"]],["멸치볶음",["멸치"]],["애호박볶음",["애호박"]],["무생채",["무"]],["오이무침",["오이"]],["브로콜리 데침",["브로콜리"]],["버섯볶음",["버섯"]],["숙주나물",["숙주"]],["양배추쌈",["양배추","쌈장"]],["김",["김"]],["가지볶음",["가지"]],["메추리알조림",["메추리알","간장"]]],
+ easy:[["카레라이스",["돼지고기","감자","당근","양파","카레가루"]],["김치볶음밥",["김치","밥","달걀"]],["비빔밥",["콩나물","시금치","당근","달걀","고추장"]],["잔치국수",["소면","애호박","달걀","김"]],["떡국",["떡국떡","달걀","대파","소고기"]]],
+ bf:[["토스트와 우유",["식빵","달걀","우유"]],["누룽지와 달걀찜",["누룽지","달걀"]],["채소죽",["쌀","당근","애호박"]],["고구마와 우유",["고구마","우유"]]]
+};
+const SHOP_CAT=[["고기·생선·달걀",/(고기|고등어|삼치|오징어|어묵|북어|멸치|달걀|메추리알)/],["두부·콩",/(두부|순두부|콩나물|숙주)/],["채소·과일",/(양파|대파|애호박|감자|당근|무|배추|시금치|미역|양배추|고구마|오이|브로콜리|버섯|가지|다진 마늘)/],["곡류·면",/(쌀|밥|당면|소면|떡국떡|식빵|누룽지)/],["양념·기타",/./]];
+function menuPlan(v){
+  const have=(v.have||"").split(/[,\s·]+/).map(x=>x.trim()).filter(Boolean);
+  const avoid=(v.avoid||"").split(/[,\s·]+/).map(x=>x.trim()).filter(x=>x.length>=1);
+  const ok=d=>!avoid.some(a=>d[0].includes(a)||d[1].some(i=>i.includes(a))||(a.includes("매운")&&/(제육|김치찌개|오징어|닭갈비|순두부|고추장|닭볶음)/.test(d[0]+d[1].join())));
+  const score=d=>d[1].filter(i=>have.some(h=>i.includes(h)||h.includes(i))).length;
+  const order=list=>list.filter(ok).map((d,i)=>[d,score(d)*10-i*0.01]).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+  const S=order(DISH.soup), M=order(DISH.main), D=order(DISH.side), EZ=order(DISH.easy), BF=order(DISH.bf);
+  const meals=v.meal==="저녁만"?["저녁"]:v.meal==="아침·저녁"?["아침","저녁"]:["아침","점심","저녁"];
+  const days=["월","화","수","목","금","토","일"];
+  let si=0,mi=0,di=0,ei=0,bi=0, lastP="";
+  const mUsed=new Set();
+  const pickMain=()=>{ const cand=M.filter(d=>!mUsed.has(d[0])); const pool=cand.length?cand:M; if(!cand.length) mUsed.clear(); const d=pool.find(x=>x[2]!==lastP)||pool[0]; mUsed.add(d[0]); lastP=d[2]; return d; };
+  const used={}; const use=d=>d&&d[1].forEach(i=>{ used[i]=(used[i]||0)+1; });
+  const grid=meals.map(m=>days.map((dy,di0)=>{
+    const easyDay = v.style==="간편식 조금 섞기" && m!=="아침" && ((di0===2&&m===meals[meals.length-1])||(di0===5&&m===meals[meals.length-1]));
+    if(m==="아침" && meals.length>1){
+      if(v.style==="간편식 조금 섞기" && di0%2===1 && BF.length){ const b=BF[bi++%BF.length]; use(b); return `${b[0]}\n김치`; }
+      const s=S[si++%S.length], d=D[di++%D.length]; use(s); use(d); return `잡곡밥\n${s[0]}\n${d[0]}\n김치`;
+    }
+    if(easyDay && EZ.length){ const e=EZ[ei++%EZ.length], d=D[di++%D.length]; use(e); use(d); return `${e[0]}\n${d[0]}\n김치`; }
+    const s=S[si++%S.length], mn=pickMain(), d1=D[di++%D.length]; use(s); use(mn); use(d1);
+    return `잡곡밥\n${s[0]}\n${mn[0]}\n${d1[0]}\n김치`;
+  }));
+  const need=Object.entries(used).filter(([i])=>!have.some(h=>i.includes(h)||h.includes(i)));
+  const cats=SHOP_CAT.map(([c])=>[c,[]]);
+  need.forEach(([i,n])=>{ const ix=SHOP_CAT.findIndex(([,re])=>re.test(i)); cats[ix][1].push(`${i}(${n}번)`); });
+  const haveUsed=Object.keys(used).filter(i=>have.some(h=>i.includes(h)||h.includes(i)));
+  return {meals,days,grid,cats:cats.filter(c=>c[1].length),haveUsed,have};
+}
+function menuBlocks(v){
+  const P=menuPlan(v), ppl=(v.people||"").trim();
+  const B=[{t:"title",text:"일주일 식단표"},{t:"center",text:`${ppl?`${/\d$/.test(ppl)?ppl+"명":ppl} 기준 · `:""}${v.meal} · ${v.style}`}];
+  B.push({t:"table",rows:[[{text:"",label:1},...P.days.map(d=>({text:d+"요일",label:1}))],...P.meals.map((m,mi)=>[{text:m,label:1},...P.grid[mi].map(x=>({text:x}))])]});
+  B.push({t:"p",text:"■ 장보기 목록 (괄호는 이번 주에 쓰는 횟수)",bold:1});
+  P.cats.forEach(([c,l])=>B.push({t:"p",text:`□ ${c}: ${l.join(", ")}`,indent:1}));
+  B.push({t:"p",text:"□ 기본: 쌀·잡곡, 김치, 간장·고추장·된장·식용유·참기름 (떨어진 것만)",indent:1});
+  if(P.haveUsed.length) B.push({t:"p",text:`■ 집에 있는 재료로 쓰는 것: ${P.haveUsed.join(", ")}`,bold:1});
+  B.push({t:"p",text:"※ 단백질(고기·생선·달걀·두부)과 채소 반찬이 끼니마다 들어가도록 짰어요. 양은 인원에 맞게 조정하고, 영양 정보는 참고용이에요.",indent:0});
+  return B;
+}
 document.addEventListener("click",e=>{
-  const o=e.target.closest("[data-planform]"); if(o && current && current.plan){ const pv=planVals(current), pf=profFill(); fvals.progplan={...pv, org:pf.org||"", writer:pf.writer||"", _memo:"", _paste:""}; location.hash="form-progplan"; return; }
+  if(!current || current.id!=="menu") return;
+  const st=document.getElementById("menu-st");
+  if(e.target.closest("#menu-down")){ saveFile(`일주일식단표_${todayISO()}.docx`, zipStore(Object.entries(docxFiles(blocksDocx(menuBlocks(getVals(current).v))))), st); }
+  if(e.target.closest("#menu-copy")){ copyText(blocksText(menuBlocks(getVals(current).v)),null,()=>{st.textContent="식단표를 글로 복사했어요.";},()=>{st.textContent="복사가 막혀 있어요. 워드로 받아 주세요.";}); }
+});
+/* 계획서 항목 넣고 빼기 (서식 화면과 같은 설정을 함께 써요) */
+function planExtraVals(t){ const v=getVals(t).v, o={}; ((FCUST.progplan||{}).extra||[]).forEach(e=>{ o[e.k]=v["px_"+e.k]||""; }); return o; }
+function planCustHTML(t){
+  applyCustom(PFORM); const c=FCUST.progplan||{}, v=getVals(t).v;
+  const ex=(c.extra||[]).map(e=>{ const id=`f-${t.id}-px_${e.k}`; return `<div class="field"><label for="${id}">${esc(e.label)} <small>(추가한 항목)</small></label>${e.type==="area"?`<textarea id="${id}" data-input="px_${e.k}">${esc(v["px_"+e.k]||"")}</textarea>`:`<input id="${id}" type="text" data-input="px_${e.k}" value="${esc(v["px_"+e.k]||"")}">`}</div>`; }).join("");
+  const hid=PFORM._base.filter(x=>PFORM._hide.has(x.k));
+  return `${ex}<div class="f-cust plan-cust">
+    <div class="f-addbox f-delbox"><label for="pdel-sel">− 계획서에서 빼고 싶은 항목</label>
+      <div class="f-add"><select id="pdel-sel"><option value="">뺄 항목을 고르세요</option>${PFORM.fields.filter(x=>x.k!=="org").map(x=>`<option value="${x.k}">${esc(x.label)}</option>`).join("")}</select><button type="button" class="pill b3d" id="pdel-btn">빼기</button></div></div>
+    <div class="f-addbox"><label for="padd-name">+ 계획서에 추가하고 싶은 항목</label>
+      <div class="f-add"><input id="padd-name" type="text" placeholder="예: 협력 기관, 평가 방법 (여러 개는 쉼표로)"><select id="padd-type" aria-label="칸 크기"><option value="short">짧은 칸</option><option value="area">긴 칸</option></select><button type="button" class="pill b3d" id="padd-btn">추가</button></div></div>
+    ${hid.length?`<div class="f-hidden"><span>뺀 항목</span>${hid.map(x=>`<button type="button" data-prestore="${x.k}">${esc(x.label)} 다시 넣기</button>`).join("")}</div>`:""}
+    ${FCUST.progplan?`<button type="button" class="f-reset" id="preset">처음 항목으로 되돌리기</button>`:""}
+  </div>`;
+}
+document.addEventListener("click",e=>{
+  if(!current || !current.plan) return;
+  const re=fn=>{ const tin=document.querySelector(".tin"), y=tin?tin.scrollTop:0; fn(); saveFC(); renderTask(current); const n=document.querySelector(".tin"); if(n) n.scrollTop=y; };
+  const cu=()=>FCUST.progplan||(FCUST.progplan={});
+  if(e.target.closest("#pdel-btn")){ const sel=document.getElementById("pdel-sel"); if(!sel||!sel.value) return; const k=sel.value, c=cu(); re(()=>{ if((c.extra||[]).some(x=>x.k===k)) c.extra=c.extra.filter(x=>x.k!==k); else c.hide=[...new Set([...(c.hide||[]),k])]; }); return; }
+  if(e.target.closest("#padd-btn")){ const raw=(document.getElementById("padd-name").value||"").trim(); if(!raw) return; const names=raw.split(/[,，、\n]/).map(x=>x.trim()).filter(Boolean), tp=(document.getElementById("padd-type")||{}).value||"short", c=cu(); re(()=>{ c.extra=[...(c.extra||[]),...names.map((n,i)=>({k:"x"+Date.now().toString(36)+i,label:n,type:tp}))]; }); return; }
+  const r=e.target.closest("[data-prestore]"); if(r){ const c=cu(); re(()=>{ c.hide=(c.hide||[]).filter(k=>k!==r.dataset.prestore); }); return; }
+  if(e.target.closest("#preset")){ re(()=>{ delete FCUST.progplan; }); return; }
+});
+function planHTML(t){ applyCustom(PFORM); const pv=planVals(t); const pf=profFill(); const v={...pv, ...planExtraVals(t), org:pf.org||"", writer:pf.writer||""}; return blocksHTML(docBlocks(PFORM,v)); }
+function planText(t){ applyCustom(PFORM); const pf=profFill(); return blocksText(docBlocks(PFORM,{...planVals(t),...planExtraVals(t),org:pf.org||"",writer:pf.writer||""})); }
+function planText_old(t){ const p=planVals(t); return `[${PFORM.name}]\n프로그램명: ${p.title}\n일시: ${p.date||"[ ]"}\n장소: ${p.where}\n참여 인원: ${p.people}\n예산: ${p.budget}\n\n목적\n${p.goal}\n\n역할 분담\n${p.roles}\n\n준비물\n${p.items}\n\n예산 내역\n${p.budgetd}\n\n진행 순서\n${p.steps}\n\n개별 지원·고려할 점\n${p.care}\n\n안전 유의사항\n${p.safety}`; }
+document.addEventListener("click",e=>{
+  const o=e.target.closest("[data-planform]"); if(o && current && current.plan){ const pv=planVals(current), pf=profFill(); fvals.progplan={...pv, ...planExtraVals(current), org:pf.org||"", writer:pf.writer||"", _memo:"", _paste:""}; location.hash="form-progplan"; return; }
   const c=e.target.closest("[data-plancopy]"); if(c && current && current.plan){ const txt=planText(current); const st=document.getElementById("plan-status");
     copyText(txt,null,()=>{ if(st) st.textContent="계획서 글을 복사했어요. 원하는 곳에 붙여 넣으세요."; },()=>{ if(st) st.textContent="복사가 안 됐어요. [서식에서 고치기]를 눌러 워드로 받으세요."; }); }
 });
@@ -3230,6 +3324,12 @@ const FSYN = {
  obs:["참여모습","관찰내용","참여자반응","반응","관찰"],
  eval:["평가","평가및다음계획","다음계획","소감및평가"],
  org:["기관명","시설명","센터명","기관"],
+ roles:["역할분담","역할","인력배치","진행인력","담당역할"],
+ items:["준비물","준비사항","필요물품","준비물품","소요물품"],
+ budgetd:["세부예산","산출내역","산출근거","예산세부내역"],
+ steps:["진행순서","진행방법","운영방법","세부일정","프로그램내용","일정"],
+ care:["개별지원","고려사항","유의사항","특이사항","개별지원계획"],
+ safety:["안전유의사항","안전대책","안전관리","안전계획","안전"],
  method:["상담방법","방법"],
  counselor:["상담자","상담원","면담자"],
  reason:["상담계기","상담사유","의뢰사유","계기"],
@@ -3595,7 +3695,7 @@ function monthBody(){
     <div class="list">${MONTHS[pickedMonth].map(([id,why])=>rowHTML(BY[id],why)).join("")}</div>`;
 }
 /* ================= 이번 달 센터 소식 (여러 화면에 자동으로 들어감) ================= */
-let NEWS=(()=>{ try{ return localStorage.getItem("aibox-news")||""; }catch(e){ return ""; } })();
+let NEWS=""; try{ localStorage.removeItem("aibox-news"); }catch(e){}
 const NEWS_KEY={"donor-news":"news","donor-thanks":"story","donor-use":"story","donor-ask":"story","newsletter":"events","sns-post":"act","leisure-program":"news","outing":"news","event-prep":"news"};
 function newsBoxHTML(){ return `<section class="card newsbox"><h3 class="step-title"><b>📰</b>이번 달 센터 소식</h3>
   <p class="hint">한 번 적어 두면 <b>후원 문자, 소식지, SNS 글, 프로그램 계획서</b>의 소식 칸에 자동으로 들어가요. 이름·진단명은 적지 마세요.</p>
@@ -3668,7 +3768,6 @@ function renderMonth(){
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px">
     <button class="back b3d" type="button" data-home>← 처음으로</button>
     <div class="page-head"><p class="label">이달의 추천</p><h2>📅 이달에 챙기면 좋은 일</h2><p>달을 바꿔 다른 달의 추천도 볼 수 있어요.</p></div>
-    ${newsBoxHTML()}
     <div id="home-body" style="display:flex;flex-direction:column;gap:14px">${monthBody()}</div></div>`;
 }
 function renderHelp(){
@@ -3714,7 +3813,6 @@ function getVals(t){
     (t.inputs||[]).forEach(i=>{v[i.k]=""});
     if(t.form){ v._form="없어요"; v._formText=""; }
     if(t.refimg){ v._ref="없어요"; v._refWhat="색감과 분위기"; v._refColors=""; v._refImg=""; }
-    if(NEWS_KEY[t.id] && NEWS && !v[NEWS_KEY[t.id]]) v[NEWS_KEY[t.id]]=NEWS;
     values[t.id] = {v, edited:false, text:null};
   }
   return values[t.id];
@@ -3739,22 +3837,91 @@ function newsStory(raw,polite){
             : (polite?"이용인분들이 즐겁게 참여하며 뿌듯한 시간을 보냈습니다.":"이용인분들이 즐겁게 참여하며 뿌듯한 시간을 보냈어요.");
   return `${thanks} 저희 이용인분들이 행복하게 ${josa(w,"을","를")} ${verb}.\n${after}\n그 기쁜 소식을 후원자님께 꼭 전해드리고 싶었${polite?"습니다":"어요"}.`;
 }
+/* 짧은 단어·반말 메모를 감사 문장으로 다듬기 */
+function spaceWord(w){ return String(w||"").trim().replace(/([가-힣])(나들이|여행|소풍|견학|캠프|체험|파티|잔치|행사|축제|교실|만들기)$/,"$1 $2"); }
+function storyFix(raw,polite){
+  let s=String(raw||"").trim(); if(!s) return "";
+  s=s.replace(/입소자(분)?들?/g,"이용인분들").replace(/입소자/g,"이용인분").replace(/[.!~]+$/,"");
+  const R=polite?[[/했다$/,"했습니다"],[/였다$/,"였습니다"],[/었다$/,"었습니다"],[/았다$/,"았습니다"],[/이다$/,"입니다"],[/했음$/,"했습니다"],[/함$/,"했습니다"],[/좋아함$/,"좋아했습니다"]]
+                :[[/했다$/,"했어요"],[/였다$/,"였어요"],[/었다$/,"었어요"],[/았다$/,"았어요"],[/이다$/,"이에요"],[/했음$/,"했어요"],[/함$/,"했어요"],[/좋아함$/,"좋아했어요"]];
+  let hit=false; for(const [re,to] of R){ if(re.test(s)){ s=s.replace(re,to); hit=true; break; } }
+  if(!hit && !/(요|니다|어|지)$/.test(s)) s = /(행복|기쁨|즐거움|웃음|만족)$/.test(s) ? `${s}이 가득한 시간이었${polite?"습니다":"어요"}` : `${josa(s,"이","가")} 있었${polite?"습니다":"어요"}`;
+  return s+".";
+}
+/* 짧은 단어를 후원자가 뿌듯해할 문장으로 풀기 */
+function storyRich(raw,polite){
+  const r=String(raw||"").trim(); if(!r) return "";
+  const E=polite?"습니다":"어요";
+  const w=r.replace(/[.!~]+$/,"").replace(/입소자(분)?들?/g,"이용인분들").replace(/입소자/g,"이용인분").trim();
+  const isSentence=/(요|다|니다|음|함)$/.test(w) && w.length>8;
+  if(!isSentence){
+    if(/(행복|기쁨|기뻐|즐거|웃음|신남|신나|좋아|만족|감동)/.test(w))
+      return `보내주신 후원 덕분에 이용인분들의 얼굴에 행복한 웃음이 가득했${E}. 서로 마주 보며 기뻐하는 모습을 보면서, 후원자님의 나눔이 이분들의 하루를 얼마나 환하게 바꾸는지 다시 한번 느꼈${E}.`;
+    if(/(나들이|여행|소풍|견학|캠프|산책|구경|등산|체험|방문)$/.test(w))
+      return `보내주신 후원 덕분에 이용인분들과 함께 ${josa(spaceWord(w),"을","를")} 다녀올 수 있었${E}. 평소에 쉽게 가 보기 어려운 곳에서 새로운 경험을 하며 모두 환하게 웃었${E}.`;
+    if(/(파티|잔치|행사|축제|생일|송년회)$/.test(w))
+      return `보내주신 후원 덕분에 ${josa(spaceWord(w),"을","를")} 넉넉하게 준비할 수 있었${E}. 모두 함께 축하하며 잊지 못할 추억을 만들었${E}.`;
+    if(/(식사|간식|밥|반찬|과일|고기|떡|케이크)$/.test(w))
+      return `보내주신 후원 덕분에 이용인분들이 ${josa(w,"을","를")} 맛있게 나눠 먹었${E}. "맛있다"며 그릇을 싹 비우는 모습에 저희도 마음이 따뜻해졌${E}.`;
+    return `보내주신 후원 덕분에 ${josa(w,"이","가")} 가능했${E}. 덕분에 이용인분들의 일상이 한결 풍성하고 든든해졌${E}.`;
+  }
+  return `${storyFix(w,polite)} 후원자님의 나눔이 이렇게 이용인분들의 일상을 따뜻하게 바꾸고 있${E}.`;
+}
+/* 어려운 안내문을 쉬운 말로 (규칙 기반 초안) */
+const EASY_W=[[/금주/g,"이번 주"],[/익일/g,"다음 날"],[/금일/g,"오늘"],[/명일/g,"내일"],[/경보음\s*(이\s*)?(발생|울릴)\s*(시|때)/g,"비상벨이 울리면"],[/경보음/g,"비상벨 소리"],[/(\S+)\s*발생\s*시/g,"$1이(가) 생기면"],[/직원의\s*안내에\s*따라/g,"직원 말을 잘 듣고"],[/안내에\s*따라/g,"안내를 잘 듣고"],[/신속히|신속하게/g,"빨리"],[/대피하시기\s*바랍니다|대피해\s*주시기\s*바랍니다|대피하십시오/g,"밖으로 나가요"],[/(소방\s*)?대피\s*훈련/g,"불이 났을 때 밖으로 나가는 연습"],[/대피/g,"피하기"],[/실시될\s*예정(이오니|이니|입니다|임)?/g,"있어요"],[/실시합니다|실시함/g,"해요"],[/실시/g,"하기"],[/예정이오니|예정이니/g,"예정이에요"],[/지참하시기\s*바랍니다|지참\s*바랍니다/g,"꼭 가져와요"],[/지참/g,"가져오기"],[/착용하시기\s*바랍니다/g,"꼭 입어요"],[/착용/g,"입기"],[/참석하시기\s*바랍니다/g,"꼭 와 주세요"],[/참석/g,"오기"],[/섭취/g,"먹기"],[/금지(합니다|됩니다)?/g,"하면 안 돼요"],[/유의하시기\s*바랍니다|유의\s*바랍니다/g,"조심해요"],[/유의/g,"조심"],[/소등/g,"불 끄기"],[/점검/g,"살펴보기"],[/협조\s*부탁드립니다|협조\s*바랍니다/g,"도와주세요"],[/하시기\s*바랍니다|해\s*주시기\s*바랍니다/g,"해 주세요"],[/바랍니다/g,"주세요"],[/문의/g,"궁금한 것"],[/귀가/g,"집에 가기"],[/일시/g,"날짜와 시간"]];
+const EASY_GO={"듣고":"들어요","하고":"해요","가고":"가요","보고":"봐요","먹고":"먹어요","입고":"입어요","쓰고":"써요","챙기고":"챙겨요","씻고":"씻어요","끄고":"꺼요","닫고":"닫아요","열고":"열어요","마시고":"마세요","말고":"마세요"};
+function easyText(orig,short){
+  let t=String(orig||"").trim(); if(!t) return "[원래 안내 내용]을 적으면 쉬운 말로 바꿔 드려요.";
+  EASY_W.forEach(([re,to])=>{ t=t.replace(re,to); });
+  let parts=t.split(/(?<=[.!?])\s+|\n+|(?<=요)\s+(?=\S)|\s*(?:이오니|으니|하오니|하니|하며|이며)\s*/).map(s=>(s||"").trim()).filter(Boolean);
+  const out=[];
+  parts.forEach(p=>{
+    p=p.replace(/[.!?]+$/,"");
+    const m=p.match(/^(.*?)\s(\S+고)\s(.+)$/);
+    if(m && EASY_GO[m[2]]){ out.push(`${m[1]} ${EASY_GO[m[2]]}`); p=m[3]; }
+    out.push(p);
+  });
+  const fin=out.map(s=>{ s=s.trim().replace(/있$/,"있어요").replace(/없$/,"없어요").replace(/하$/,"해요").replace(/예정이$/,"예정이에요"); if(!/(요|세요|돼요|다)$/.test(s)) s=s.replace(/(이|가)?\s*있음$/,"이 있어요")+(/(요)$/.test(s)?"":"요"); return s.replace(/요요$/,"요").replace(/다$/,"어요")+"."; });
+  const pic=s=>/비상벨|불|소방/.test(s)?"비상벨·소방차":/밖으로|피하/.test(s)?"문 밖으로 나가는 사람":/토요일|월요일|화요일|수요일|목요일|금요일|일요일|날짜|오늘|내일|주/.test(s)?"달력":/시간|시/.test(s)?"시계":/직원|말을/.test(s)?"직원이 손짓하는 모습":/먹|식사|간식/.test(s)?"밥상":/가져|챙/.test(s)?"가방":"";
+  const list=(short?fin.slice(0,3):fin);
+  return list.map((s,i)=>`${i+1}. ${s}${short?"":(pic(s)?`  [그림: ${pic(s)}]`:"")}`).join("\n");
+}
+function useExplain(w,polite){
+  const E=polite?"습니다":"어요", go=/(나들이|여행|소풍|견학|캠프|산책|구경|등산|체험|방문)$/.test(w), party=/(파티|잔치|행사|축제|대회|송년회|생일)$/.test(w), buy=/(구입|구매|마련|교체|수리|설치)$/.test(w);
+  const m=w.match(/^(.+?)\s*(구입|구매|마련|교체|수리|설치)$/);
+  const a = go ? `이용인분들과 함께 ${josa(w,"을","를")} 다녀오는 데 사용했${E}.` : party ? `${josa(w,"을","를")} 여는 데 사용했${E}.` : m ? `${josa(m[1],"을","를")} ${m[2]}하는 데 사용했${E}.` : `${w}에 사용했${E}.`;
+  const b = go ? `계절을 함께 느끼며 웃음 가득한 하루를 보냈${E}.` : party ? `모두 함께 축하하며 즐거운 시간을 보냈${E}.` : buy ? `이용인분들이 더 편안하게 생활할 수 있게 되었${E}.` : `이용인분들의 일상에 든든한 보탬이 되었${E}.`;
+  return `   → ${a} ${b}`;
+}
+function useSentence(items,polite){
+  const E=polite?"습니다":"어요";
+  const one=w=>{ if(/(나들이|여행|소풍|견학|캠프|산책|구경|등산|체험|방문)$/.test(w)) return `이용인분들과 함께 ${josa(w,"을","를")} 다녀오는 데`;
+    if(/(파티|잔치|행사|축제|대회|송년회|생일)$/.test(w)) return `${josa(w,"을","를")} 여는 데`;
+    const m=w.match(/^(.+?)\s*(구입|구매|마련|교체|수리|설치)$/); if(m) return `${josa(m[1],"을","를")} ${m[2]}하는 데`;
+    return `${w}에`; };
+  const parts=items.slice(0,3).map(one);
+  return `보내주신 후원금은 ${parts.join(", ")}${items.length>3?` 등`:""} 소중히 사용했${E}.`;
+}
 const OUTS = {
  "donor-use": v=>{
+   const polite = v.tone==="정중하게", E=polite?"습니다":"어요";
    const call = v.who==="단체·기업" ? "후원해주신 관계자 여러분" : v.who==="정기 후원자님" ? "늘 한결같이 함께해주시는 후원자님" : "후원자님";
-   const per = val(v,"period","보내주신"), items=(v.items||"").split("\n").map(s=>s.replace(/^[-•·○■\s]+/,"").trim()).filter(Boolean);
-   const list = items.length ? items.map(s=>"■ "+s).join("\n") : "■ [사용 내역]";
-   const total = (v.total||"").trim(), story=sent(v.story);
-   const polite = v.tone==="정중하게";
+   const pr=(v.period||"").trim(), per = pr ? `${pr}에 보내주신` : "보내주신";
+   const items=(v.items||"").split("\n").map(s=>s.replace(/^[-•·○■\s]+/,"").trim()).filter(Boolean).map(spaceWord);
+   const list = items.length ? items.map((s,i)=>`${i+1}. ${s}\n${useExplain(s,polite)}`).join("\n") : "1. [사용 내역]\n   → [어디에 어떻게 썼는지]";
+   const total = (v.total||"").trim();
+   const story = storyRich(v.story,polite);
+   const useS = items.length ? useSentence(items,polite) : `[사용 내역]에 소중히 사용했${E}.`;
+   const tail = story ? story : `후원자님 덕분에 이용인분들의 일상이 한결 든든해졌${E}.`;
    if(v.len==="짧은 문자") return [
-     ["요약형",`${call}, ${per} 후원금은 ${items.length?items.slice(0,2).join(", ")+(items.length>2?" 등":""):"[사용 내역]"}에 소중히 사용했습니다.${total?` (합계 ${total})`:""} 함께해주셔서 감사합니다.\n- [센터 이름] 드림`],
-     ["감사 강조형",`보내주신 마음, 허투루 쓰지 않았어요. ${per} 후원금은 ${items[0]||"[사용 내역]"}${items.length>1?` 외 ${items.length-1}건`:""}에 쓰였습니다. ${story||"이용인분들의 일상에 든든한 힘이 됐어요."} 고맙습니다.\n- [센터 이름] 드림`]];
+     ["요약형",`${call}, ${pr?pr+"에 ":""}${useS} ${story?story+" ":""}${total?`(사용 금액 ${total}) `:""}함께해 주셔서 감사합니다.\n- [센터 이름] 드림`],
+     ["감사 강조형",`보내주신 마음, 허투루 쓰지 않았${E}. ${useS} ${story||"이용인분들의 일상에 든든한 힘이 됐"+E+"."} 진심으로 고맙습니다.\n- [센터 이름] 드림`]];
    return [
-     ["내역 정리형",`[후원금 사용 안내]\n\n${call}, ${polite?"늘 보내주시는 관심과 사랑에 깊이 감사드립니다.":"늘 함께해주셔서 고맙습니다."}\n${per} 보내주신 후원금을 아래와 같이 사용하였기에 알려드립니다.\n\n${list}${total?`\n■ 합계: ${total}`:""}${story?`\n\n${story}`:""}\n\n자세한 내역이 궁금하시면 언제든 연락 주세요. 보내주신 마음을 앞으로도 투명하고 정성스럽게 쓰겠습니다.\n\n[센터 이름] ${polite?"올림":"드림"}`],
-     ["이야기형",`${call}, ${GREET} 안부 전합니다. [센터 이름]이에요.\n\n${per} 보내주신 후원이 어디에 쓰였는지 소식 전해드릴게요.\n${items.length?items.map(s=>`· ${s}`).join("\n"):"· [사용 내역]"}${total?`\n(모두 ${total})`:""}\n\n${story||"덕분에 이용인분들의 하루가 한결 든든해졌어요."}\n후원자님의 마음이 이렇게 일상 곳곳에 닿고 있다는 걸 꼭 전해드리고 싶었어요. 정말 고맙습니다.\n\n[센터 이름] 드림`]];
+     ["내역 정리형",`[후원금 사용 안내]\n\n${call}, ${polite?"늘 보내주시는 관심과 사랑에 깊이 감사드립니다.":"늘 함께해주셔서 고맙습니다."}\n${per} 후원금을 아래와 같이 사용하였기에 알려드립니다.\n\n■ 사용 내역 안내\n${list}${total?`\n\n■ 사용 금액 합계: ${total}`:""}\n\n${story?"■ 후원 덕분에 달라진 일상\n":""}${tail}\n\n자세한 내역이 궁금하시면 언제든 연락 주세요. 보내주신 마음을 앞으로도 투명하고 정성스럽게 쓰겠습니다.\n\n[센터 이름] ${polite?"올림":"드림"}`],
+     ["이야기형",`${call}, ${GREET} 안부 전합니다. [센터 이름]이에요.\n\n${per} 후원이 어디에 쓰였는지 소식 전해드릴게요.\n${items.length?useSentence(items,false):"[사용 내역]에 소중히 사용했어요."}${total?` (모두 ${total})`:""}\n\n${story?storyRich(v.story,false):"후원자님 덕분에 이용인분들의 일상이 한결 든든해졌어요."}\n후원자님의 마음이 이렇게 일상 곳곳에 닿고 있다는 걸 꼭 전해드리고 싶었어요. 정말 고맙습니다.\n\n[센터 이름] 드림`]];
  },
  "donor-ask": v=>{
-   const need=val(v,"need","[필요한 것]"), how=(v.how||"").trim(), story=sent(v.story), polite=v.tone==="정중하게";
+   const need=val(v,"need","[필요한 것]"), how=(v.how||"").trim(), polite=v.tone==="정중하게", story=storyRich(v.story,polite);
    const kindLine = v.kind==="정기 후원자 모집" ? "매달 작은 정기 후원으로 함께해 주실 분을 찾고 있어요" : v.kind==="물품 후원 요청" ? `${need}이(가) 필요해 이웃분들께 조심스럽게 손을 내밀어 봅니다` : "함께 나누는 자리에 이웃분들을 초대하고 싶어요";
    const howLine = how ? `\n\n■ 함께하는 방법: ${how}` : "\n\n■ 함께하는 방법: [후원 계좌·연락처]";
    if(v.ch==="소식지 한 줄") return [
@@ -3770,7 +3937,7 @@ const OUTS = {
    const w=val(v,"what","소중한 후원"), typed=(v.use||"").trim(), u=typed||v.usetype, done=v.tense==="이미 사용했어요";
    const scene = typed ? `${typed}에 쓰여 이용인분들의 일상에 든든한 보탬이 될 수 있도록` : (SCENE[u]||`${u}에 쓰여 이용인분들의 일상에 보탬이 될 수 있도록`);
    const call = v.who==="단체·기업" ? "후원해주신 관계자 여러분" : v.who==="정기 후원자님" ? "늘 한결같이 함께해주시는 후원자님" : "후원자님";
-   const story = sent(v.story); const st = story ? story+"\n" : "";
+   const story = storyRich(v.story,v.tone==="정중하게"); const st = story ? story+"\n" : "";
    const sn = SEASON_NAME;
    if(v.len==="짧은 문자"){
      return [
@@ -3860,8 +4027,34 @@ const OUTS = {
    const feel= bright?"모두 신나게 웃고 떠들며 즐거운 시간을 보냈답니다!":calm?"서로의 속도에 맞춰 천천히, 함께하는 시간을 보냈습니다.":"함께 웃고 이야기 나누며 마음까지 따뜻해지는 시간이었어요.";
    const tags=`#장애인공동생활가정 #그룹홈 #함께사는동네${tag?" #"+tag:""}`;
    if(v.where==="인스타그램") return [["인스타그램 글",`${line}\n${feel}\n\n우리 동네 작은 집의 소소한 일상,\n앞으로도 자주 전할게요${bright?" :)":"."}\n\n${tags}`],["짧은 버전",`${line} ${feel}\n${tags}`]];
-   if(v.where==="네이버 블로그") return [["블로그 원고",`[제목] ${done?"[센터 이름] 활동 이야기":w} — [센터 이름] 이야기\n\n안녕하세요, [센터 이름]입니다.\n${GREET}, 오늘은 저희 집의 작은 소식을 전해드리려고 해요.\n\n■ 오늘의 활동\n${line}\n[사진: 활동 모습 1]\n\n■ 이렇게 진행했어요\n준비부터 마무리까지 이용인분들이 직접 고르고 참여했어요.\n[사진: 활동 모습 2]\n\n■ 함께한 마음\n${feel}\n\n앞으로도 지역 안에서 함께 살아가는 저희의 일상을 나누겠습니다.\n늘 응원해 주셔서 감사합니다.\n\n${tags}`],["짧은 소개글",`${line} ${feel} 자세한 이야기는 블로그에서 전해드려요.`]];
+   if(v.where==="네이버 블로그"){
+     const target=Math.max(200,Math.min(3000,parseInt(v.chars)||parseInt((v.blen||"").replace(/\D/g,""))||1000));
+     const det=(v.detail||"").split(/\n|,/).map(x=>x.trim()).filter(Boolean).map(x=>sent(storyFix(x,false).replace(/\.$/,"")));
+     const head=`[제목] ${done?"[센터 이름] 활동 이야기":w} — [센터 이름] 이야기\n\n안녕하세요, [센터 이름]입니다.\n${GREET}, 오늘은 저희 집의 작은 소식을 전해드리려고 해요.`;
+     const pool=[
+       `■ 오늘의 활동\n${line}\n[사진: 활동 모습 1]`,
+       det.length?`■ 이런 일이 있었어요\n${det.join("\n")}`:"",
+       `■ 함께한 마음\n${feel}`,
+       `■ 준비하며\n며칠 전부터 무엇을 할지 이용인분들과 함께 이야기 나누고, 필요한 것을 하나씩 챙겼어요. 준비하는 시간부터 이미 즐거운 활동이 시작된 셈이었어요.\n[사진: 준비하는 모습]`,
+       `■ 기억에 남는 순간\n[이용인분들의 반응이나 기억에 남는 장면을 한두 줄 적어 주세요]\n[사진: 활동 모습 2]`,
+       `■ 함께 사는 동네\n저희는 지역 안에서 이웃과 함께 살아가는 작은 집이에요. 이런 활동 하나하나가 이용인분들에게는 자신감이 되고, 이웃에게는 서로를 알아가는 계기가 된다고 믿어요.`,
+       `■ 이렇게 진행했어요\n먼저 모두 모여 오늘 할 일을 함께 확인했어요. 이용인분들이 각자 하고 싶은 역할을 고르고, 서로 도우며 차근차근 진행했어요. 서두르지 않고 한 분 한 분의 속도에 맞추니 모두가 끝까지 즐겁게 참여할 수 있었어요.\n[사진: 진행하는 모습]`,
+       `■ 이용인분들의 한마디\n"[이용인분이 한 말을 적어 주세요]"\n짧은 한마디였지만, 그 안에 오늘의 즐거움이 고스란히 담겨 있었어요. 이런 말을 들을 때마다 저희도 큰 힘을 얻어요.`,
+       `■ 고마운 분들\n이번 활동은 늘 곁에서 마음을 보태 주시는 후원자님과 이웃분들 덕분에 가능했어요. 보내주신 관심과 응원이 이용인분들의 웃음으로 돌아왔다는 것을 꼭 전해드리고 싶어요. 진심으로 감사드립니다.`,
+       `■ 활동을 마치며\n돌아오는 길, 이용인분들은 오늘 있었던 일을 서로 이야기하며 한참을 웃었어요. 특별한 날이 아니어도, 함께하는 작은 경험 하나하나가 모여 이분들의 자신감과 즐거운 기억이 된다고 믿어요. 오늘도 그런 하루를 하나 더 쌓았습니다.`,
+       `■ [센터 이름]은 어떤 곳인가요\n[센터 이름]은 장애가 있는 이용인분들이 지역 안에서 가족처럼 함께 생활하는 공동생활가정이에요. 함께 밥을 짓고, 장을 보고, 계절마다 나들이를 다니며 평범하지만 소중한 일상을 만들어 가고 있어요.`,
+       `■ 함께하고 싶으시다면\n자원봉사나 후원으로 저희의 일상에 함께하고 싶으신 분은 언제든 연락 주세요. 작은 관심 하나가 이용인분들에게는 큰 힘이 됩니다.\n문의: [연락처]`,
+       `■ 다음 이야기\n다음에는 [다음 활동]으로 찾아올게요. 계절마다 새로운 경험을 함께 쌓아 가는 저희의 이야기를 앞으로도 따뜻하게 지켜봐 주세요.`];
+     const tailT=`앞으로도 지역 안에서 함께 살아가는 저희의 일상을 나누겠습니다.\n늘 응원해 주셔서 감사합니다.\n\n${tags}`;
+     let body=[]; for(const p of pool.filter(Boolean)){ const cand=[head,...body,p,tailT].join("\n\n"); if(body.length<2 || cand.length<=target*1.1) body.push(p); if([head,...body,tailT].join("\n\n").length>=target*0.9) break; }
+     const txt=[head,...body,tailT].join("\n\n");
+     return [[`블로그 원고 (공백 포함 약 ${txt.length}자 / 목표 ${target}자)`,txt],["짧은 소개글",`${line} ${feel} 자세한 이야기는 블로그에서 전해드려요.`]];
+   }
    return [["카카오톡 채널 글",`[센터 이름] 소식\n${line}\n${feel}\n늘 응원해 주셔서 감사합니다.`],["더 짧게",`${line} 함께해 주셔서 감사합니다. - [센터 이름]`]];
+ },
+ "easy-read": v=>{
+   const short=v.len==="아주 짧게";
+   return [["쉬운 말 안내문 (초안)", easyText(v.orig,short)],["한 줄 요약", easyText(v.orig,true).split("\n")[0].replace(/^1\.\s*/,"")]];
  },
  "notice": v=>{
    const c=val(v,"content","[안내 내용]"), d=val(v,"date","[날짜·시간·장소]"), e=(v.etc||"").trim(), rd=v.reader==="이웃·지역 주민"?"이웃 여러분":v.reader;
@@ -4000,9 +4193,9 @@ function renderTask(t){
             <a class="ai-link b3d" id="open-gpt" href="https://chatgpt.com/" target="_blank" rel="noopener" aria-disabled="true"><b>챗GPT</b></a>
             <a class="ai-link b3d" id="open-gemini" href="https://gemini.google.com/app" target="_blank" rel="noopener" aria-disabled="true"><b>제미나이</b></a>
             <button class="pill b3d" type="button" id="copy-btn" disabled>복사</button>
-            <button class="pill b3d" type="button" id="prompt-toggle" aria-expanded="${hasOut||t.plan?"false":"true"}">요청문 ${hasOut||t.plan?"보기":"접기"}</button>
+            <button class="pill b3d" type="button" id="prompt-toggle" aria-expanded="${hasOut||t.plan||t.cal?"false":"true"}">요청문 ${hasOut||t.plan||t.cal?"보기":"접기"}</button>
           </div>
-          <div id="prompt-wrap" ${hasOut||t.plan?"hidden":""}>
+          <div id="prompt-wrap" ${hasOut||t.plan||t.cal?"hidden":""}>
             <textarea id="prompt" spellcheck="false" aria-label="완성된 요청문 (직접 고쳐 써도 돼요)"></textarea>
             <p class="edited" id="edited-note" hidden>직접 고친 내용이 있어요. 왼쪽에서 다시 고르면 새로 만들어져요.</p>
             <button class="pill b3d" type="button" id="reset-btn">처음 상태로</button>
@@ -4016,25 +4209,32 @@ function renderTask(t){
       <button class="star b3d" type="button" id="fav-btn" aria-pressed="${isFav}">${isFav?"★ 담김":"☆ 자주 쓰는 업무"}</button>
     </div>
     <p class="fstat">${esc(t.desc)}</p>
-    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ttab="in">✍️ 고르기·채우기</button><button type="button" role="tab" data-ttab="out">${t.plan?"📋 계획서":hasOut?"💬 완성 문구":"✨ AI에게 맡기기"}</button></div>
+    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ttab="in">✍️ 고르기·채우기</button><button type="button" role="tab" data-ttab="out">${t.plan?"📋 계획서":t.cal?"📅 식단표":hasOut?"💬 완성 문구":"✨ AI에게 맡기기"}</button></div>
     <div class="tsplit">
       <section class="tin" aria-label="고르기와 채우기">
+        ${t.plan?`<div class="plan-tpl"><b>센터에서 쓰는 계획서 양식이 있나요?</b><span>양식을 올리면 아래 내용이 그 양식 칸에 그대로 들어가요.</span><label class="pill b3d main" for="plan-att">우리 시설 서식 올리기</label></div>`:""}
         ${chipsHTML}
         <div class="divider"></div>
         ${inputsHTML}
+        ${t.plan?planCustHTML(t):""}
         <p class="hint">비워둔 칸은 [ ]로 남아요.</p>
         ${attachHTML(t,st)}
       </section>
       <section class="tout" aria-label="결과">
+        ${t.cal?`<div class="plan-box"><div class="plan-head"><b>일주일 식단표 + 장보기 목록</b><span>있는 재료를 먼저 쓰도록 짜요</span></div>
+          <div class="paper plan-paper menu-paper" id="menu-pv">${blocksHTML(menuBlocks(st.v))}</div>
+          <div class="plan-btns"><button type="button" class="pill b3d main" id="menu-down">워드로 받기</button><button type="button" class="pill b3d" id="menu-copy">글로 복사</button></div>
+          <p class="status" id="menu-st" role="status" aria-live="polite"></p></div>`:""}
         ${t.plan?`<div class="plan-box"><div class="plan-head"><b>간단 프로그램 계획서</b><span>왼쪽에서 고르고 채우면 바로 바뀌어요</span></div>
           <div class="paper plan-paper" id="plan-pv">${planHTML(t)}</div>
-          <div class="plan-btns"><button type="button" class="pill b3d main" data-planform>서식에서 고치고 워드 받기</button><button type="button" class="pill b3d" data-plancopy>글로 복사</button></div>
+          <div class="plan-btns"><button type="button" class="pill b3d main" data-planform>서식에서 고치고 워드 받기</button><label class="pill b3d" for="plan-att" title="센터에서 쓰는 프로그램 계획서 양식(워드·한글)을 올리면 그 양식 칸에 맞춰 채워요">우리 시설 서식에 채우기</label><input type="file" id="plan-att" class="sr-file" accept=".docx,.hwpx,.hwp,.pdf"><button type="button" class="pill b3d" data-plancopy>글로 복사</button></div>
+          <p class="hint plan-hint">센터 양식이 있으면 <b>[우리 시설 서식에 채우기]</b>로 올리세요. 양식의 칸 이름을 찾아 이 계획서 내용을 맞춰 넣어요. (워드 .docx, 한글 .hwpx)</p>
           <p class="status" id="plan-status" role="status" aria-live="polite"></p></div>`:""}
         ${hasOut?`<div id="outs" class="outs">${outsHTML(t)}</div><p class="status" id="out-status" role="status" aria-live="polite"></p>`:""}
-        ${t.plan||hasOut?"":aibarHTML}
+        ${t.plan||t.cal||hasOut?"":aibarHTML}
         <p class="note"><b>${t.warn?"꼭 주의":"알아두면 좋아요"}</b> ${esc(t.tip)}</p>
-        <details class="more${t.plan||hasOut?" plan-more":""}"><summary>${t.plan||hasOut?"더 활용하기 · AI에게 맡기기":"더 활용하기"}</summary><div class="inner">
-          ${t.plan||hasOut?aibarHTML:""}
+        <details class="more${t.plan||t.cal||hasOut?" plan-more":""}"><summary>${t.plan||t.cal||hasOut?"더 활용하기 · AI에게 맡기기":"더 활용하기"}</summary><div class="inner">
+          ${t.plan||t.cal||hasOut?aibarHTML:""}
           ${t.next.map((n,i)=>`<div class="next-item"><p>${esc(n)}</p><button type="button" class="b3d" data-copynext="${i}">복사</button></div>`).join("")}
           ${related.length?`<p class="sub-title">같은 분류의 다른 업무</p><div class="list">${related.map(r=>rowHTML(r)).join("")}</div>`:""}
         </div></details>
@@ -4060,6 +4260,7 @@ function rebuild(t){
   syncAttach(t);
   const oc=document.getElementById("outs"); if(oc&&OUTS[t.id]) oc.innerHTML=outsHTML(t);
   const pp=document.getElementById("plan-pv"); if(pp&&t.plan) pp.innerHTML=planHTML(t);
+  const mp=document.getElementById("menu-pv"); if(mp&&t.cal) mp.innerHTML=blocksHTML(menuBlocks(getVals(t).v));
   document.getElementById("edited-note").hidden = true;
   updateLinks();
 }
