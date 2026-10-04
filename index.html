@@ -1974,7 +1974,7 @@ const FORMS = [
    {k:"staff",label:"담당·직원 구성",ph:"예: 시설장 1, 생활재활교사 2",short:1},
    {k:"org",label:"기관명",short:1,adv:1},
    {k:"purpose",label:"사업 목적·필요성",type:"area",ph:"짧게 적어요. 예: 이용인 고령화로 건강관리 필요, 지역사회 참여 확대, 자립 능력 향상"},
-   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 예산 시기)",type:"area",ph:"예:\n식사 및 영양관리 매일 4명 7653천원\n평생교육 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원"},
+   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 [인원] [1회 금액 또는 총액]) → 기간 동안 횟수·연인원·예산 자동 계산",type:"area",ph:"예:\n재활프로그램 월2회 1회 5만원\n미술치료 주1회 1인 1만원\n지역사회적응훈련 월2회 13172천원\n생일축하 연4회 1회 10만원\n(인원을 안 적으면 위 대상 인원으로 계산해요)"},
    {k:"goal",label:"성과 목표 (비우면 세부사업으로 자동)",type:"area",opt:1,ph:"예: 만족도 80% 이상, 지역사회 체험 연 20회"},
    {k:"focus",label:"올해 중점·새로 하는 것",type:"area",opt:1,ph:"예: 그림 중심 안전교육 확대, 카페 체험 늘리기"},
    {k:"prev",label:"작년 결과·욕구조사 의견",type:"area",opt:1,ph:"예: 나들이 더 원함, 도전적 행동으로 외부 행사 일부 불참"},
@@ -1998,7 +1998,7 @@ const FORMS = [
    {k:"target",label:"대상·인원",ph:"예: 이용인 4명",short:1},
    {k:"fund",label:"재원 구분",ph:"예: 보조금, 후원금, 자부담",short:1},
    {k:"org",label:"기관명",short:1,adv:1},
-   {k:"rows",label:"사업별 예산·집행액 (한 줄에 하나: 사업명 예산 집행액 내용)",type:"area",ph:"예:\n식생활 자립지원 7653천원 7482천원 식재료·간식\n평생교육 12150천원 11300천원 강사비·재료비\n지역사회적응훈련 13172천원 12905천원 교통비·체험비"},
+   {k:"rows",label:"사업별 예산·집행액 (사업명 예산 집행액 / 또는 사업명 횟수 1회 금액 실적 횟수)",type:"area",ph:"예:\n재활프로그램 월2회 1회 5만원 실적 18회\n평생교육 12150천원 11300천원 강사비·재료비\n(집행 기간을 적으면 그 기간으로 횟수를 계산해요)",ph0:"예:\n식생활 자립지원 7653천원 7482천원 식재료·간식\n평생교육 12150천원 11300천원 강사비·재료비\n지역사회적응훈련 13172천원 12905천원 교통비·체험비"},
    {k:"why",label:"미집행·변경 사유",type:"area",opt:1,ph:"예:\n평생교육 강사 2회 취소\n지역사회적응훈련 8월 폭염 1회 취소"},
    {k:"donate",label:"후원금 사용·공개",type:"area",opt:1,ph:"예: 지정후원금 100만원 생일행사에 사용, 밴드에 매월 공개"},
    {k:"memo",label:"특이사항·성과",type:"area",opt:1,ph:"예: 공공요금 인상으로 운영비 증가"},
@@ -2015,7 +2015,7 @@ const FORMS = [
    {k:"content",label:"추진 내용 (한 줄에 하나)",type:"area",ph:"예:\n3~4월 버스 타기 연습\n5~6월 카페·식당 체험\n10월 단풍 나들이"},
    {k:"subs",label:"계획 대비 실적 (사업명 계획 / 실적)",type:"area",ph:"예: 지역사회적응훈련 계획 20회 / 실적 19회, 4명"},
    {k:"qual",label:"이용인 변화 (있었던 일)",type:"area",ph:"예:\n○○님 처음 혼자 키오스크 주문\n○○님 버스 카드 스스로 찍음"},
-   {k:"budget",label:"예산 집행 (항목 예산 집행액)",type:"area",opt:1,ph:"예:\n교통비 3600천원 3480천원\n입장료·체험비 4972천원 4825천원"},
+   {k:"budget",label:"예산 집행 (항목 예산 집행액 / 또는 항목 1회 금액 실적 횟수)",type:"area",opt:1,ph:"예:\n강사비 1회 5만원 실적 18회\n교통비 3600천원 3480천원",ph0:"예:\n교통비 3600천원 3480천원\n입장료·체험비 4972천원 4825천원"},
    {k:"sat",label:"만족도·소감",type:"area",opt:1,ph:"예: 4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견"},
    {k:"prob",label:"아쉬운 점·문제점",type:"area",opt:1,ph:"예:\n8월 폭염으로 1회 취소\n○○님 낯선 곳에서 불안해함"},
    {k:"next",label:"향후 계획 (비우면 자동)",type:"area",opt:1,ph:"예: 겨울철 실내 체험 추가"},
@@ -3042,33 +3042,80 @@ function blankBlocks(f){ applyCustom(f); const v={}, keep=f.kind==="survey"?["qs
 
 /* ================= AI 보고서 도우미: 결과보고서·사업계획서·운영계획서·예산집행보고서·사례관리 계획서 ================= */
 /* 세부사업 한 줄 → {name, per, basis, ppl, yeon, bud, time} (연인원·예산 미리 계산) */
+/* ===== 자동 계산: 기간·인원·횟수·단가 → 연간 횟수·연인원·예산 ===== */
+let PCTX={months:12,range:"",ppl:0,plans:[]};
+function monthsOf(str){ const t=String(str||"").replace(/\s+/g," ");
+  const m=t.match(/(?:\d{4}\s*[.\-년]\s*)?(\d{1,2})\s*[.월]?\s*(?:\d{1,2}\s*[.일]\s*)?(?:부터|~|-|–|에서)\s*(?:\d{4}\s*[.\-년]\s*)?(\d{1,2})\s*[.월]/);
+  if(!m) return null; const a=+m[1], b=+m[2]; if(a<1||a>12||b<1||b>12) return null; const n=b>=a?b-a+1:b+12-a+1; return {months:n,range:`${a}~${b}월`}; }
+function setCtx(v){ const pm=monthsOf(v.period)||{months:12,range:""}; const pp=String(v.target||"").match(/(\d+)\s*명/); PCTX={months:pm.months,range:pm.range,ppl:pp?+pp[1]:0,plans:[]};
+  String(v.subs||"").split("\n").forEach(l=>{ const a=l.split(/\s*\/\s*|\s*실적\s*/)[0]; if(!a||!a.trim()) return; const q=parseSub(a); if(q&&q.per) PCTX.plans.push({name:q.name,per:q.per,basis:q.basis,ppl:q.ppl}); }); }
+const wonOf=(n,u)=>Math.round(parseFloat(n)*(/천/.test(u)?1000:/만/.test(u)?10000:1));
+function moneyInfo(s){ // 단가·총액 찾기
+  const M=/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)/;
+  let m;
+  if((m=s.match(new RegExp("(?:1\\s*회|회당|한\\s*번에?)\\s*(?:당\\s*)?"+M.source)))) return {unit:wonOf(m[1],m[2]),kind:"회"};
+  if((m=s.match(new RegExp("(?:1\\s*인|인당|1\\s*명당?|한\\s*명당?)\\s*(?:당\\s*)?"+M.source)))) return {unit:wonOf(m[1],m[2]),kind:"인"};
+  if((m=s.match(new RegExp("(?:월|매월|한\\s*달에?)\\s*"+M.source)))) return {unit:wonOf(m[1],m[2]),kind:"월"};
+  if((m=s.match(M))) return {total:wonOf(m[1],m[2])};
+  return {}; }
+function freqOf(s,months){ let per=0,basis="",m;
+  const wk=months<12?Math.round(months*52/12):52;
+  if(/매일|1일\s*\d*\s*회|하루/.test(s)){ per=months<12?Math.round(months*365/12):365; basis=months<12?`${months}개월×약 ${Math.round(365/12)}일`:"365일"; }
+  else if(/격주/.test(s)){ per=Math.round(wk/2); basis=`격주(${wk}주÷2)`; }
+  else if((m=s.match(/주\s*(\d+)\s*회/))||/매주/.test(s)){ const k=m?+m[1]:1; per=k*wk; basis=`주${k}회×${wk}주`; }
+  else if((m=s.match(/(?:월|한\s*달에?)\s*(\d+)\s*회/))||/매월|매달/.test(s)){ const k=m?+m[1]:1; per=k*months; basis=`월${k}회×${months}개월`; }
+  else if((m=s.match(/분기\s*(?:별\s*|마다\s*)?(\d+)?\s*회?/))){ const k=+(m[1]||1), q=Math.max(1,Math.round(months/3)); per=k*q; basis=`분기${k}회×${q}분기`; }
+  else if((m=s.match(/(?:연|년|1년에?)\s*(\d+)\s*회/))){ per=+m[1]; basis=`연${per}회`; }
+  else if((m=s.match(/(?:총|계획)\s*(\d+)\s*회/))){ per=+m[1]; basis=`${per}회`; }
+  else if((m=s.replace(/(?:1\s*회|회당)\s*\d[\d.]*\s*(?:천\s*원|만\s*원|원)/g,"").match(/(\d+)\s*회/))){ per=+m[1]; basis=`${per}회`; }
+  return {per,basis}; }
+function cleanName(s){ let x=" "+s+" ";
+  x=x.replace(/(?:1\s*회|회당|1\s*인|인당|1\s*명당?|총|월|매월)?\s*\d+(?:\.\d+)?\s*(?:천\s*원|만\s*원|원)\s*(?:씩)?/g," ")
+     .replace(/(?:\d{4}\s*[.\-년]\s*)?\d{1,2}\s*[.월]?\s*(?:\d{1,2}\s*[.일]\s*)?(?:부터|~|-|–|에서)\s*(?:\d{4}\s*[.\-년]\s*)?\d{1,2}\s*[.월](?:\s*까지)?/g," ")
+     .replace(/(?:이용인|시설|센터|입소자)?\s*\d+\s*명\s*(?:이|이서|과|와|은|는|모두|전원)?/g," ")
+     .replace(/(?:매일|매주|매월|매달|격주|연중|상반기|하반기|하루\s*\d*\s*회?|(?:주|월|연|년|분기(?:별|마다)?|한\s*달에?|1년에?)\s*\d*\s*회|(?:총|계획)\s*\d+\s*회|\d+\s*회|[1-4]\s*분기)/g," ")
+     .replace(/\s(?:에\s*)?참여(?:해서|하여|하고|함)?|\s진행(?:함|하고|해요|한다)?|\s실시(?:함)?|\s운영(?:함)?|\s예정/g," ")
+     .replace(/\s+/g," ").trim().replace(/(?:에|을|를|이|가)$/,"").replace(/[\/,:]\s*$/,"").replace(/\s*계획$/,"").trim();
+  return x; }
 function parseSub(line){
   const s=String(line||"").replace(/(\d),(\d{3})/g,"$1$2").trim(); if(!s) return null;
-  const stop=/\s*(?:매일|연중|주\s*\d|월\s*\d|연\s*\d|년\s*\d|분기|\d)/; const mi=s.search(stop);
-  const name=(mi>0?s.slice(0,mi):s).replace(/[\/,:]\s*$/,"").replace(/\s*계획$/,"").trim()||s;
-  let per=0, basis="", months=12, m;
-  if((m=s.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*월/))) months=Math.max(1,+m[2]-+m[1]+1);
-  if(/매일|1일\s*\d*\s*회|하루/.test(s)){ per=months<12?Math.round(months*30.4):365; basis=months<12?`${months}개월×약 30일`:"365일"; }
-  else if((m=s.match(/주\s*(\d+)\s*회/))){ const wk=months<12?Math.round(months*4.3):52; per=+m[1]*wk; basis=`주${m[1]}회×${wk}주`; }
-  else if((m=s.match(/월\s*(\d+)\s*회/))){ per=+m[1]*months; basis=`월${m[1]}회×${months}개월`; }
-  else if((m=s.match(/분기\s*(?:별\s*)?(\d+)?\s*회?/))){ const k=+(m[1]||1); per=k*4; basis=`분기${k}회×4분기`; }
-  else if((m=s.match(/(?:연|년)\s*(\d+)\s*회/))){ per=+m[1]; basis=`연${per}회`; }
-  else if((m=s.match(/(\d+)\s*회/))){ per=+m[1]; basis=`${per}회`; }
-  const pm=s.match(/(\d+)\s*명/); const ppl=pm?+pm[1]:0;
-  const bm=s.match(/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)/); const bud=bm?Math.round(parseFloat(bm[1])*(/천/.test(bm[2])?1000:/만/.test(bm[2])?10000:1)):0;
-  const time=(s.match(/(연중|상반기|하반기|\d{1,2}\s*[~\-]\s*\d{1,2}\s*월|[1-4]\s*분기)/)||[])[1]||"";
-  return {name, per, basis, ppl, yeon:per*ppl, bud, time, raw:s};
+  const rm=monthsOf(s), months=rm?rm.months:PCTX.months, range=rm?rm.range:PCTX.range;
+  const F=freqOf(s,months);
+  const pm=s.match(/(\d+)\s*명/); const ppl=pm?+pm[1]:PCTX.ppl, pplAuto=!pm&&!!PCTX.ppl;
+  let name=cleanName(s), detail="";
+  const sp=name.match(/^(.+?)(?:으로|로써|로)\s+(.+)$/); if(sp&&sp[1].length>=2){ name=sp[1]; detail=sp[2]; }
+  if(!name) name=s;
+  const yeon=F.per*ppl, MI=moneyInfo(s);
+  let bud=0, budBasis="";
+  if(MI.unit&&MI.kind==="회"&&F.per){ bud=MI.unit*F.per; budBasis=`1회 ${won(MI.unit)}×${F.per}회`; }
+  else if(MI.unit&&MI.kind==="인"&&yeon){ bud=MI.unit*yeon; budBasis=`1인 ${won(MI.unit)}×연인원 ${yeon}명`; }
+  else if(MI.unit&&MI.kind==="월"){ bud=MI.unit*months; budBasis=`월 ${won(MI.unit)}×${months}개월`; }
+  else if(MI.unit){ bud=MI.unit; }
+  else if(MI.total) bud=MI.total;
+  const time=(s.match(/(연중|상반기|하반기|[1-4]\s*분기)/)||[])[1]||(range&&months<12?range:"")||"";
+  return {name, detail, per:F.per, basis:F.basis, ppl, pplAuto, yeon, bud, budBasis, unit:MI.unit||0, unitKind:MI.kind||"", months, time, raw:s};
 }
 const chun = n => (n/1000).toLocaleString("ko-KR",{maximumFractionDigits:1});
 /* 예산·집행 한 줄 → {name, bud, used, rate} */
 function parseExec(line){
   const s=String(line||"").replace(/(\d),(\d{3})/g,"$1$2").trim(); if(!s) return null;
+  const MI=moneyInfo(s);
+  if(MI.unit){ // 단가로 자동 계산: 예산 = 단가 × 계획 횟수, 집행액 = 단가 × 실적 횟수
+    const P=parseSub(s.replace(/(?:실적|집행|실제)\s*\d+\s*회.*$/,"")); const dm=s.match(/(?:실적|집행|실제)\s*(\d+)\s*회/);
+    if(!P.per&&PCTX.plans.length){ const pl=PCTX.plans.find(x=>P.name&&(x.name.includes(P.name.slice(0,3))||P.name.includes(x.name.slice(0,3))))||(PCTX.plans.length===1?PCTX.plans[0]:null);
+      if(pl){ P.per=pl.per; if(!P.ppl) P.ppl=pl.ppl; P.bud=MI.kind==="인"?MI.unit*pl.per*(P.ppl||1):MI.kind==="월"?MI.unit*PCTX.months:MI.unit*pl.per; P.budBasis=MI.kind==="인"?`1인 ${won(MI.unit)}×${P.ppl||1}명×${pl.per}회`:MI.kind==="월"?`월 ${won(MI.unit)}×${PCTX.months}개월`:`1회 ${won(MI.unit)}×계획 ${pl.per}회`; } else { P.bud=0; P.budBasis=""; } }
+    let bud=P.bud, basis=P.budBasis, used=0, ub="";
+    if(dm){ const n=+dm[1]; used=MI.kind==="인"?MI.unit*n*(P.ppl||1):MI.kind==="월"?MI.unit*n:MI.unit*n; ub=MI.kind==="인"?`1인 ${won(MI.unit)}×${P.ppl||1}명×${n}회`:`${MI.kind==="월"?"월":"1회"} ${won(MI.unit)}×${n}${MI.kind==="월"?"개월":"회"}`; }
+    else { const rest=s.replace(/(?:1\s*회|회당|1\s*인|인당|1\s*명당?|월|매월)\s*\d+(?:\.\d+)?\s*(?:천\s*원|만\s*원|원)/,""); const mm=rest.match(/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)/); if(mm) used=wonOf(mm[1],mm[2]); }
+    return {name:P.name, bud, used, rate:bud&&used?Math.round(used/bud*1000)/10:0, rest:bud&&used?bud-used:0, note:P.detail||"", basis, ubasis:ub, per:P.per, done:dm?+dm[1]:0};
+  }
   const re=/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)?/g; const nums=[]; let m;
   while((m=re.exec(s))){ const u=m[2]||""; if(!u && !/^\d{4,}$/.test(m[1])) continue; nums.push(Math.round(parseFloat(m[1])*(/천/.test(u)?1000:/만/.test(u)?10000:1))); }
   const mi=s.search(/\s*(?:예산|\d)/); const name=(mi>=0?s.slice(0,mi):s).trim();
   const bud=nums[0]||0, used=nums[1]||0;
   return {name, bud, used, rate:bud&&used?Math.round(used/bud*1000)/10:0, rest:bud&&used?bud-used:0, note:s.replace(/.*\d\s*(천\s*원|만\s*원|원)\s*/,"").trim()};
 }
+
 const IND = {
   C2:"C2 개별서비스 수행의 전문성: 욕구사정 → 개별지원계획 수립 → 서비스 연계·조정 → 12개월 이내 점검·평가 → 평가 결과로 수정·보완하는 흐름이 드러나게 함",
   C3:"C3 이용자의 건강지원: 이용자·직원 건강교육 연 1회 이상, 약물관리 지침과 약물복용 기록, 건강상태(혈압·혈당·체중 등) 정기 점검, 정기 건강검진 연 1회와 결과에 따른 조치",
@@ -3152,7 +3199,7 @@ function adData(f,v){
   const lab=k=>(f.fields.find(x=>x.k===k)||{}).label||k;
   return f.fields.filter(x=>(v[x.k]||"").trim() && x.k!=="title").map(x=>`- ${lab(x.k).replace(/\s*\(.*\)$/,"")}: ${x.type==="area"?"\n"+v[x.k].trim().split("\n").map(l=>"    "+l.trim()).filter(l=>l.trim()).join("\n"):v[x.k].trim()}`).join("\n");
 }
-function adCalc(f,v){
+function adCalc(f,v){ setCtx(v);
   const D=AIDOC[f.doc]; const out=[];
   if(f.doc==="yesan"){
     const nl=(v.note||"").split("\n").filter(l=>!/만족|공개|후원/.test(l)).map(parseExec).filter(x=>x&&x.bud&&x.used);
@@ -3317,7 +3364,7 @@ function goalOf(t){ return linesOf(t).map(x=>{ x=x.replace(/[.。]$/,""); return
 function actOf(t){ return linesOf(t).map(x=>{ x=x.replace(/[.。]$/,""); if(/(함|음|됨|임)$/.test(x)) return x; if(/(다|요)$/.test(x)) return sentOf(x);
   const m=x.match(/^((?:\d{1,2}\s*[~\-]\s*)?\d{1,2}\s*월|상반기|하반기|[1-4]\s*분기|매주|매월)\s*(.*)$/); if(m) return `${m[1]}: ${m[2]}${/(연습|체험|나들이|교육|활동|훈련|행사|견학|탐방|조사|회의|점검)$/.test(m[2])?"을 실시함":"을 진행함"}`.replace(/(\S)을 (실시|진행)/,(z,c,w)=>c+(hasJong(c)?"을":"를")+" "+w);
   return `${x}${/(연습|체험|나들이|교육|활동|훈련|행사|견학|탐방|조사|회의|점검)$/.test(x)?"을 실시함":"을 진행함"}`.replace(/(\S)을 (실시|진행)/,(z,c,w)=>c+(hasJong(c)?"을":"를")+" "+w); }); }
-function adDraftItems(f,v){
+function adDraftItems(f,v){ setCtx(v);
   const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
   const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
   B.push({t:"title",text:g("title")||D.name});
@@ -3329,7 +3376,7 @@ function adDraftItems(f,v){
   const L=(k)=>linesOf(g(k));
   if(f.doc==="gyeolgwa"){
     kv([[{text:"기관명",label:1},{text:org},{text:"사업명",label:1},{text:g("title")||CK}],[{text:"사업 기간",label:1},{text:g("period")||CK},{text:"대상",label:1},{text:g("target")||CK}],[{text:"작성자",label:1},{text:g("writer")||CK,span:3}]]);
-    const S=g("subs").split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0); return {name:P?P.name:l,per:P?P.per:0,done,ppl,yeon,rate:P&&P.per&&done?r1p(done,P.per):0}; });
+    const S=g("subs").split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0); return {name:P?P.name:l,per:P?P.per:0,basis:P?P.basis:"",done,ppl,yeon,rate:P&&P.per&&done?r1p(done,P.per):0}; });
     const nm=g("title")||(S[0]&&S[0].name)||"";
     sec("Ⅰ. 사업 목적 및 목표");
     sub("1. 사업 목적"); box([...purposeOf(g("purpose")),subK(nm).aim]);
@@ -3337,12 +3384,13 @@ function adDraftItems(f,v){
     sec("Ⅱ. 추진 내용"); box([...actOf(g("content")),...(g("content")?[]:[subK(nm).act])]);
     sec("Ⅲ. 추진 성과");
     sub("1. 정량적 성과 (계획 대비 실적)");
-    tbl(["구분","계획","실적","달성률","연인원"],S.length?S.map(x=>[x.name,x.per?x.per+"회":CK,x.done?x.done+"회":CK,x.rate?x.rate+"%":"-",x.yeon?x.yeon+"명":"-"]):[[CK,"","","",""]]);
+    tbl(["구분","계획(산출)","실적","달성률","연인원"],S.length?S.map(x=>[x.name,x.per?x.per+"회"+(x.basis&&x.basis!==x.per+"회"?`\n(${x.basis})`:""):CK,x.done?x.done+"회":CK,x.rate?x.rate+"%":"-",x.yeon?x.yeon+"명":"-"]):[[CK,"","","",""]]);
     box(S.map(x=>x.rate>=100?`${x.name}: 계획한 ${x.per}회를 모두 실시하여 목표를 달성함`:x.rate>=90?`${x.name}: 계획 대비 ${x.rate}%를 실시하여 대체로 계획대로 운영함`:x.rate?`${x.name}: 계획 대비 ${x.rate}%로 실적이 낮아 원인 분석과 보완이 필요함`:""));
     sub("2. 정성적 성과 (이용인 변화)"); box(L("qual").length?L("qual").map(qualOf):[subK(nm).eff]);
     sec("Ⅳ. 예산 집행");
-    const bud=g("budget").split("\n").map(parseExec).filter(x=>x&&x.bud); const tb=bud.reduce((a,b)=>a+b.bud,0), tu=bud.reduce((a,b)=>a+b.used,0);
-    tbl(["항목","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],bud.length?[...bud.map(b=>[b.name||"항목",chun(b.bud),b.used?chun(b.used):CK,b.rate?b.rate+"%":"-",b.used?chun(b.rest):"-"]),...(bud.length>1?[["합계",chun(tb),chun(tu),r1p(tu,tb)+"%",chun(tb-tu)]]:[])]:[[CK,"","","",""]]);
+    const bud=g("budget").split("\n").map(parseExec).filter(x=>x&&(x.bud||x.used)); const tb=bud.reduce((a,b)=>a+b.bud,0), tu=bud.reduce((a,b)=>a+b.used,0);
+    tbl(["항목","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],bud.length?[...bud.map(b=>[b.name||"항목",b.bud?chun(b.bud):CK,b.used?chun(b.used):CK,b.rate?b.rate+"%":"-",b.used?chun(b.rest):"-"]),...(bud.length>1?[["합계",chun(tb),chun(tu),r1p(tu,tb)+"%",chun(tb-tu)]]:[])]:[[CK,"","","",""]]);
+    if(bud.some(b=>b.basis)) box(bud.filter(b=>b.basis).map(b=>`[자동 계산] ${b.name}: 예산 ${b.basis} = ${won(b.bud)}${b.ubasis?` / 집행 ${b.ubasis} = ${won(b.used)}`:""}`));
     if(tb&&tu) box([`예산 ${chun(tb)}천원 중 ${chun(tu)}천원을 집행함 (집행률 ${r1p(tu,tb)}%${tb-tu?`, 잔액 ${chun(tb-tu)}천원은 반납 또는 이월 ${CK}`:""})`]);
     sec("Ⅴ. 만족도 및 소감"); box(L("sat").map(l=>{ const m=l.match(/(\d+)\s*명\s*중\s*(\d+)\s*명/); return m?`참여자 ${m[1]}명 중 ${m[2]}명(${r1p(+m[2],+m[1])}%)이 만족한다고 응답함`:/의견/.test(l)?`${l.replace(/[.。]$/,"")}이 있었음`.replace(/의견이 있었음$/,"의견이 있었음"):sentOf(l); }));
     sec("Ⅵ. 평가");
@@ -3357,6 +3405,7 @@ function adDraftItems(f,v){
     kv([[{text:"기관명",label:1},{text:org},{text:"대상",label:1},{text:g("target")||CK}],[{text:"집행 기간",label:1},{text:g("period")||CK},{text:"재원",label:1},{text:g("fund")||CK}],[{text:"총예산(천원)",label:1},{text:tb?chun(tb):CK},{text:"총집행액(천원)",label:1},{text:tu?chun(tu):CK}],[{text:"집행률",label:1},{text:tb&&tu?rate+"%":CK},{text:"잔액(천원)",label:1},{text:tb&&tu?chun(tb-tu):CK}]]);
     sec("Ⅰ. 사업별 집행 총괄표");
     tbl(["사업","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],R.length?[...R.map(r=>[r.name||"사업",chun(r.bud),r.used?chun(r.used):CK,r.used?r.rate+"%":"-",r.used?chun(r.rest):"-"]),["합계",chun(tb),chun(tu),rate+"%",chun(tb-tu)]]:[[CK,"","","",""]]);
+    if(R.some(r=>r.basis)) box(R.filter(r=>r.basis).map(r=>`[자동 계산] ${r.name}: 예산 ${r.basis} = ${won(r.bud)}${r.ubasis?` / 집행 ${r.ubasis} = ${won(r.used)}`:""}`));
     sec("Ⅱ. 사업별 집행 내역 및 성과");
     box(R.flatMap(r=>{ const K=subK(r.name), note=r.note&&/[가-힣]/.test(r.note)?r.note:""; return [`${r.name||"사업"}: ${note?note+" 등에 ":""}${r.used?chun(r.used)+"천원을 집행함 (예산 대비 "+r.rate+"%)":"집행액 "+CK}`,`  - 내용: ${K.act}`,`  - 성과: ${K.eff}`]; }));
     sec("Ⅲ. 미집행·변경 사유 및 조치");
@@ -3373,8 +3422,8 @@ function adDraftItems(f,v){
     sec("Ⅰ. 사업 목적 및 필요성"); box([...purposeOf(g("purpose")).map(x=>x.replace("본 사업을 추진함","본 사업이 필요함")),areas.length?`이용인의 ${areas.slice(0,4).join("·")}${hasJong(areas.slice(0,4).join("·"))?"을":"를"} 체계적으로 지원하여 지역사회 안에서 안전하고 행복한 삶과 자립생활 능력 향상을 도모함`:""]);
     sec("Ⅱ. 성과 목표"); box(g("goal")?goalOf(g("goal")):[...S.map(x=>`${x.name}: 연 ${x.per}회 운영, 연인원 ${x.yeon.toLocaleString("ko-KR")}명 참여 (${x.ppl}명 × ${x.per}회)`),...(S.length?[`세부사업 ${S.length}개, 연인원 합계 ${S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")}명`]:[]),"이용인 만족도 ‘좋아요’ 이상 응답 [  ]% 이상"]);
     sec("Ⅲ. 세부사업 계획");
-    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud):"-",x.time||"연중"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",tb?chun(tb):"-","-"]]:[[CK,"","","","",""]]);
-    box(S.map(x=>`${x.name}: ${subK(x.name).act}`));
+    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud)+(x.budBasis?`\n(${x.budBasis})`:""):"-",x.time||"연중"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",tb?chun(tb):"-","-"]]:[[CK,"","","","",""]]);
+    box([...S.map(x=>`${x.name}: ${x.detail?x.detail+" – ":""}${subK(x.name).act}`),...(S.some(x=>x.pplAuto)?[`[자동 계산] 인원을 적지 않은 사업은 대상 인원(${PCTX.ppl}명)으로 계산함`]:[]),...(PCTX.range&&PCTX.months<12?[`[자동 계산] 사업 기간 ${PCTX.range}(${PCTX.months}개월) 기준으로 횟수를 계산함`]:[])]);
     if(g("focus")||g("prev")){ sec("Ⅳ. 중점 추진 사항"); box([...L("focus").map(x=>actOf(x)[0].replace(/(을|를) 진행함$/,"$1 중점적으로 추진함")),...L("prev").map(x=>`작년 결과 반영: ${x.replace(/[.。]$/,"")}`)]); }
     const n=(g("focus")||g("prev"))?["Ⅴ","Ⅵ","Ⅶ"]:["Ⅳ","Ⅴ","Ⅵ"];
     sec(`${n[0]}. 추진 일정`);
@@ -3387,7 +3436,7 @@ function adDraftItems(f,v){
   return B;
 }
 
-function adDraft(f,v){
+function adDraft(f,v){ setCtx(v);
   if(f.items) return adDraftItems(f,v);
   const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
   const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
@@ -3418,7 +3467,7 @@ function adDraft(f,v){
   } else if(f.doc==="gyeolgwa"){
     sec("Ⅰ. 사업 개요"); B.push({t:"table",rows:[...info,[{text:"사업명",label:1},{text:g("title")||CK},{text:"작성자",label:1},{text:g("writer")||CK}]]});
     const subs=[...(v.subs||"").split("\n"),...L.filter(l=>/\/|실적/.test(l)&&!/예산|집행/.test(l))].map(s=>s.trim()).filter(Boolean);
-    const S=subs.map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0); return {name:P?P.name:l,per:P?P.per:0,done,ppl,yeon,rate:P&&P.per&&done?r1p(done,P.per):0}; });
+    const S=subs.map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0); return {name:P?P.name:l,per:P?P.per:0,basis:P?P.basis:"",done,ppl,yeon,rate:P&&P.per&&done?r1p(done,P.per):0}; });
     const usedL=l=>/\/|실적/.test(l)||/예산|집행/.test(l)||!!(parseExec(l)||{}).used||/만족|좋아요|의견/.test(l)||neg.test(l)||(chg.test(l)&&!/\//.test(l));
     const free=L.filter(l=>!usedL(l));
     const nm=g("title")||(S[0]&&S[0].name)||"본 사업";
@@ -3447,8 +3496,8 @@ function adDraft(f,v){
     sec("Ⅱ. 사업 목적"); box([...(g("purpose")?reportFmt(g("purpose")).split("\n"):[]),areas.length?`이용인의 ${areas.slice(0,4).join("·")}을(를) 체계적으로 지원하여 지역사회 안에서 안전하고 행복한 삶과 자립생활 능력 향상을 도모함`.replace(/\(를\)|을\(를\)/,m=>hasJong(areas.slice(0,4).join("·"))?"을":"를"):"이용인의 자립생활 능력 향상과 삶의 질 향상을 도모함"]);
     sec("Ⅲ. 성과 목표"); box(S.map(x=>`${x.name}: 연 ${x.per}회 운영, 연인원 ${x.yeon.toLocaleString("ko-KR")}명 참여 (${x.ppl}명 × ${x.per}회)`).concat(S.length?[`세부사업 ${S.length}개, 연인원 합계 ${S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")}명`]:[]));
     sec("Ⅳ. 세부사업 계획");
-    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud):"-",x.time||"연중"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",tb?chun(tb):"-","-"]]:[[CK,"","","","",""]]);
-    box(S.map(x=>`${x.name}: ${subK(x.name).act}`));
+    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud)+(x.budBasis?`\n(${x.budBasis})`:""):"-",x.time||"연중"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",tb?chun(tb):"-","-"]]:[[CK,"","","","",""]]);
+    box([...S.map(x=>`${x.name}: ${x.detail?x.detail+" – ":""}${subK(x.name).act}`),...(S.some(x=>x.pplAuto)?[`[자동 계산] 인원을 적지 않은 사업은 대상 인원(${PCTX.ppl}명)으로 계산함`]:[]),...(PCTX.range&&PCTX.months<12?[`[자동 계산] 사업 기간 ${PCTX.range}(${PCTX.months}개월) 기준으로 횟수를 계산함`]:[])]);
     sec("Ⅴ. 중점 추진 사항"); box([...etc.map(l=>sentOf(l.replace(/^[^:]{1,12}:\s*/,m=>m))),...["focus","prev","tool","memo"].filter(k=>g(k)).flatMap(k=>reportFmt(g(k)).split("\n"))]);
     sec("Ⅵ. 추진 일정");
     tbl(["시기","주요 내용"],[["1분기","연간 계획 수립·안내, 개별지원계획 점검, "+(S.filter(x=>/연중|^$/.test(x.time||"")).map(x=>x.name).slice(0,2).join("·")||"세부사업")+" 시작"],["2분기","상반기 사업 운영, 상반기 사례관리 평가"],["3분기","하반기 사업 운영, 욕구·만족도 조사 실시"],["4분기","하반기 사례관리 평가, 결과 분석 및 차년도 계획 반영"]]);
