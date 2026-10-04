@@ -396,602 +396,6 @@ body.home-mode .wrap{max-width:1240px;padding-block:14px 14px}
   .fbar h2{order:-1;flex-basis:100%}
 }
 @media (min-width:900px){
-  body:has(.fpage) .wrap{max-width:1320px;height:100vh;height:100dvh;padding-block:12px;gap:10px}
-  body:has(.fpage) footer{display:none}
-  body:has(.fpage) main{flex:1;min-height:0}
-  .fpage{height:100%}
-  .fsplit{grid-template-columns:minmax(0,1fr) minmax(0,1fr);flex:1;min-height:0}
-  .fin,.fpv{overflow:auto;min-height:0}
-  .fpv{background:var(--surface-2);border:2.5px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 5px 0 var(--shade)}
-}
-
-/* ---- 업무 화면 한 화면 ---- */
-.tpage{display:flex;flex-direction:column;gap:10px}
-.tsplit{display:grid;grid-template-columns:1fr;gap:12px}
-.tin,.tout{background:var(--surface);border:2.5px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:12px;box-shadow:0 5px 0 var(--shade)}
-.tout{background:var(--surface-2)}
-.tin legend{font-size:.92rem;margin-bottom:6px}
-.tin .chip span{min-height:42px;padding:0 13px;font-size:.92rem;border-width:2px;box-shadow:0 3px 0 var(--shade)}
-.tin .chips{gap:7px}
-.tin .field input,.tin .field textarea{min-height:44px;padding:9px 12px}
-.aibar{background:var(--surface);border:2px dashed var(--soft-line);border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
-.aibar-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
-.aibar-top b{font-size:.98rem;font-weight:900;color:var(--navy-deep)}
-.check-mini{display:flex;align-items:center;gap:6px;font-size:.82rem;font-weight:700;cursor:pointer}
-.check-mini input{width:20px;height:20px;accent-color:var(--navy)}
-.aibar-btns{display:flex;gap:6px;flex-wrap:wrap}
-.aibar-btns .ai-link{min-height:40px;padding:0 14px;flex-direction:row;align-items:center;border-radius:12px;border-width:2px;--press:3px}
-.aibar-btns .pill{min-height:40px;padding:0 12px;font-size:.88rem;border-width:2px;--press:3px}
-#prompt-wrap{display:flex;flex-direction:column;gap:6px}
-#prompt-wrap[hidden]{display:none!important}
-#prompt{min-height:150px;font-size:.9rem}
-.aibar .status{font-size:.82rem;min-height:0}
-.tout .note{font-size:.85rem;padding:8px 10px}
-.tout .out-text{font-size:.95rem}
-.center-chip{align-self:flex-start;margin-top:4px;min-height:36px;padding:0 12px;border-radius:999px;background:var(--surface);font-weight:800;font-size:.85rem;cursor:pointer;border-width:2px;--press:3px}
-.center-chip small{color:var(--muted);font-weight:700;margin-left:4px}
-.fhub{display:grid;grid-template-columns:1fr;gap:14px}
-.fhub-l{display:flex;flex-direction:column;gap:12px}
-.fhub-r{display:flex;flex-direction:column;gap:8px}
-.fhub .row{min-height:56px;padding:10px 14px}
-.fhub .form-card{padding:10px 12px}
-@media (max-width:899px){
-  .tsplit .tout{display:none} .tsplit[data-show="out"] .tout{display:flex} .tsplit[data-show="out"] .tin{display:none}
-}
-@media (min-width:900px){
-  body:has(.tpage) .wrap, body:has(.fhub) .wrap{max-width:1320px;height:100vh;height:100dvh;padding-block:12px;gap:10px}
-  body:has(.tpage) footer, body:has(.fhub) footer{display:none}
-  body:has(.tpage) main, body:has(.fhub) main{flex:1;min-height:0}
-  .tpage{height:100%}
-  .tpage .ftabs{display:none}
-  .tsplit{grid-template-columns:minmax(0,1fr) minmax(0,1fr);flex:1;min-height:0}
-  .tin,.tout{overflow:auto;min-height:0}
-  .fpage:has(.fhub){height:100%}
-  .fhub{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);flex:1;min-height:0}
-  .fhub-l,.fhub-r{overflow:auto;min-height:0}
-  .fhub .form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
-}
-.modal{z-index:60}
-
-/* ================= 공공기관형 테마 (덮어쓰기) ================= */
-:root{
-  --bg:#F3F5F8; --surface:#FFFFFF; --surface-2:#F7F9FB; --ink:#1E2A36; --muted:#5B6776; --line:#CBD3DC; --soft-line:#E2E7ED; --shade:transparent;
-  --navy:#2E7D64; --navy-deep:#163A5C; --teal:#2B7A78; --yellow:#2E7D64; --yellow-deep:#163A5C; --yellow-soft:#EEF4FA;
-  --c-msg:#FFFFFF; --c-msg-deep:#CBD3DC; --c-msg-soft:#F4F7FA; --c-doc:#FFFFFF; --c-doc-deep:#CBD3DC; --c-doc-soft:#F4F7FA;
-  --c-promo:#FFFFFF; --c-promo-deep:#CBD3DC; --c-promo-soft:#F4F7FA; --c-life:#FFFFFF; --c-life-deep:#CBD3DC; --c-life-soft:#F4F7FA;
-  --c-fridge:#FFFFFF; --c-fridge-deep:#CBD3DC; --ok:#2B7A78; --r:10px;
-  --font:"Noto Sans KR","Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
-}
-body{background:var(--bg)!important;background-image:none!important;font-size:16px;color:var(--ink)}
-.b3d,.b3d:hover,.b3d:active,.card:hover,.row:hover,.chip span,.chip span:hover{box-shadow:none!important;transform:none!important;animation:none!important}
-.b3d{border:1px solid var(--line)!important}
-.b3d:hover{background-color:#EEF3F8}
-.card,.tin,.tout,.fin,.fpv,.page-head,details.more,footer,.check,.modal-box,.step,.list .row,.search,.paper{box-shadow:none!important;border-width:1px!important;border-color:var(--line)!important;border-radius:var(--r)!important}
-.page-head{background:var(--surface)!important}
-.label,.note b,.step-title b,.out-top b,.month-nav strong,details.more summary::after,.zone-head h3{background:#E8F0F8!important;color:var(--navy)!important;border:0!important;border-radius:4px!important}
-.btn{background:var(--navy)!important;color:#fff!important;border:0!important;border-radius:8px!important;min-height:48px}
-.btn.ghost{background:#fff!important;color:var(--ink)!important;border:1px solid var(--line)!important}
-.btn:disabled{background:#C9D2DC!important}
-.pill{border-radius:8px!important}
-.fbar-btns .main{background:var(--navy)!important;color:#fff!important;border-color:var(--navy)!important}
-.fbar-btns .ai{background:#E8F3F2!important;color:var(--teal)!important}
-.chip span{border:1px solid var(--line)!important;border-radius:8px!important;background:#fff!important;min-height:42px!important}
-.chip input:checked + span{background:var(--navy)!important;color:#fff!important;border-color:var(--navy)!important}
-.chip input:checked + span::before{background:#fff!important;color:var(--navy)!important;border-color:#fff!important}
-.chip span::before{border:2px solid var(--line)!important}
-.field input,.field textarea,#prompt,.search{border:1px solid var(--line)!important;background:#fff!important;border-radius:8px!important}
-.row .em,.hcard .em,.form-card .em,.tile .em,.cat .em,.recipe-head .food,.upload-cta .em,.fridge-img,.hero2 .mascot{display:none!important}
-.row .go,.recipe-head .go,.upload-cta .go,.forms-cta .go{background:none!important;border:0!important;color:var(--muted)!important}
-.row .dot{display:none}
-.helper,.helper-show{display:none!important}
-.out-item{background:#fff!important;border:1px solid var(--line)!important;border-radius:8px!important}
-.aibar{border:1px solid var(--soft-line)!important;background:var(--surface-2)!important}
-.ai-link{background:#fff!important;border:1px solid var(--line)!important;border-radius:8px!important;color:var(--ink)!important}
-.ai-link b{color:var(--navy)}
-.status{color:var(--teal)}
-.hero2{display:none!important}
-.sec-title,.fbar h2,.page-head h2{color:var(--ink)}
-.form-card,.hcard,.tile{background:#fff!important;border-radius:var(--r)!important}
-.form-card b{color:var(--navy)}
-.upload-cta{background:#F1F7F6!important}
-.month-nav button{border-radius:8px!important}
-.ftabs button.on{background:var(--navy)!important;border-color:var(--navy)!important}
-.check-mini input,.check input{accent-color:var(--navy)}
-
-/* GNB */
-.gnb{background:#fff;border-bottom:1px solid var(--line);margin-inline:calc(50% - 50vw);padding-inline:max(16px,calc(50vw - 640px));position:relative}
-.gnb-in{display:flex;align-items:center;gap:18px;min-height:60px;flex-wrap:wrap}
-.gnb-logo{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;padding:6px 0;text-align:left;color:var(--ink)}
-.gnb-logo .ic{width:30px;height:30px;color:var(--teal)}
-.gnb-logo b{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;display:block}
-.gnb-logo small{font-size:.72rem;color:var(--muted);font-weight:600;display:block}
-.gnb nav{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
-.gnb nav button{background:none;border:0;padding:10px 12px;font-size:.95rem;font-weight:700;color:var(--ink);cursor:pointer;border-bottom:3px solid transparent}
-.gnb nav button:hover{color:var(--navy);border-bottom-color:var(--navy)}
-.gnb-top{background:var(--navy-deep);color:#C9D7E6;font-size:.75rem;margin-inline:calc(50% - 50vw);padding:4px max(16px,calc(50vw - 640px));display:flex;justify-content:flex-end;gap:14px}
-.gnb-top a{color:#C9D7E6;text-decoration:none}
-.gnb-top a:hover{color:#fff;text-decoration:underline}
-.ic{width:20px;height:20px;flex:none}
-.ic.sm{width:16px;height:16px}
-
-/* 홈 */
-.ghome{display:flex;flex-direction:column;gap:14px}
-.gvis{display:grid;grid-template-columns:1fr;background:linear-gradient(90deg,#163A5C 0%,#2E7D64 55%,#2B6C8A 100%);border-radius:12px;overflow:hidden;color:#fff;position:relative}
-.gvis-txt{padding:22px 22px 18px;display:flex;flex-direction:column;gap:6px;position:relative;z-index:2}
-.gvis-kick{font-size:.82rem;font-weight:700;color:#BFD6EA}
-.gvis h1{font-size:clamp(1.35rem,4.6vw,2rem);font-weight:800;letter-spacing:-.03em;line-height:1.3}
-.gvis h1 span{color:#9FE0D6}
-.gvis-sub{font-size:.9rem;color:#DCE7F2}
-.gsearch{margin-top:8px;display:flex;align-items:center;gap:8px;background:#fff;border-radius:8px;padding:0 12px;color:var(--muted)}
-.gsearch input{flex:1;min-width:0;border:0;min-height:46px;font-size:.95rem;outline:none;color:var(--ink);background:transparent}
-.gsr{list-style:none;margin:6px 0 0;padding:6px;background:#fff;border-radius:8px;display:flex;flex-direction:column;gap:2px;max-height:180px;overflow:auto}
-.gsr button{width:100%;text-align:left;background:none;border:0;padding:8px 10px;border-radius:6px;cursor:pointer;color:var(--ink);font-weight:600;display:flex;gap:8px;align-items:center}
-.gsr button:hover{background:#EEF3F8}
-.gsr em{font-style:normal;font-size:.75rem;color:var(--teal);border:1px solid var(--teal);border-radius:4px;padding:0 6px}
-.gsr-empty{margin-top:6px;font-size:.85rem;color:#DCE7F2}
-.gvis-img{position:relative;height:120px}
-.gvis-img img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;display:block}
-.gcols{display:grid;grid-template-columns:1fr;gap:14px}
-.gbox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.gbox-h{display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid var(--navy);padding-bottom:8px}
-.gbox-h h2{font-size:1.05rem;font-weight:800}
-.gbox-sub{font-size:.8rem;font-weight:700;color:var(--muted);margin-top:-2px}
-.more-link{background:none;border:0;color:var(--muted);font-size:.85rem;cursor:pointer;font-weight:600}
-.bd{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.bd li{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--soft-line)}
-.bd .no{flex:none;width:22px;font-size:.8rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
-.bd-t{flex:1;min-width:0;background:none;border:0;text-align:left;cursor:pointer;font-size:.93rem;font-weight:700;color:var(--ink);padding:2px 0;display:flex;align-items:baseline;gap:8px;overflow:hidden;white-space:nowrap}
-.bd-t small{font-size:.78rem;font-weight:500;color:var(--muted);overflow:hidden;text-overflow:ellipsis}
-.bd-t:hover{color:var(--navy);text-decoration:underline}
-.bd-act{flex:none;display:flex;gap:4px}
-.bd-btn{display:inline-flex;align-items:center;gap:3px;font-size:.75rem;font-weight:700;padding:4px 8px;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;color:var(--ink)}
-.bd-btn .ic{width:14px;height:14px}
-.bd-btn.pri{background:var(--navy);border-color:var(--navy);color:#fff}
-.bd-up{display:flex;align-items:center;gap:10px;background:#F1F7F6;border:1px solid #CFE3E1;border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;color:var(--ink);font-size:.85rem}
-.bd-up .ic{color:var(--teal)} .bd-up b{color:var(--teal);margin-right:4px} .bd-up em{margin-left:auto;font-style:normal;color:var(--muted)}
-.qgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-.qm{display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border:1px solid var(--soft-line);border-radius:10px;background:var(--surface-2);cursor:pointer;color:var(--ink);text-align:center}
-.qm:hover{border-color:var(--navy);background:#EEF3F8}
-.qm .ic{width:28px;height:28px;color:var(--navy)}
-.qm b{font-size:.88rem;font-weight:800}
-.qm span{font-size:.72rem;color:var(--muted)}
-.gprof,.ghelp{display:flex;align-items:center;gap:10px;border:1px solid var(--soft-line);background:var(--surface-2);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;font-size:.85rem;color:var(--ink)}
-.gprof .ic,.ghelp .ic{color:var(--teal)} .gprof b,.ghelp b{color:var(--navy)}
-.glinks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
-.glinks a{display:flex;align-items:center;gap:8px;padding:9px 2px;border-bottom:1px solid var(--soft-line);text-decoration:none;color:var(--ink)}
-.glinks a:hover b{color:var(--navy);text-decoration:underline}
-.glinks b{font-size:.92rem;font-weight:700;min-width:5em}
-.glinks span{font-size:.8rem;color:var(--muted);flex:1}
-.glinks .ic{color:var(--muted)}
-.glinks.sub{margin-top:-6px}
-
-/* 하단 */
-.gfoot{background:#2A3542;color:#AEB9C6;margin-inline:calc(50% - 50vw);padding:14px max(16px,calc(50vw - 640px));font-size:.78rem;line-height:1.7;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center}
-.gfoot b{color:#fff;font-size:.88rem}
-.gfoot a{color:#D5DEE8}
-.gfoot .gf-links{display:flex;gap:12px;flex-wrap:wrap}
-footer{display:none!important}
-body:has(.tpage) .gfoot, body:has(.fpage) .gfoot{display:none}
-
-@media (min-width:900px){
-  body.home-mode .wrap{max-width:none;height:100vh;height:100dvh;padding:0 max(16px,calc(50vw - 640px));gap:12px}
-  body.home-mode main{flex:1;min-height:0;display:flex;flex-direction:column}
-  .ghome{flex:1;min-height:0}
-  .gvis{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);flex:none}
-  .gvis-txt{padding:24px 28px}
-  .gvis-img{height:auto}
-  .gvis-img::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#2E7D64 0%,rgba(31,78,121,0) 30%);z-index:1}
-  .gcols{grid-template-columns:minmax(0,1.35fr) minmax(0,1fr) minmax(0,.95fr);flex:1;min-height:0}
-  .gbox{overflow:auto}
-  body:not(.home-mode) .wrap{padding-top:0}
-}
-@media (max-width:899px){
-  .gnb nav{margin-left:0;width:100%;overflow-x:auto;flex-wrap:nowrap}
-  .gnb nav button{white-space:nowrap;padding:8px 10px;font-size:.88rem}
-  .gnb-top{display:none}
-  .bd-t small{display:none}
-}
-
-@media (min-width:900px){
-  .gvis{height:clamp(150px,24vh,250px)}
-  .gvis-txt{padding:18px 26px;justify-content:center}
-  .gvis h1{font-size:clamp(1.4rem,2.2vw,2rem)}
-  .gvis-img img{height:100%}
-  .bd li{padding:4px 0}
-  .gbox{padding:12px 14px;gap:8px}
-  .qm{padding:9px 6px}
-  .gfoot{padding-block:10px}
-}
-@media (min-width:900px) and (max-height:800px){ .gvis-sub{display:none} .gvis-kick{display:none} .qm span{display:none} }
-</style>
-</head>
-<body><title>우리 센터 AI 비서함</title>
-<style>
-/* Layout: 한 기둥(최대 720px). 하늘색 점무늬 바탕 위에 굵은 테두리·바닥 그림자의 입체 버튼. 큰 글씨·높은 대비·색+글자로 상태 표시 */
-:root{
-  --bg:#F7F1E6; --dot:#EADFCB; --surface:#FFFFFF; --surface-2:#FBF7EF;
-  --ink:#2E3A33; --muted:#6B7568; --line:#3E4A42; --soft-line:#E2D8C4; --shade:#E1D6BF;
-  --navy:#5E8A6A; --navy-deep:#46705A; --yellow:#F5D46A; --yellow-deep:#CFA634; --yellow-soft:#FBF0CC;
-  --c-msg:#F6E3A6; --c-msg-deep:#D9B957; --c-msg-soft:#FCF5DC;
-  --c-doc:#CFDDEB; --c-doc-deep:#8FAACB; --c-doc-soft:#EBF1F7;
-  --c-promo:#D3E6D5; --c-promo-deep:#8DB898; --c-promo-soft:#EDF5EE;
-  --c-life:#F1DCCB; --c-life-deep:#D3A98A; --c-life-soft:#FAF0E8;
-  --c-fridge:#D6E9EE; --c-fridge-deep:#93BFCB;
-  --ok:#3E7A55;
-  --font:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","맑은 고딕","Noto Sans KR",system-ui,sans-serif;
-  --r:22px; --press:5px; color-scheme:light;
-}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-body{background-color:var(--bg);background-image:radial-gradient(var(--dot) 2px,transparent 2.5px);background-size:22px 22px;color:var(--ink);font-family:var(--font);font-size:19px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
-.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:18px 44px;display:flex;flex-direction:column;gap:22px}
-h1,h2,h3{margin:0;line-height:1.3;text-wrap:balance}
-p{margin:0}
-button,input,textarea{font:inherit;color:inherit}
-:focus-visible{outline:4px solid #FF7A00;outline-offset:3px;border-radius:12px}
-.cat-msg{--cc:var(--c-msg);--cc-soft:var(--c-msg-soft);--cc-deep:var(--c-msg-deep)} .cat-doc{--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)}
-.cat-promo{--cc:var(--c-promo);--cc-soft:var(--c-promo-soft);--cc-deep:var(--c-promo-deep)} .cat-life{--cc:var(--c-life);--cc-soft:var(--c-life-soft);--cc-deep:var(--c-life-deep)}
-
-/* 공통 입체 버튼 */
-.b3d{border:3px solid var(--line);box-shadow:0 var(--press) 0 var(--line);transition:transform .14s ease,box-shadow .14s ease}
-.b3d:hover{transform:translateY(-3px) rotate(-.4deg);box-shadow:0 calc(var(--press) + 3px) 0 var(--line)}
-.b3d:active{transform:translateY(var(--press));box-shadow:0 0 0 var(--line)}
-
-.hero{position:relative;overflow:hidden;background:var(--navy);border:3px solid var(--line);box-shadow:0 8px 0 var(--line);border-radius:26px;padding:22px 22px 20px;color:#FFFFFF;display:flex;flex-direction:column;gap:4px}
-.hero::after{content:"";position:absolute;right:-30px;top:-30px;width:130px;height:130px;border-radius:50%;background:var(--yellow);border:3px solid var(--line)}
-.hero > *{position:relative;z-index:1;max-width:calc(100% - 70px)}
-.brand{font-size:.8rem;letter-spacing:.06em;font-weight:800;color:#CFE0F5}
-.hero h1{font-size:clamp(1.8rem,6.5vw,2.5rem);font-weight:900;letter-spacing:-.03em}
-.hero h1 span{color:var(--yellow)}
-.hero .sub{font-size:1rem;color:#E4EDF8}
-
-.sec{display:flex;flex-direction:column;gap:14px}
-.sec-title{font-size:1.25rem;font-weight:900;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.hint{font-size:.9rem;color:var(--muted);font-weight:600}
-
-.search{width:100%;min-height:58px;border:3px solid var(--line);border-radius:16px;background:var(--surface);padding:0 18px;font-size:1.05rem;box-shadow:0 4px 0 var(--line)}
-.search:focus{outline:4px solid #FF7A00;outline-offset:2px}
-
-.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.cat{appearance:none;text-align:left;cursor:pointer;background:var(--cc);color:#0E1F36;border-radius:var(--r);padding:18px 16px 16px;display:flex;flex-direction:column;gap:6px;min-width:0}
-.cat b{font-size:1.25rem;font-weight:900}
-.cat span{font-size:.92rem;line-height:1.45;font-weight:600}
-.cat em{font-style:normal;align-self:flex-start;margin-top:6px;font-size:.85rem;font-weight:900;background:#FFFFFF;border:2px solid #0E1F36;border-radius:999px;padding:2px 12px}
-@media (max-width:360px){.cats{grid-template-columns:1fr}}
-
-.list{display:flex;flex-direction:column;gap:12px}
-.row{appearance:none;background:var(--surface);border-radius:16px;text-align:left;padding:14px 16px;display:flex;gap:14px;align-items:center;cursor:pointer;min-height:68px;--press:5px}
-.row .dot{flex:none;width:16px;height:16px;border-radius:50%;background:var(--cc);border:2px solid var(--line)}
-.row .tx{flex:1;min-width:0;display:flex;flex-direction:column}
-.row .t{font-weight:800;font-size:1.05rem;line-height:1.4}
-.row .s{font-size:.88rem;color:var(--muted);font-weight:600}
-.row .go{flex:none;width:34px;height:34px;border-radius:50%;background:var(--yellow);border:2px solid var(--line);display:grid;place-items:center;font-weight:900;color:#0E1F36}
-.empty{padding:20px;text-align:center;background:var(--surface);border:3px dashed var(--soft-line);border-radius:16px;color:var(--muted)}
-
-.month-nav{display:flex;align-items:center;gap:8px}
-.month-nav button{width:42px;height:42px;border-radius:50%;background:var(--surface);cursor:pointer;font-weight:900;font-size:1.1rem;--press:3px;border-width:2px}
-.month-nav strong{min-width:3.2em;text-align:center;font-variant-numeric:tabular-nums;background:var(--yellow);color:#0E1F36;border:2px solid var(--line);border-radius:999px;padding:2px 10px}
-
-.chips-fav{display:flex;flex-wrap:wrap;gap:10px}
-.chips-fav button{min-height:46px;padding:0 16px;border-radius:999px;background:var(--surface);cursor:pointer;font-weight:800;font-size:.95rem;--press:4px}
-
-/* 업무 화면 */
-.back{align-self:flex-start;min-height:48px;padding:0 16px;border-radius:14px;background:var(--surface);cursor:pointer;font-weight:800;--press:4px}
-.page-head{display:flex;flex-direction:column;gap:8px;background:var(--cc-soft,var(--surface));border:3px solid var(--line);border-radius:var(--r);padding:18px 18px 16px;box-shadow:0 6px 0 var(--line)}
-.label{align-self:flex-start;font-size:.88rem;font-weight:900;background:var(--cc,var(--yellow));color:#0E1F36;border:2px solid var(--line);border-radius:999px;padding:2px 12px}
-.page-head h2{font-size:clamp(1.7rem,6vw,2.2rem);font-weight:900;letter-spacing:-.02em}
-.page-head p{font-size:1rem;font-weight:600;color:var(--muted)}
-.card{background:var(--surface);border:3px solid var(--line);border-radius:var(--r);box-shadow:0 6px 0 var(--line);padding:20px;display:flex;flex-direction:column;gap:18px}
-.step-title{display:flex;align-items:center;gap:10px;font-weight:900;font-size:1.15rem}
-.step-title b{width:36px;height:36px;border-radius:50%;background:var(--yellow);color:#0E1F36;border:2px solid var(--line);display:grid;place-items:center;font-size:1rem;flex:none}
-.divider{height:0;border-top:3px dashed var(--soft-line)}
-fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
-legend{font-weight:900;font-size:1.02rem;padding:0;margin-bottom:10px}
-.chips{display:flex;flex-wrap:wrap;gap:10px}
-.chip{position:relative}
-.chip input{position:absolute;opacity:0;width:1px;height:1px}
-.chip span{display:flex;align-items:center;gap:8px;min-height:52px;padding:0 18px;border-radius:14px;border:3px solid var(--line);background:var(--surface);cursor:pointer;font-size:1rem;font-weight:700;box-shadow:0 4px 0 var(--line);transition:transform .14s ease,box-shadow .14s ease}
-.chip span::before{content:"";width:20px;height:20px;border-radius:50%;border:3px solid var(--line);flex:none;background:var(--surface)}
-.chip span:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--line)}
-.chip input:checked + span{background:var(--cc,var(--yellow));color:#0E1F36;font-weight:900;transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
-.chip input:checked + span::before{content:"✓";display:grid;place-items:center;font-size:13px;font-weight:900;background:#0E1F36;color:#FFFFFF;border-color:#0E1F36}
-.chip input:focus-visible + span{outline:4px solid #FF7A00;outline-offset:3px}
-.field{display:flex;flex-direction:column;gap:6px;min-width:0}
-.field label{font-weight:900;font-size:1.02rem}
-.field label small{font-weight:600;color:var(--muted)}
-.field input,.field textarea{width:100%;border:3px solid var(--soft-line);border-radius:14px;background:var(--surface-2);padding:12px 14px;min-height:54px;font-size:1rem}
-.field textarea{min-height:110px;resize:vertical}
-.field input:focus,.field textarea:focus{border-color:var(--line);outline:none;background:var(--surface)}
-#prompt{width:100%;min-height:230px;border:3px solid var(--soft-line);border-radius:14px;background:var(--surface-2);padding:14px;resize:vertical;line-height:1.7;font-size:1rem}
-.check{display:flex;gap:12px;align-items:flex-start;background:var(--yellow-soft);border:3px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;font-size:1rem;font-weight:800}
-.check input{width:26px;height:26px;margin-top:2px;accent-color:#0E1F36;flex:none}
-.actions{display:flex;gap:12px;flex-wrap:wrap}
-.btn{flex:1 1 220px;min-height:62px;padding:0 22px;border-radius:16px;background:var(--yellow);color:#0E1F36;font-weight:900;cursor:pointer;font-size:1.12rem}
-.btn:disabled{background:var(--surface-2);color:var(--muted);cursor:not-allowed;transform:none!important;box-shadow:0 3px 0 var(--soft-line);border-color:var(--soft-line)}
-.btn.ghost{flex:0 0 auto;background:var(--surface);font-size:.98rem;font-weight:800;--press:4px}
-.status{min-height:1.5em;font-weight:900;font-size:1rem;color:var(--ok)}
-.status.warn{color:#C2410C}
-.note{font-size:.95rem;font-weight:600;background:var(--surface-2);border-radius:12px;padding:12px 14px}
-.note b{display:inline-block;background:var(--yellow);color:#0E1F36;border:2px solid var(--line);border-radius:999px;padding:0 10px;margin-right:6px;font-size:.85rem}
-.edited{font-size:.9rem;color:#C2410C;font-weight:800}
-.star{align-self:flex-start;min-height:42px;padding:0 14px;border-radius:999px;background:var(--surface);cursor:pointer;font-weight:800;font-size:.9rem;--press:3px;border-width:2px}
-.star[aria-pressed="true"]{background:var(--yellow);color:#0E1F36}
-details.more{background:var(--surface);border:3px solid var(--line);border-radius:var(--r);box-shadow:0 6px 0 var(--line)}
-details.more summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:900;font-size:1.08rem;display:flex;justify-content:space-between;align-items:center;min-height:60px}
-details.more summary::-webkit-details-marker{display:none}
-details.more summary::after{content:"+ 열기";font-size:.9rem;background:var(--yellow);color:#0E1F36;border:2px solid var(--line);border-radius:999px;padding:2px 12px}
-details.more[open] summary::after{content:"− 닫기"}
-details.more .inner{padding:0 20px 20px;display:flex;flex-direction:column;gap:14px}
-.next-item{display:flex;gap:10px;align-items:center;background:var(--surface-2);border-radius:12px;padding:10px 12px}
-.next-item p{flex:1;min-width:0;font-size:.97rem;font-weight:600}
-.next-item button{flex:none;min-height:44px;padding:0 14px;border-radius:12px;background:var(--surface);font-weight:900;cursor:pointer;font-size:.9rem;--press:3px;border-width:2px}
-.sub-title{font-size:.95rem;font-weight:900}
-
-footer{font-size:.9rem;font-weight:600;display:flex;flex-direction:column;gap:4px;background:var(--surface);border:3px solid var(--line);border-radius:16px;padding:14px 16px}
-footer b{background:var(--yellow);color:#0E1F36;border-radius:6px;padding:0 6px}
-footer p:last-child{color:var(--muted)}
-.fade{animation:fade .28s ease}
-@keyframes fade{from{opacity:.5;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes wiggle{0%,100%{transform:translateY(-3px) rotate(-.4deg)}50%{transform:translateY(-4px) rotate(.4deg)}}
-.cat:hover{animation:wiggle .5s ease}
-@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.b3d:hover,.chip span:hover{transform:none!important}}
-
-.fridge-cta{appearance:none;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,var(--c-promo-soft),var(--c-doc-soft));border-radius:var(--r);padding:16px 18px;min-height:88px}
-.fridge-cta .food{font-size:2.4rem;line-height:1;flex:none}
-.fridge-cta .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.fridge-cta b{font-size:1.2rem;font-weight:900}
-.fridge-cta .tx span{font-size:.92rem;font-weight:600;color:var(--muted)}
-.fridge-cta .go{flex:none;width:38px;height:38px;border-radius:50%;background:var(--yellow);border:2px solid var(--line);display:grid;place-items:center;font-weight:900;color:#0E1F36}
-.recipe{display:flex;flex-direction:column}
-.recipe-head{appearance:none;width:100%;background:var(--surface);border-radius:16px;text-align:left;padding:12px 16px;display:flex;gap:14px;align-items:center;cursor:pointer;min-height:72px;--press:5px}
-.recipe-head .food{font-size:2.2rem;line-height:1;flex:none;width:52px;height:52px;border-radius:14px;background:var(--surface-2);display:grid;place-items:center}
-.recipe-head .tx{flex:1;min-width:0;display:flex;flex-direction:column}
-.recipe-head .t{font-weight:900;font-size:1.08rem}
-.recipe-head .s{font-size:.88rem;color:var(--muted);font-weight:600}
-.recipe-head .go{flex:none;width:34px;height:34px;border-radius:50%;background:var(--yellow);border:2px solid var(--line);display:grid;place-items:center;font-weight:900;color:#0E1F36}
-.miss{color:#C2410C} .okb{color:var(--ok)}
-.recipe-body{margin-top:-8px;background:var(--surface);border:3px solid var(--line);border-top:0;border-radius:0 0 16px 16px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:10px;animation:fade .25s ease}
-.ing{font-size:.95rem;font-weight:600}
-.ing b{margin-right:6px}
-.steps{margin:4px 0 0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px;font-size:1rem}
-.steps li::marker{font-weight:900}
-.chips.small{gap:8px}
-.chips.small .chip span{min-height:44px;padding:0 12px;font-size:.95rem;border-width:2px;box-shadow:0 3px 0 var(--line)}
-.chips.small .chip span::before{display:none}
-.chips.small .chip input:checked + span::before{display:grid;width:18px;height:18px;border-width:2px}
-
-/* ---- 귀여운 파스텔 덮어쓰기 ---- */
-body{background-size:26px 26px}
-.b3d{border:2.5px solid var(--line);box-shadow:0 var(--press) 0 var(--cc-deep,var(--shade))}
-.b3d:hover{transform:translateY(-4px) rotate(-.6deg);box-shadow:0 calc(var(--press) + 4px) 0 var(--cc-deep,var(--shade))}
-.b3d:active{transform:translateY(var(--press));box-shadow:0 0 0 var(--shade)}
-.hero{background:var(--navy);border:2.5px solid var(--line);box-shadow:0 7px 0 var(--navy-deep);padding:22px 22px 22px}
-.hero::after{display:none}
-.hero > *{max-width:calc(100% - 96px)}
-.hero .mascot{position:absolute;right:14px;bottom:10px;width:92px;max-width:none;animation:bob 2.6s ease-in-out infinite}
-.brand{color:#E6E2FF} .hero .sub{color:#F1EFFF}
-.search{border:2.5px solid var(--line);box-shadow:0 4px 0 var(--shade);border-radius:18px}
-.cats{gap:14px}
-.cat{background:var(--cc);color:var(--ink);align-items:flex-start}
-.cat .em{font-size:2.3rem;line-height:1;width:58px;height:58px;border-radius:18px;background:#FFFFFFB3;display:grid;place-items:center;margin-bottom:4px}
-.cat em{border:2px solid var(--line);color:var(--ink)}
-.row{border-radius:18px}
-.row .dot{display:none}
-.row .em{flex:none;font-size:1.7rem;width:48px;height:48px;border-radius:14px;background:var(--cc-soft,var(--surface-2));display:grid;place-items:center}
-.row .go,.recipe-head .go,.fridge-cta .go,.step-title b,.month-nav strong,.label,.note b,footer b,details.more summary::after{background:var(--yellow);border-color:var(--line);color:var(--ink)}
-.page-head{border:2.5px solid var(--line);box-shadow:0 6px 0 var(--cc-deep,var(--shade));background:var(--cc-soft,var(--surface))}
-.card,details.more,footer{border:2.5px solid var(--line);box-shadow:0 6px 0 var(--shade)}
-.chip span{border:2.5px solid var(--line);box-shadow:0 4px 0 var(--shade)}
-.chip span:hover{box-shadow:0 6px 0 var(--shade)}
-.chip input:checked + span{background:var(--cc,var(--yellow));box-shadow:0 1px 0 var(--shade)}
-.chip input:checked + span::before{background:var(--ink);border-color:var(--ink)}
-.chips.small .chip span{border-width:2px;box-shadow:0 3px 0 var(--shade)}
-.check{border:2.5px solid var(--line)}
-.btn{background:var(--yellow);box-shadow:0 5px 0 var(--yellow-deep)}
-.btn:hover:not(:disabled){box-shadow:0 8px 0 var(--yellow-deep)}
-.btn.ghost{box-shadow:0 4px 0 var(--shade)}
-.fridge-cta{--cc-deep:var(--c-fridge-deep);background:var(--c-fridge);padding:14px 16px}
-.fridge-cta .fridge-img{flex:none;width:74px;height:auto}
-.fridge-hero{display:flex;align-items:center;gap:16px}
-.fridge-hero .fridge-img{flex:none;width:96px;animation:bob 2.8s ease-in-out infinite}
-.recipe-head .food{background:var(--c-life-soft)}
-.recipe-body{border:2.5px solid var(--line);border-top:0}
-.status.warn,.miss,.edited{color:#D0573B}
-@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
-@keyframes wiggle{0%,100%{transform:translateY(-4px) rotate(-1deg)}50%{transform:translateY(-5px) rotate(1deg)}}
-
-/* 도우미 */
-.helper{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:flex-end;gap:8px;pointer-events:none}
-.helper > *{pointer-events:auto}
-.helper-btn{appearance:none;border:0;background:none;cursor:pointer;padding:0;width:74px;height:74px;animation:hop 3.2s ease-in-out infinite;filter:drop-shadow(0 4px 0 rgba(74,63,92,.18))}
-.helper-btn svg{width:100%;height:100%}
-.bubble{background:var(--surface);border:2.5px solid var(--line);border-radius:18px 18px 4px 18px;padding:8px 14px;font-size:.92rem;font-weight:800;box-shadow:0 4px 0 var(--shade);max-width:240px;transition:opacity .25s ease,transform .25s ease}
-.bubble.hide{opacity:0;transform:translateY(6px);pointer-events:none}
-.help-panel{background:var(--surface);border:2.5px solid var(--line);border-radius:20px;padding:16px;box-shadow:0 6px 0 var(--shade);width:min(300px,calc(100vw - 32px));display:flex;flex-direction:column;gap:10px;font-size:.95rem}
-.help-panel h3{font-size:1.05rem;font-weight:900}
-.help-panel ol{margin:0;padding-left:1.3em;display:flex;flex-direction:column;gap:4px;font-weight:600}
-.help-panel .row2{display:flex;gap:8px;flex-wrap:wrap}
-.help-panel button{min-height:42px;padding:0 14px;border-radius:12px;background:var(--surface);cursor:pointer;font-weight:800;font-size:.9rem;--press:3px}
-.help-panel button.primary{background:var(--yellow)}
-.helper-show{position:fixed;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;min-height:40px;padding:0 12px;border-radius:999px;background:var(--surface);font-weight:800;font-size:.85rem;cursor:pointer;--press:3px}
-@keyframes hop{0%,80%,100%{transform:translateY(0)}86%{transform:translateY(-10px)}92%{transform:translateY(0)}96%{transform:translateY(-4px)}}
-.wrap{padding-bottom:110px}
-@media (prefers-reduced-motion:reduce){.helper-btn,.hero .mascot,.fridge-hero .fridge-img{animation:none!important}}
-.spb{color:#8A5CD0}
-.open-ai{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.ai-link{display:flex;flex-direction:column;gap:2px;justify-content:center;min-height:62px;padding:8px 14px;border-radius:16px;background:var(--c-doc-soft);color:var(--ink);text-decoration:none;--cc-deep:var(--c-doc-deep)}
-.ai-link + .ai-link{background:var(--c-life-soft);--cc-deep:var(--c-life-deep)}
-.ai-link b{font-size:1rem;font-weight:900}
-.ai-link span{font-size:.8rem;color:var(--muted);font-weight:600}
-.ai-link[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
-@media (max-width:360px){.open-ai{grid-template-columns:1fr}}
-.outs{display:flex;flex-direction:column;gap:14px}
-.out-item{background:var(--cc-soft,var(--surface-2));border:2px solid var(--line);border-radius:16px;padding:12px;display:flex;flex-direction:column;gap:8px}
-.out-top{display:flex;justify-content:space-between;align-items:center;gap:8px}
-.out-top b{font-size:.92rem;font-weight:900;background:var(--yellow);border:2px solid var(--line);border-radius:999px;padding:0 10px}
-.out-top button{min-height:42px;padding:0 16px;border-radius:12px;background:var(--surface);font-weight:900;cursor:pointer;--press:3px;border-width:2px}
-.out-text{width:100%;border:0;background:var(--surface);border-radius:12px;padding:12px;font-size:1rem;line-height:1.7;resize:vertical;color:var(--ink)}
-.attach{display:flex;flex-direction:column;gap:12px;background:var(--surface-2);border:2px dashed var(--soft-line);border-radius:16px;padding:14px}
-.attach-tip{font-size:.92rem;font-weight:600;background:var(--yellow-soft);border-radius:12px;padding:10px 12px}
-.open-ai{order:0}
-.filebox{display:flex;flex-direction:column;gap:10px}
-.filebtn{align-self:flex-start;display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:0 20px;border-radius:14px;background:var(--c-doc);font-weight:900;cursor:pointer;--cc-deep:var(--c-doc-deep)}
-.sr-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-.sr-file:focus-visible + .hint, .filebtn:focus-within{outline:4px solid #FF7A00}
-.ref-preview{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.ref-preview img{max-width:140px;max-height:140px;border-radius:12px;border:2px solid var(--line)}
-.swatches{display:flex;gap:6px}
-.swatches span{width:30px;height:30px;border-radius:50%;border:2px solid var(--line)}
-
-/* ---- 새싹 테마 ---- */
-body{background-image:radial-gradient(var(--dot) 1.6px,transparent 2px);background-size:24px 24px}
-.hero2{position:relative;border:2.5px solid var(--line);border-radius:26px;overflow:hidden;background:#F9F3E8;box-shadow:0 7px 0 var(--shade);display:flex;flex-direction:column}
-.hero-txt{padding:22px 22px 4px;display:flex;flex-direction:column;gap:4px;position:relative;z-index:1}
-.hero2 .brand{color:var(--navy-deep);font-size:.8rem;font-weight:800;letter-spacing:.06em}
-.hero2 h1{font-size:clamp(1.9rem,7vw,2.6rem);font-weight:900;letter-spacing:-.03em;color:var(--ink)}
-.hero2 h1 span{color:var(--navy)}
-.hero2 .sub{color:var(--muted);font-weight:600}
-.hero2 .addr{align-self:flex-start;margin-top:6px;font-size:.85rem;font-weight:800;background:var(--surface);border:2px solid var(--line);border-radius:999px;padding:2px 12px;color:var(--navy-deep)}
-.hero-img{display:block;width:100%;max-width:100%;height:auto;margin-top:-8px}
-.forms-cta{appearance:none;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;background:var(--navy);color:#fff;border-radius:var(--r);padding:20px 20px;--cc-deep:var(--navy-deep)}
-.forms-cta .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:4px}
-.forms-cta .kick{font-size:.8rem;font-weight:800;color:#E3F0E5;letter-spacing:.04em}
-.forms-cta b{font-size:1.45rem;font-weight:900}
-.forms-cta .tx span:last-child{font-size:.95rem;color:#F1F7F2;line-height:1.5}
-.forms-cta strong{color:var(--yellow)}
-.forms-cta .go,.upload-cta .go{flex:none;width:40px;height:40px;border-radius:50%;background:var(--yellow);border:2px solid var(--line);display:grid;place-items:center;font-weight:900;color:var(--ink)}
-.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:-6px}
-.quick button{min-height:44px;padding:0 14px;border-radius:999px;background:var(--surface);font-weight:800;font-size:.92rem;cursor:pointer;--press:3px;border-width:2px}
-.hgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-.hcard{appearance:none;cursor:pointer;text-align:left;background:var(--cc,var(--surface));color:var(--ink);border-radius:var(--r);padding:16px;display:flex;flex-direction:column;gap:6px;min-width:0}
-.hcard .em{font-size:2rem;line-height:1;width:54px;height:54px;border-radius:16px;background:#FFFFFFB3;display:grid;place-items:center}
-.hcard b{font-size:1.12rem;font-weight:900}
-.hcard span:not(.em){font-size:.88rem;font-weight:600;line-height:1.45;color:var(--ink)}
-.hcard em{font-style:normal;align-self:flex-start;font-size:.8rem;font-weight:900;background:#fff;border:2px solid var(--line);border-radius:999px;padding:1px 10px}
-.cat-fridge{--cc:var(--c-fridge);--cc-deep:var(--c-fridge-deep)} .cat-month{--cc:#E8E1F2;--cc-deep:#B9A9D4} .cat-help{--cc:#EFE7D6;--cc-deep:#CDBB98}
-@media (max-width:360px){.hgrid{grid-template-columns:1fr}}
-.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.form-card{appearance:none;cursor:pointer;text-align:left;background:var(--surface);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0;--cc-deep:var(--c-doc-deep)}
-.form-card .em{font-size:1.8rem}
-.form-card b{font-size:1.02rem;font-weight:900}
-.form-card span:last-child{font-size:.82rem;color:var(--muted);font-weight:600;line-height:1.4}
-.upload-cta{appearance:none;cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;background:var(--c-promo);border-radius:var(--r);padding:16px 18px;--cc-deep:var(--c-promo-deep)}
-.upload-cta .em{font-size:2rem}
-.upload-cta .tx{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
-.upload-cta b{font-size:1.1rem;font-weight:900}
-.upload-cta .tx span{font-size:.88rem;font-weight:600;color:var(--muted)}
-.row .em{flex:none;font-size:1.6rem;width:46px;height:46px;border-radius:14px;background:var(--cc-soft,var(--surface-2));display:grid;place-items:center}
-.row-btns{display:flex;gap:8px;flex-wrap:wrap}
-.with-mic{display:flex;gap:8px;align-items:flex-start}
-.with-mic > input,.with-mic > textarea{flex:1;min-width:0}
-.mic{flex:none;width:48px;height:48px;border-radius:14px;background:var(--surface);cursor:pointer;font-size:1.2rem;--press:3px;border-width:2px}
-.mic.on{background:#F7C6C0;animation:pulse 1s infinite}
-@keyframes pulse{50%{transform:scale(1.06)}}
-.paper{background:#fff;border:1px solid #D9D9D9;border-radius:6px;padding:28px 22px;box-shadow:0 2px 10px rgba(0,0,0,.08);font-family:"Malgun Gothic","맑은 고딕",var(--font);color:#111;font-size:.92rem;line-height:1.65;overflow-x:auto}
-.d-title{text-align:center;font-size:1.4em;font-weight:900;margin:0 0 .6em}
-.d-center{text-align:center;margin:.2em 0} .d-center.b,.d-p.b{font-weight:800}
-.d-p{margin:.25em 0;white-space:pre-wrap}
-.d-line{border:0;border-top:2px solid #333;margin:.5em 0}
-.d-gap{height:.8em}
-.d-table{width:100%;border-collapse:collapse;margin:.4em 0;font-size:.95em}
-.d-table th,.d-table td{border:1px solid #666;padding:6px 8px;vertical-align:top;text-align:left;word-break:keep-all}
-.d-table th{background:#EEF2EA;text-align:center;vertical-align:middle;white-space:nowrap;width:1%}
-.mini{width:100%;border-collapse:collapse;font-size:.9rem}
-.mini th,.mini td{border:1.5px solid var(--soft-line);padding:8px 10px;text-align:left}
-.mini th{background:var(--surface-2);white-space:nowrap}
-.addr-big{font-size:1.2rem;color:var(--navy-deep)}
-.card-ai summary{color:var(--navy-deep)}
-
-/* ---- 한 화면 홈 ---- */
-body{margin:0}
-body.home-mode .bubble{display:none}
-@media (max-width:899px) and (max-height:780px){ .h-img{height:64px} .h-txt .brand{display:none} .tiles .tile{padding:8px 4px} .home .forms-cta .kick{display:none} .home .forms-cta{padding:11px 14px} .home .quick button{min-height:34px} }
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
-body.home-mode .hero2, body.home-mode footer{display:none}
-body:not(.home-mode) .hero2{cursor:pointer;flex-direction:row;align-items:center;box-shadow:0 4px 0 var(--shade);border-radius:18px}
-body:not(.home-mode) .hero-img{display:none}
-body:not(.home-mode) .hero-txt{padding:10px 16px;flex-direction:row;align-items:baseline;gap:10px;flex-wrap:wrap}
-body:not(.home-mode) .hero2 h1{font-size:1.25rem}
-body:not(.home-mode) .hero2 .sub,body:not(.home-mode) .hero2 .addr{display:none}
-body.home-mode .wrap{max-width:1240px;padding-block:14px 14px}
-.home{display:grid;grid-template-columns:1fr;gap:12px}
-.h-left{position:relative;background:#F9F3E8;border:2.5px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:0 6px 0 var(--shade);display:flex;flex-direction:column}
-.h-txt{padding:14px 16px 6px;display:flex;flex-direction:column;gap:4px;position:relative;z-index:1}
-.h-txt .brand{font-size:.75rem;font-weight:800;color:var(--navy-deep);letter-spacing:.05em}
-.h-txt h1{font-size:clamp(1.55rem,6.4vw,2.6rem);font-weight:900;letter-spacing:-.03em;line-height:1.2}
-.h-txt h1 span{color:var(--navy)}
-.h-txt .sub{font-size:.88rem;font-weight:600;color:var(--muted)}
-.h-txt .search{margin-top:8px;min-height:48px;font-size:.98rem}
-.h-img{display:block;width:100%;height:110px;object-fit:cover;object-position:50% 45%}
-.h-right{display:flex;flex-direction:column;gap:10px;min-width:0}
-.home .forms-cta{padding:14px 16px}
-.home .forms-cta b{font-size:1.25rem}
-.home .forms-cta .tx span:last-child{font-size:.85rem}
-.home .quick{margin-top:0;gap:6px}
-.home .quick button{min-height:38px;padding:0 11px;font-size:.84rem}
-.quick .ql{align-self:center;font-size:.8rem;font-weight:900;color:var(--yellow-deep)}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
-.tile{appearance:none;cursor:pointer;text-align:center;background:var(--cc,var(--surface));color:var(--ink);border-radius:18px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;--press:4px}
-.tile .em{font-size:1.7rem;line-height:1}
-.tile b{font-size:.92rem;font-weight:900;line-height:1.25}
-.tile .d{display:none;font-size:.8rem;font-weight:600;color:var(--muted);line-height:1.35}
-.h-safe{font-size:.78rem;font-weight:600;color:var(--muted);line-height:1.5}
-.h-safe b{background:var(--yellow);color:var(--ink);border-radius:6px;padding:0 6px;margin-right:4px}
-@media (min-width:900px){
-  body.home-mode .wrap{height:100vh;height:100dvh;padding-block:20px}
-  body.home-mode main{flex:1;min-height:0}
-  .home{grid-template-columns:minmax(0,0.95fr) minmax(0,1.2fr);gap:22px;height:100%}
-  .h-left{height:100%}
-  .h-txt{padding:30px 32px 10px;gap:8px}
-  .h-txt .sub{font-size:1.05rem}
-  .h-txt .search{min-height:54px}
-  .h-img{flex:1;height:auto;min-height:0;object-position:50% 40%}
-  .h-right{justify-content:center;gap:14px}
-  .home .forms-cta{padding:22px 24px}
-  .home .forms-cta b{font-size:1.6rem}
-  .home .forms-cta .tx span:last-child{font-size:1rem}
-  .home .quick button{min-height:44px;font-size:.92rem;padding:0 14px}
-  .tiles{gap:14px}
-  .tile{padding:18px 10px;gap:6px;text-align:left;align-items:flex-start}
-  .tile .em{font-size:2rem;width:52px;height:52px;border-radius:16px;background:#FFFFFFB3;display:grid;place-items:center}
-  .tile b{font-size:1.08rem}
-  .tile .d{display:block}
-  .h-safe{font-size:.86rem}
-}
-@media (min-width:900px) and (max-height:760px){ .tile .d{display:none} .tile{padding:12px 10px} .home .forms-cta{padding:16px 20px} .h-txt{padding:20px 24px 6px} }
-
-/* ---- 서식 한 화면 ---- */
-.fpage{display:flex;flex-direction:column;gap:10px}
-.fbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.fbar h2{font-size:1.3rem;font-weight:900;flex:1;min-width:8em}
-.fbar .back{min-height:42px}
-.fbar-btns{display:flex;gap:6px;flex-wrap:wrap}
-.fbar-btns .pill{min-height:42px;padding:0 12px;font-size:.88rem;border-width:2px;--press:3px}
-.fbar-btns .main{background:var(--yellow)} .fbar-btns .ai{background:var(--c-promo)}
-.fstat{font-size:.85rem;margin:0;min-height:0;color:var(--muted)}
-.ftabs{display:none}
-.fsplit{display:grid;grid-template-columns:1fr;gap:12px}
-.fin{background:var(--surface);border:2.5px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 5px 0 var(--shade)}
-.fin .field label{font-size:.88rem}
-.fin input,.fin textarea{min-height:44px;padding:9px 12px;font-size:.95rem}
-.fin textarea{min-height:76px}
-.fgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 10px}
-.fgrid .mic{width:40px;height:44px}
-.fpv .paper{margin:0}
-.modal{position:fixed;inset:0;background:rgba(46,58,51,.45);z-index:40;display:flex;align-items:center;justify-content:center;padding:16px}
-.modal-box{background:var(--surface);border:2.5px solid var(--line);border-radius:20px;padding:18px;width:min(640px,100%);max-height:calc(100dvh - 32px);overflow:auto;display:flex;flex-direction:column;gap:12px}
-.modal-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
-.modal-head h3{font-size:1.15rem;font-weight:900}
-@media (max-width:899px){
-  .ftabs{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .ftabs button{min-height:44px;border-radius:12px;border:2px solid var(--line);background:var(--surface);font-weight:800;cursor:pointer}
-  .ftabs button.on{background:var(--navy);color:#fff}
-  .fsplit .fpv{display:none}
-  .fsplit[data-show="pv"] .fpv{display:block} .fsplit[data-show="pv"] .fin{display:none}
-  .fgrid{grid-template-columns:1fr}
-  .fbar h2{order:-1;flex-basis:100%}
-}
-@media (min-width:900px){
   body:has(.fpage) .wrap{max-width:1420px;height:100vh;height:100dvh;padding-block:12px;gap:10px}
   body:has(.fpage) footer{display:none}
   body:has(.fpage) main{flex:1;min-height:0}
@@ -1531,6 +935,41 @@ details.plan-more .aibar{border-style:dashed}
 .phpage .btn[disabled]{opacity:.45;cursor:not-allowed}
 .fmemo-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:space-between;border:1.5px solid #2E7D64;background:#E8F5EE;border-radius:10px;padding:10px 12px;margin-bottom:12px}
 .fmemo-box b{display:block;color:#22604C;font-size:.92rem}.fmemo-box span{font-size:.78rem;color:var(--muted)}.fmemo-box>div{flex:1 1 260px}
+/* 쉬운 입력 */
+.wiz{display:flex;flex-direction:column;gap:14px;border:2px solid #2E7D64;border-radius:12px;padding:14px 16px;background:#fff;margin-bottom:12px}
+.wiz-head b{display:block;font-size:1.05rem;color:#22604C}.wiz-head span{font-size:.85rem;color:var(--muted)}
+.wz-area{width:100%;font:inherit;line-height:1.5;padding:10px;border-radius:10px;border:1px solid #c9d6cf;resize:vertical}
+.ad-hint{margin:-4px 0 10px;color:var(--muted);font-size:.9rem}
+.ad-card{border:2px solid #2E7D64}
+.ad-badge{font-size:.7rem;background:#2E7D64;color:#fff;border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:6px}
+.ad-h{display:flex;align-items:center;gap:8px;font-size:1rem;margin:14px 0 8px;color:#22604C}
+.ad-h b{display:inline-grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#2E7D64;color:#fff;font-size:.85rem}
+.ad-h small{color:var(--muted);font-weight:400}
+.ad-form{border:1px dashed #8FAACB;border-radius:12px;padding:12px;background:#fff;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.ad-fname{font-size:.9rem;color:#22604C;word-break:break-all}
+.ad-form .field{width:100%}
+.ad-out{display:flex;flex-direction:column;gap:12px;overflow-y:auto}.ad-out>*{flex:none}
+.ad-steps{background:#F3F8F5;border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.ad-steps p{margin:0;position:relative;padding-left:30px;font-size:.95rem;line-height:1.6}
+.ad-steps p>b:first-child{position:absolute;left:0;top:2px;display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:#2E7D64;color:#fff;font-size:.8rem}
+.ad-btns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.ad-btns #ad-copy{grid-column:1/-1}
+.ad-go{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:64px;border-radius:12px;background:#fff;border:2px solid #2E7D64;color:#22604C;text-decoration:none;text-align:center}
+.ad-go b{font-size:1.05rem}.ad-go span{font-size:.78rem;color:var(--muted)}
+.ad-calc{font-size:.85rem;overflow-x:auto}.ad-calc b{display:block;margin-bottom:6px;color:#22604C}
+.ad-calc table{width:100%;min-width:420px}.ad-warn{color:#B3261E;font-weight:600}
+#ad-prompt{width:100%;min-height:280px;font-size:.85rem;line-height:1.5}
+@media (max-width:480px){.ad-btns{grid-template-columns:1fr 1fr}}
+.wz-step{display:flex;flex-direction:column;gap:8px;padding-bottom:12px;border-bottom:1px dashed #D3E3DA}
+.wz-step:last-child{border-bottom:0;padding-bottom:0}
+.wz-q{margin:0;font-size:1rem;font-weight:800;color:var(--ink);display:flex;gap:8px;align-items:center}
+.wz-q b{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#2E7D64;color:#fff;font-size:.85rem;flex:none}
+.wz-in{min-height:48px;font-size:1rem}
+.wz-quick{gap:6px}.chip-b{border:1px solid #BFDCCF;background:#F3FAF6;border-radius:999px;padding:6px 12px;font-size:.85rem;cursor:pointer}
+.wz-nums{display:flex;gap:14px;flex-wrap:wrap}.wz-nums label{display:flex;align-items:center;gap:6px;font-weight:700;font-size:.95rem}.wz-nums input{width:150px;min-height:46px;font-size:1.05rem;text-align:right}
+.wiz-more{border:1px solid var(--soft-line);border-radius:10px;padding:8px 12px;margin-bottom:10px}
+.wiz-more summary{cursor:pointer;font-weight:800;color:#22604C;padding:6px 0}
+.wiz-more-in{display:flex;flex-direction:column;gap:12px;margin-top:10px}
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -2310,17 +1749,20 @@ const FORMS = [
    {k:"ask",label:"문의",ph:"예: 061-000-0000 (시설장 ○○○)",short:1},
    {k:"date",label:"날짜",type:"date",def:"today",short:1},
    {k:"org",label:"기관명",ph:"예: 햇살공동생활가정",short:1}]},
- {id:"hoeui", em:"🗒️", name:"회의록", desc:"직원회의, 운영위원회, 보호자 간담회", kind:"generic",
+ {id:"hoeui", em:"🗒️", name:"회의록", desc:"회의 메모만 넣으면 회의록·회의 결과 보고 완성", kind:"generic", note:"회의 메모를 적은 그대로 붙여 넣으면 안건·논의·결정·할 일(담당·기한)로 자동 정리돼요. 이름은 ○○님으로 적어요.",
   fields:[
-   {k:"title",label:"회의명",ph:"예: 10월 직원회의",short:1},
+   {k:"title",label:"회의명",ph:"예: 10월 직원회의 / 고충처리 회의 / 인권·안전 간담회",short:1},
+   {k:"dtype",label:"문서 종류",def:"회의록",ph:"회의록 또는 회의 결과 보고",short:1},
    {k:"date",label:"일시",type:"date",def:"today",short:1},
    {k:"time",label:"시간",ph:"예: 14:00~15:00",short:1},
    {k:"where",label:"장소",ph:"예: 센터 거실",short:1},
    {k:"people",label:"참석자",ph:"예: 시설장, 사회재활교사 2명 (총 3명)",short:1},
-   {k:"agenda",label:"안건",type:"area",ph:"예: 1. 가을 나들이 계획\n2. 11월 식단 조정"},
-   {k:"discuss",label:"논의 내용",type:"area",ph:"오간 이야기를 편하게 적으면 보고서 형식으로 정리돼요.\n예: 나들이 장소로 오동도와 공원이 나왔다. 이동 거리를 생각해 공원이 좋겠다는 의견이 많았다."},
-   {k:"decide",label:"결정 사항",type:"area",ph:"예: 10월 25일 공원 나들이를 가기로 했다."},
-   {k:"todo",label:"할 일 (담당·기한)",type:"area",ph:"예: 차량 예약 - 시설장 - 10/18까지"},
+   {k:"memo",label:"회의 메모 (적은 그대로 붙여 넣기)",type:"area",notbl:1,ph:"줄마다 하나씩, 생각나는 대로 적어요.\n예:\n가을 나들이 장소 공원이 좋겠다\n이동 거리 생각해서 공원으로 가기로 함\n차량 예약 시설장 10/18까지\n11월 식단에 생선 반찬 늘리자는 의견\n간식비 영수증 정리 김선생님 이번 주"},
+   {k:"agenda",label:"안건",type:"area",opt:1,dl:"1. 안건",ph:"비워 두면 메모에서 자동으로 뽑아요"},
+   {k:"discuss",label:"논의 내용",type:"area",opt:1,dl:"2. 논의 내용",ph:"비워 두면 메모에서 자동으로 정리돼요"},
+   {k:"decide",label:"결정 사항",type:"area",opt:1,dl:"3. 결정 사항",ph:"비워 두면 메모에서 '~하기로 함' 등을 찾아 정리해요"},
+   {k:"todo",label:"할 일 (담당·기한)",type:"area",opt:1,notbl:1,ph:"비워 두면 메모에서 담당·기한이 있는 줄을 찾아 표로 만들어요\n예: 차량 예약 - 시설장 - 10/18까지"},
+   {k:"nextm",label:"다음 회의",opt:1,ph:"예: 11월 첫째 주 목요일",short:1},
    {k:"writer",label:"작성자",ph:"예: 시설장 ○○○",short:1},
    {k:"org",label:"기관명",short:1}]},
  {id:"program", em:"🎨", name:"프로그램 일지", desc:"여가·자립 프로그램 진행 기록", kind:"generic",
@@ -2344,11 +1786,12 @@ const FORMS = [
    {k:"time",label:"시간·장소",ph:"예: 18:00 저녁 식사 시간, 식탁",short:1},
    {k:"fact",label:"본 것·들은 것 (사실)",type:"area",ph:"본 그대로 편하게 적으면 오른쪽에서 보고서 형식으로 정리돼요.\n예: 저녁 시간에 반찬을 스스로 덜어 먹었다. 맛있다고 두 번 말했다."},
    {k:"think",label:"작성자 생각 (해석)",type:"area",ph:"예: 새 반찬에 대한 거부감이 줄어든 것 같다."},
-   {k:"support",label:"지원한 내용",type:"area",opt:1,ph:"예: 반찬 그릇을 가까이 놓아 드렸다."},
+   {k:"support",label:"지원한 내용",type:"area",opt:1,ph:"비워 두면 관찰 내용에 맞게 자동으로 들어가요"},
    {k:"next",label:"다음 지원 계획",type:"area",opt:1,ph:"예: 다음 주에도 새 반찬을 한 가지씩 권해 본다."},
+   {k:"link",label:"연계·보고",type:"area",opt:1,ph:"비워 두면 자동 (건강기록·개별지원계획 등)"},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"짧게 메모하듯 적으면 오른쪽에 보고서 문장으로 풀어 써져요. 상담자 의견·향후 계획을 비워 두면 초안이 자동으로 들어가요 (꼭 확인). 이름은 ○○님으로, 진단명은 적지 마세요.",
+ {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"짧게 메모하듯 적으면 오른쪽에 보고서 문장으로 풀어 써져요. 조치·의견·계획·연계를 비워 두면 초안이 자동으로 들어가요 (꼭 확인). 이름은 ○○님으로, 진단명은 적지 마세요.",
   fields:[
    {k:"title",label:"상담 주제",ph:"예: 주말 귀가 일정 상의",short:1},
    {k:"target",label:"상담 대상",ph:"예: 이용인 ○○님 / 보호자(○○님 어머니)",short:1},
@@ -2358,12 +1801,74 @@ const FORMS = [
    {k:"counselor",label:"상담자",ph:"예: 사회재활교사 ○○○",short:1},
    {k:"reason",label:"상담 계기",type:"area",ph:"편하게 적어요. 예: 보호자님이 전화로 요청하셨다. 최근 주말 귀가 뒤 잠을 잘 못 잔다고 하셨다."},
    {k:"content",label:"상담 내용",type:"area",ph:"줄글로 편하게 적으면 오른쪽에서 보고서 형식으로 정리돼요.\n예: 어머니는 주말에 집에 오면 밤늦게까지 TV를 본다고 하셨다. ○○님은 집에 가는 게 좋다고 말했다. 취침 시간을 함께 정해 보기로 했다."},
+   {k:"act",label:"조치 사항",type:"area",opt:1,ph:"비워 두면 상담 내용에 맞게 자동으로 들어가요"},
    {k:"opinion",label:"상담자 의견",type:"area",ph:"예: 주말에 생활 리듬이 바뀌는 것이 영향을 주는 것 같다."},
    {k:"plan",label:"조치 및 향후 계획",type:"area",ph:"예: 2주 동안 취침 시간을 기록한다. 2주 뒤 보호자님과 다시 상담한다."},
+   {k:"link",label:"연계·보고",type:"area",opt:1,ph:"비워 두면 자동 (고충처리대장·건강기록·개별지원계획 등)"},
    {k:"nextdate",label:"다음 상담 예정일",opt:1,ph:"예: 2026. 10. 25.",short:1},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"yokgu", em:"🌱", name:"프로그램 희망조사", desc:"하고 싶은 프로그램 묻기", kind:"survey", scale:["원해요","보통이에요","원하지 않아요"],
+ {id:"gochung", em:"📮", name:"고충처리 기록", desc:"불편·건의 접수부터 30일 내 처리·안내까지", kind:"generic", note:"접수일을 넣으면 처리 기한(30일)이 자동 계산돼요. 고충 내용만 짧게 적어도 확인·처리·안내 문장이 자동으로 들어가요. 평가지표 B3 근거 서류예요.",
+  fields:[
+   {k:"date",label:"접수일",type:"date",def:"today",short:1},
+   {k:"who",label:"제기자",ph:"예: 이용인 ○○님 / 보호자",short:1},
+   {k:"route",label:"접수 경로",ph:"예: 직접 말함, 건의함, 전화, 홈페이지",short:1},
+   {k:"staff",label:"처리 담당자",ph:"예: 시설장 ○○○",short:1},
+   {k:"content",label:"고충 내용",type:"area",ph:"짧게 적어도 돼요.\n예: 방이 춥다, 밤에 잘 때 춥다고 함"},
+   {k:"check",label:"사실 확인",type:"area",opt:1,ph:"비워 두면 자동"},
+   {k:"action",label:"처리 내용",type:"area",opt:1,ph:"비워 두면 고충 내용에 맞게 자동으로 들어가요"},
+   {k:"notify",label:"결과 안내·공지",type:"area",opt:1,ph:"비워 두면 자동"},
+   {k:"done",label:"처리 완료일",type:"date",opt:1,short:1},
+   {k:"writer",label:"작성자",short:1},
+   {k:"org",label:"기관명",short:1}]},
+ {id:"sago", em:"🚑", name:"사고·위기 보고서", desc:"넘어짐·다툼·투약 오류 등 사고 보고", kind:"generic", note:"사고 유형과 있었던 일을 짧게 적으면 즉시 조치·보고·원인·재발 방지 대책이 자동으로 들어가요. 원인은 '추정'으로 표시돼요. 이름은 ○○님으로 적어요.",
+  fields:[
+   {k:"date",label:"발생일",type:"date",def:"today",short:1},
+   {k:"time",label:"발생 시각",ph:"예: 14:20",short:1},
+   {k:"where",label:"발생 장소",ph:"예: 2층 계단",short:1},
+   {k:"who",label:"대상",def:"○○님",short:1},
+   {k:"stype",label:"사고 유형",ph:"예: 넘어짐, 다툼, 투약 오류, 실종, 화상",short:1},
+   {k:"writer",label:"작성자",short:1},
+   {k:"what",label:"발생 경위",type:"area",dl:"1. 발생 경위",ph:"있었던 일을 짧게 적어요.\n예: 계단 내려오다 넘어짐, 무릎 찰과상"},
+   {k:"first",label:"즉시 조치",type:"area",opt:1,dl:"2. 즉시 조치",ph:"비워 두면 사고 유형에 맞게 자동"},
+   {k:"report",label:"보고 및 연락",type:"area",opt:1,dl:"3. 보고 및 연락",ph:"예: 시설장 14:30 보고, 보호자 14:40 전화"},
+   {k:"cause",label:"원인 분석",type:"area",opt:1,dl:"4. 원인 분석",ph:"비워 두면 자동 (추정으로 표시)"},
+   {k:"prev",label:"재발 방지 대책",type:"area",opt:1,dl:"5. 재발 방지 대책",ph:"비워 두면 자동"},
+   {k:"obs",label:"향후 관찰",type:"area",opt:1,dl:"6. 향후 관찰 계획",ph:"비워 두면 자동"},
+   {k:"org",label:"기관명",short:1}]},
+ {id:"gaebyeol", em:"🧭", name:"개별지원계획서", desc:"욕구사정 → 목표 → 지원 → 12개월 점검", kind:"generic", note:"현재 모습과 바라는 점을 짧게 적으면 영역별 목표·지원 내용·점검 일정이 표로 만들어져요. 평가지표 C2 근거 서류예요. 진단명·실명은 적지 마세요.",
+  fields:[
+   {k:"who",label:"대상",def:"○○님",short:1},
+   {k:"date",label:"수립일",type:"date",def:"today",short:1},
+   {k:"staff",label:"담당자",ph:"예: 사회재활교사 ○○○",short:1},
+   {k:"period",label:"계획 기간",ph:"비워 두면 수립일부터 1년",short:1},
+   {k:"needs",label:"현재 모습·바라는 점 (욕구)",type:"area",notbl:1,ph:"쉼표나 줄로 나눠 짧게 적어요.\n예: 밤에 자주 깸, 혼자 버스 타보고 싶음, 요리 좋아함, 용돈 금방 씀"},
+   {k:"voice",label:"본인·보호자 의견",type:"area",opt:1,hideEmpty:1,dl:"본인·보호자 의견",ph:"예: 본인: 혼자 시장에 가 보고 싶다고 함 / 보호자: 건강을 챙겨 주길 바람"},
+   {k:"assess",label:"욕구사정 요약",type:"area",opt:1,dl:"1. 욕구사정 요약",ph:"비워 두면 자동"},
+   {k:"goal",label:"장기 목표",type:"area",opt:1,dl:"2. 장기 목표 (1년)",ph:"비워 두면 자동"},
+   {k:"check",label:"점검·평가 계획",type:"area",opt:1,notbl:1,dl:"4. 점검·평가 계획",ph:"비워 두면 자동 (6개월 중간점검, 12개월 이내 재사정)"},
+   {k:"writer",label:"작성자",short:1},
+   {k:"org",label:"기관명",short:1}]},
+ {id:"gyoyuk", em:"🎓", name:"교육 결과보고서", desc:"인권·학대예방·개인정보·안전 교육 + 서명 시트", kind:"generic", note:"교육 종류와 시간만 넣으면 교육 목적·내용·평가지표 기준 충족 여부·참석자 서명 시트가 자동으로 만들어져요.",
+  fields:[
+   {k:"title",label:"교육명",ph:"예: 직원 인권교육 / 장애인학대 예방 및 신고의무 교육",short:1},
+   {k:"target",label:"교육 대상",def:"직원",ph:"직원 또는 이용인",short:1},
+   {k:"date",label:"교육일",type:"date",def:"today",short:1},
+   {k:"time",label:"교육 시간",ph:"예: 14:00~16:00 (2시간)",short:1},
+   {k:"where",label:"장소·방법",ph:"예: 센터 거실 (집합) / 온라인",short:1},
+   {k:"lecturer",label:"강사",ph:"예: 외부강사 ○○○ (인권강사 양성과정 수료)",short:1},
+   {k:"people",label:"참석 인원",ph:"예: 직원 4명 전원",short:1},
+   {k:"prev",label:"올해 앞서 받은 시간",opt:1,ph:"예: 4시간 (없으면 비워요)",short:1},
+   {k:"names",label:"참석자 명단 (서명 시트)",type:"area",opt:1,notbl:1,ph:"한 줄에 한 명. 예: 사회재활교사 ○○○\n비워 두면 참석 인원만큼 빈 줄이 생겨요"},
+   {k:"memo",label:"교육 내용 메모",type:"area",opt:1,notbl:1,ph:"기억나는 내용을 짧게. 예: 학대 유형, 신고 방법 112, 사례 토론"},
+   {k:"goal",label:"교육 목적",type:"area",opt:1,dl:"1. 교육 목적",ph:"비워 두면 자동"},
+   {k:"content",label:"교육 내용",type:"area",opt:1,dl:"2. 교육 내용",ph:"비워 두면 교육 종류에 맞게 자동"},
+   {k:"react",label:"교육 반응·평가",type:"area",opt:1,dl:"3. 교육 평가",ph:"예: 사례 토론에 적극 참여, 만족도 4.5점"},
+   {k:"link",label:"평가지표 기준",type:"area",opt:1,dl:"4. 평가지표 기준 충족 여부",ph:"비워 두면 자동"},
+   {k:"next",label:"향후 계획",type:"area",opt:1,dl:"5. 향후 계획",ph:"비워 두면 자동"},
+   {k:"writer",label:"작성자",short:1},
+   {k:"org",label:"기관명",short:1}]},
+ {id:"yokgu", em:"🌱", name:"욕구조사지 (프로그램 희망조사)", desc:"하고 싶은 것·필요한 것 묻기 (평가지표 C4)", kind:"survey", scale:["원해요","보통이에요","원하지 않아요"],
   fields:[
    {k:"title",label:"조사 제목",def:"하고 싶은 프로그램을 알려주세요",short:1},
    {k:"period",label:"조사 기간",ph:"예: 2026. 11. 1. ~ 11. 15.",short:1},
@@ -2371,7 +1876,7 @@ const FORMS = [
    {k:"qs",label:"문항 (한 줄에 하나)",type:"area",def:"다 같이 나들이를 가고 싶어요\n새로운 요리를 배워 보고 싶어요\n운동을 하고 싶어요\n혼자 장보기를 연습하고 싶어요\n친구나 가족을 더 자주 만나고 싶어요\n내 방을 꾸미고 싶어요\n돈 관리하는 법을 배우고 싶어요"},
    {k:"open",label:"자유 질문",def:"그 밖에 하고 싶은 것이 있나요?",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"manjok", em:"💛", name:"만족도조사지", desc:"서비스·프로그램 만족도 조사", kind:"survey", scale:["매우 좋아요","좋아요","보통이에요","별로예요","싫어요"],
+ {id:"manjok", em:"💛", name:"만족도조사지", desc:"서비스·프로그램 만족도 조사 (평가지표 C4)", kind:"survey", scale:["매우 좋아요","좋아요","보통이에요","별로예요","싫어요"],
   fields:[
    {k:"title",label:"조사 제목",def:"우리 집 생활 만족도 조사",short:1},
    {k:"period",label:"조사 기간",ph:"예: 2026. 12. 1. ~ 12. 15.",short:1},
@@ -2379,32 +1884,62 @@ const FORMS = [
    {k:"qs",label:"문항 (한 줄에 하나)",type:"area",def:"우리 집 식사가 맛있어요\n내 방이 편안해요\n선생님이 내 이야기를 잘 들어줘요\n하고 싶은 활동을 할 수 있어요\n나들이와 프로그램이 즐거워요\n우리 집에서 안전하다고 느껴요"},
    {k:"open",label:"자유 질문",def:"더 바라는 점이 있나요?",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"saeop", em:"🗂️", name:"사업계획서", desc:"새 프로그램·사업 계획", kind:"generic", ai:1,
+ {id:"saeop", em:"🗂️", name:"사업계획서", desc:"세부사업만 적으면 평가지침에 맞춘 AI 요청문 완성", kind:"aidoc", doc:"saeop",
   fields:[
-   {k:"title",label:"사업명",short:1},
-   {k:"period",label:"사업 기간",ph:"예: 2027. 3. ~ 11.",short:1},
-   {k:"target",label:"대상·인원",ph:"예: 이용인 4명",short:1},
-   {k:"leader",label:"담당자",short:1},
+   {k:"title",label:"문서 제목",def:"2027년 사업계획서",short:1},
    {k:"org",label:"기관명",short:1},
-   {k:"need",label:"사업 필요성",type:"area"},
-   {k:"goal",label:"목적 및 목표",type:"area"},
-   {k:"content",label:"세부 내용 및 일정",type:"area"},
-   {k:"budget",label:"예산 (항목·금액)",type:"area",ph:"계산은 엑셀로 하고 결과만 적으세요"},
-   {k:"effect",label:"기대 효과",type:"area"},
-   {k:"evalm",label:"평가 방법",type:"area"}]},
- {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"사업·프로그램 결과 정리", kind:"generic", ai:1,
+   {k:"period",label:"사업 기간",ph:"예: 2027. 1. 1. ~ 12. 31.",short:1},
+   {k:"target",label:"대상",ph:"예: 이용인 4명 (초중증 지적·발달장애)",short:1},
+   {k:"total",label:"총예산",ph:"예: 148,095천원 (모르면 비워요)",short:1},
+   {k:"staff",label:"직원 구성",ph:"예: 시설장 1, 생활재활교사 2",short:1},
+   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 예산 시기 담당)",type:"area",ph:"예:\n식사 및 영양관리 매일 4명 7653천원 연중 생활재활교사\n특별급식 월2회 4명 7650천원\n평생교육(미술·도예) 주1회 4명 12150천원\n생일축하 연4회 4명 1000천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n사례관리 평가 연2회 4명\n욕구 및 만족도 조사 연1회 4명"},
+   {k:"focus",label:"올해 중점·새로 하고 싶은 것",type:"area",opt:1,ph:"예: 그림 중심 안전교육 확대, 지역 카페 체험 늘리기, 생활재활교사 대체인력 확보"},
+   {k:"prev",label:"작년 결과·욕구조사에서 나온 점",type:"area",opt:1,ph:"예: 만족도 조사에서 외부 나들이 희망 많음, 도전적 행동으로 외부 행사 일부 불참"},
+   {k:"vision",label:"사명·비전·운영방침",type:"area",opt:1,ph:"예: 장애인의 평생 돌봄 / 사랑과 행복으로 살아가는 보금자리"},
+   {k:"long",label:"중장기 계획 메모",type:"area",opt:1,ph:"예: 노후 설비 교체, 후원 홍보 강화, 시설장 부재 대비 체계"}]},
+ {id:"unyeong", em:"🧾", name:"운영계획서", desc:"일반사업 운영계획서 AI 요청문", kind:"aidoc", doc:"unyeong",
   fields:[
-   {k:"title",label:"사업명",short:1},
-   {k:"period",label:"사업 기간",short:1},
-   {k:"people",label:"참여 인원",short:1},
-   {k:"writer",label:"작성자",short:1},
+   {k:"title",label:"문서 제목",def:"2027년 공동생활가정 일반사업 운영계획서",short:1},
    {k:"org",label:"기관명",short:1},
-   {k:"content",label:"추진 내용",type:"area"},
-   {k:"result",label:"성과 (수치·변화)",type:"area",ph:"메모에 있는 숫자만 적어요"},
-   {k:"sat",label:"만족도 및 평가",type:"area"},
-   {k:"good",label:"잘된 점 / 아쉬운 점",type:"area"},
-   {k:"budget",label:"예산 집행",type:"area",opt:1},
-   {k:"next",label:"향후 계획",type:"area"}]}
+   {k:"period",label:"사업 기간",ph:"예: 2027. 1. 1. ~ 12. 31.",short:1},
+   {k:"target",label:"대상",ph:"예: 입소장애인 4명",short:1},
+   {k:"total",label:"사업 예산",ph:"예: 148,095천원",short:1},
+   {k:"purpose",label:"사업 목적 (단어만)",type:"area",ph:"예: 안전한 주거, 일상생활 지원, 평생교육, 여가, 지역사회 적응, 자립 능력"},
+   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 내용)",type:"area",ph:"예:\n일상생활 지원 매일 4명 식사·위생·건강·안전관리\n평생교육 주1회 4명 인지학습·미술·도예·인권교육\n여가생활 지원 월2회 4명 생일·영화·계절 나들이\n지역사회적응훈련 월2회 4명 대중교통·카페·식당 체험"},
+   {k:"memo",label:"더 넣고 싶은 내용",type:"area",opt:1,ph:"예: 자원봉사자 연계, 장애 특성상 소규모 외부활동 위주"}]},
+ {id:"yesan", em:"💰", name:"예산집행보고서", desc:"예산액·집행액만 적으면 집행률까지 정리하는 AI 요청문", kind:"aidoc", doc:"yesan",
+  fields:[
+   {k:"title",label:"문서 제목",def:"2026년 예산 집행 보고서",short:1},
+   {k:"org",label:"기관명",short:1},
+   {k:"period",label:"집행 기간",ph:"예: 2026. 1. 1. ~ 12. 31.",short:1},
+   {k:"target",label:"대상",ph:"예: 이용인 4명",short:1},
+   {k:"total",label:"총예산 / 총집행액",ph:"예: 148,095천원 / 140,200천원",short:1},
+   {k:"fund",label:"재원 구분",ph:"예: 보조금, 후원금, 자부담",short:1},
+   {k:"rows",label:"사업별 예산·집행 (한 줄에 하나: 사업명 예산 집행액 주요 내역)",type:"area",ph:"예:\n식생활 자립지원 7653천원 7480천원 1일 3식·간식 식재료\n특별급식 7650천원 7650천원 월2회 특별식, 명절 4회\n평생교육 12150천원 11300천원 도예·미술 재료, 강사비\n지역사회적응훈련 13172천원 12900천원 나들이 교통비·입장료"},
+   {k:"why",label:"미집행·변경 사유",type:"area",opt:1,ph:"예: 평생교육 강사 일정 취소 2회로 850천원 미집행 → 차년도 재료비로 이월 예정"},
+   {k:"memo",label:"성과·특이사항",type:"area",opt:1,ph:"예: 후원금 사용 내역 밴드에 매월 공개, 공공요금 인상으로 운영비 증가"}]},
+ {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"실적 숫자·있었던 일 → 성과 중심 결과보고 AI 요청문", kind:"aidoc", doc:"gyeolgwa",
+  fields:[
+   {k:"title",label:"사업명",ph:"예: 2026년 지역사회적응훈련 / 가을 단풍 나들이",short:1},
+   {k:"org",label:"기관명",short:1},
+   {k:"period",label:"사업 기간",ph:"예: 2026. 3. ~ 12.",short:1},
+   {k:"target",label:"대상",ph:"예: 이용인 4명",short:1},
+   {k:"writer",label:"작성자",ph:"예: 사회재활교사 ○○○",short:1},
+   {k:"subs",label:"계획 대비 실적 (한 줄에 하나: 사업명 계획 / 실적)",type:"area",ph:"예:\n지역사회적응훈련 계획 월2회 4명 / 실적 20회 연인원 76명\n평생교육 계획 주1회 / 실적 45회\n생일축하 계획 연4회 / 실적 4회"},
+   {k:"budget",label:"예산·집행 (한 줄에 하나)",type:"area",opt:1,ph:"예: 지역사회적응훈련 예산 13172천원 집행 12900천원"},
+   {k:"change",label:"이용인 변화·있었던 일 (단어만)",type:"area",ph:"예: ○○님 처음 혼자 카페 주문, 버스 카드 스스로 찍음, 사진 보며 웃음, 도전적 행동으로 2회 중단"},
+   {k:"sat",label:"만족도 조사 결과",type:"area",opt:1,ph:"예: 4명 중 3명 '좋아요' 이상, 나들이 더 가고 싶다는 의견"},
+   {k:"next",label:"아쉬운 점·내년 계획",type:"area",opt:1,ph:"예: 겨울철 실내 대체 활동 필요, 봉사자 연계 확대"}]},
+ {id:"sarye", em:"🗃️", name:"사례관리·욕구조사 계획서", desc:"사례관리 평가와 욕구·만족도 조사 계획 AI 요청문 (C2·C4)", kind:"aidoc", doc:"sarye",
+  fields:[
+   {k:"title",label:"문서 제목",def:"2027년 사례관리 및 서비스과정 평가사업 계획서",short:1},
+   {k:"org",label:"기관명",short:1},
+   {k:"period",label:"사업 기간",ph:"예: 2027. 1. 1. ~ 12. 31.",short:1},
+   {k:"target",label:"대상",ph:"예: 입소장애인 4명",short:1},
+   {k:"times",label:"사례관리 평가 횟수",def:"연 2회 (상·하반기)",short:1},
+   {k:"survey",label:"조사 영역",def:"생활서비스, 프로그램, 급식, 지역사회활동, 추가 욕구, 건의사항",short:1},
+   {k:"tool",label:"장애 특성에 맞는 조사 방법",type:"area",ph:"예: 그림 카드 3단계(좋아요·보통·싫어요), 보호자 의견 병행, 의사소통 어려운 분은 관찰 기록"},
+   {k:"memo",label:"더 넣고 싶은 내용",type:"area",opt:1,ph:"예: 사례회의에 보호자 참여, 결과는 차년도 개별지원계획에 반영"}]}
 ];
 const FBY = Object.fromEntries(FORMS.map(f=>[f.id,f]));
 const fvals = {};
@@ -2647,9 +2182,17 @@ function obsThink(v){ const a=csNorm(v.fact||""); if(!a) return ""; const tp=[..
 function obsNext(v){ const a=csNorm(v.fact||""); if(!a) return ""; const L=["같은 상황을 1~2주간 지속적으로 관찰하여 기록함"]; if(POS.test(a)) L.push("잘한 점을 구체적으로 칭찬하여 긍정적인 행동이 이어지도록 지원함"); if(NEG.test(a)) L.push("불편함의 원인을 확인하고 필요시 보호자·동료 직원과 공유함"); return L.map(x=>"○ "+x).join("\n"); }
 function progEval(v){ const a=csNorm(v.obs||""); if(!a) return ""; const L=[]; if(POS.test(a)) L.push("참여자들이 즐겁게 참여하여 활동 목표에 맞게 진행된 것으로 보임"); if(NEG.test(a)) L.push("일부 참여자가 어려움을 보여 활동 방법과 시간 조정이 필요함"); if(!L.length) L.push("계획한 활동을 진행하였으며 참여 모습을 지속적으로 관찰할 필요가 있음"); L.push("다음 회기에는 참여자의 반응을 반영하여 진행할 예정임"); return L.map(x=>"○ "+x).join("\n"); }
 /* ================= 일지 자동 작성 지식 (상담·관찰·프로그램 공통) ================= */
-const LOG_TYPO=[[/불편증/g,"불면증"],[/정응/g,"적응"],[/입소\s*후|입소후/g,"입소 후"],[/필요해보임/g,"필요해 보임"],[/필요해보인다/g,"필요해 보인다"],[/적응기간/g,"적응 기간"],[/적응문제/g,"적응 문제"],[/전화요청/g,"전화 요청"],[/대체적으로/g,"대체로"],[/입소자/g,"이용인"],[/동료관계/g,"동료 관계"],[/생활적응/g,"생활 적응"]];
+const LOG_TYPO=[[/불편증/g,"불면증"],[/불명증/g,"불면증"],[/불면징/g,"불면증"],[/두퉁/g,"두통"],[/잠을못/g,"잠을 못"],[/밥을안/g,"밥을 안"],[/약을안/g,"약을 안"],[/식욕부진/g,"식욕 부진"],[/변비기/g,"변비 기운"],[/병원가/g,"병원에 가"],[/화장실실수/g,"화장실 실수"],[/정응/g,"적응"],[/입소\s*후|입소후/g,"입소 후"],[/필요해보임/g,"필요해 보임"],[/필요해보인다/g,"필요해 보인다"],[/적응기간/g,"적응 기간"],[/적응문제/g,"적응 문제"],[/전화요청/g,"전화 요청"],[/대체적으로/g,"대체로"],[/입소자/g,"이용인"],[/동료관계/g,"동료 관계"],[/생활적응/g,"생활 적응"]];
 const logNorm=t=>{ let x=String(t||""); LOG_TYPO.forEach(([r,w])=>{ x=x.replace(r,w); }); return x.trim(); };
 const CKB=[
+ {k:"인권",re:/학대|폭행|맞았|맞음|때렸|때림|욕을|욕설|강요|무시당|괴롭|성추행|함부로/,name:"인권침해 의심 상황",
+  c:["이용인이 이야기한 상황을 판단을 더하지 않고 이용인의 말 그대로 기록함","일어난 일시·장소·관련된 사람 [  ]을 확인함","이용인의 몸과 마음 상태를 살피고 지금 안전한지 확인함"],
+  o:["이용인의 안전 확보가 가장 먼저 필요함","사실 확인과 함께 이용인을 보호하는 조치가 필요함","인권보호 규정에 따른 절차 진행이 필요함"],
+  p:["즉시 시설장(인권보호 담당자)에게 보고함","필요시 장애인권익옹호기관 등 신고의무 절차를 따름","이용인의 심리적 안정을 위해 정기적으로 상담함","확인 결과와 조치 내용을 기록하여 보관함"]},
+ {k:"고충",re:/불만|건의|불편\s*사항|고쳐\s*달|바꿔\s*달|고충/,name:"불편·건의 사항(고충)",
+  c:["이용인이 생활하면서 느끼는 불편 사항과 바라는 점을 구체적으로 들음","불편이 생긴 시기와 상황 [  ]을 함께 확인함","이용인이 원하는 해결 방법을 확인함"],
+  o:["이용인이 의견을 존중받는다고 느낄 수 있도록 빠른 처리가 필요함","같은 불편이 다른 이용인에게도 있는지 함께 살펴볼 필요가 있음","처리 결과를 이용인이 이해하기 쉬운 방법으로 안내할 필요가 있음"],
+  p:["고충처리 절차에 따라 접수하고 30일 이내 처리 결과를 안내함","처리 과정을 이용인에게 중간 안내함","처리 후 만족 여부를 다시 확인함"]},
  {k:"적응",re:/적응|입소|새 환경|낯설|익숙/,name:"입소 후 적응",
   c:["입소 후 새로운 생활 환경과 일과에 적응하는 과정에서 느끼는 어려움에 대하여 이야기를 나눔","생활 규칙, 하루 일과, 함께 생활하는 이용인과의 관계 등 적응 상황을 함께 점검함","이용인은 [아직 낯설거나 힘든 점]에 대하여 이야기함"],
   o:["입소 초기로 새로운 환경에 익숙해지기까지 충분한 적응 기간이 필요한 것으로 보임","환경 변화로 인한 긴장과 불안이 일상생활 전반에 영향을 주고 있는 것으로 보임","이용인이 편안함을 느낄 수 있도록 일관된 일과와 정서적 지지가 필요함"],
@@ -2709,7 +2252,23 @@ const CKB=[
  {k:"생활",re:/청소|정리|일상생활|자립|요리|장보기/,name:"일상생활 기술",
   c:["청소, 정리, 요리 등 일상생활에서 스스로 하는 일에 대하여 이야기를 나눔","스스로 할 수 있는 일과 도움이 필요한 일을 함께 확인함","이용인이 새롭게 해 보고 싶은 생활 기술을 들음"],
   o:["단계적인 연습을 통해 스스로 할 수 있는 일을 늘려 갈 수 있을 것으로 보임","작은 성공 경험을 쌓아 자신감을 높이는 지원이 필요함","생활 기술 향상이 자립 생활에 도움이 될 것으로 보임"],
-  p:["주 2회 [생활 기술]을 직원과 함께 연습함","잘한 점을 구체적으로 칭찬하여 동기를 높임","월 1회 진행 상황을 확인하여 개별지원계획에 반영함"]}];
+  p:["주 2회 [생활 기술]을 직원과 함께 연습함","잘한 점을 구체적으로 칭찬하여 동기를 높임","월 1회 진행 상황을 확인하여 개별지원계획에 반영함"]},
+ {k:"배변",re:/변비|배변|대변|소변|실수|기저귀|설사/,name:"배변 상태",
+  c:["최근 배변 횟수와 상태, 불편함에 대하여 이야기를 나눔","배변 간격 [  ]일, 불편 정도를 함께 확인함","물 마시는 양과 식사 습관을 함께 확인함"],
+  o:["배변 상태 변화가 컨디션과 식사에 영향을 줄 수 있어 관찰이 필요함","물과 채소 섭취를 늘리는 지원이 필요한 것으로 보임","증상이 계속되면 진료 연계가 필요함"],
+  p:["1주간 배변 기록을 작성함","하루 물 마시는 양을 늘리도록 지원함","3일 이상 계속되면 보호자와 진료를 협의함"]},
+ {k:"투약",re:/투약|복약|복용|약을|약\s*먹|약\s*안\s*먹|약\s*거부/,name:"약 복용",
+  c:["약 먹는 시간과 방법, 불편한 점에 대하여 이야기를 나눔","약을 빠뜨리거나 거부한 상황이 있었는지 확인함","약 복용 후 몸의 변화를 함께 확인함"],
+  o:["정해진 시간에 약을 먹을 수 있도록 일관된 지원이 필요함","약을 거부하는 이유를 이해하고 쉽게 설명하는 과정이 필요함","약과 관련된 변화는 의료기관과 공유할 필요가 있음"],
+  p:["약물복용 기록지에 매회 복용 여부를 기록함","복용 시간을 그림 카드로 안내함","이상 반응이 있으면 보호자·의료기관에 즉시 알림"]},
+ {k:"치아",re:/치아|이가\s*아|이빨|잇몸|치과|충치/,name:"치아 건강",
+  c:["치아 통증과 양치 습관에 대하여 이야기를 나눔","아픈 부위와 시작된 시기 [  ]를 확인함","치과 진료 경험과 두려운 점을 들음"],
+  o:["치아 통증이 식사와 컨디션에 영향을 줄 수 있어 빠른 확인이 필요함","스스로 양치하는 습관을 기르는 지원이 필요함","치과 진료에 대한 부담을 줄이는 사전 안내가 필요함"],
+  p:["하루 2회 양치를 함께 확인함","보호자와 치과 진료 일정을 협의함","진료 전 그림으로 진료 과정을 안내함"]},
+ {k:"낙상",re:/넘어|낙상|휘청|비틀|보행|다리\s*힘/,name:"낙상 위험(보행)",
+  c:["최근 걷다가 넘어지거나 휘청인 경험에 대하여 이야기를 나눔","넘어진 장소·시간 [  ]과 다친 곳을 확인함","이동할 때 불편한 점과 도움이 필요한 부분을 확인함"],
+  o:["낙상 예방을 위한 환경 점검과 보행 지원이 필요함","하체 근력과 균형을 기르는 활동이 도움이 될 것으로 보임","넘어짐이 반복되면 진료 연계를 검토할 필요가 있음"],
+  p:["생활 공간의 미끄럼·장애물을 점검하여 정리함","계단·욕실 이동 때 직원이 곁에서 지원함","가벼운 걷기·스트레칭을 주 3회 함께 함"]}];
 function logTopics(text){ const t=logNorm(text); return CKB.filter(x=>x.re.test(t)); }
 const isSentenceLike=f=>/(다|요|함|음|임|됨|있음|없음)$/.test(f) && f.replace(/\s/g,"").length>=8;
 function logLines(user, kb, min, max){
@@ -2732,7 +2291,7 @@ function sdBuild(v){
   const T=logTopics([v.title,v.content,v.opinion].join(" ")).concat(logTopics(v.reason||"").filter(x=>x.k!=="가족"||!/요청/.test(v.reason||""))).filter((x,i,a)=>a.indexOf(x)===i);
   const pick=(f)=>T.flatMap(x=>x[f].slice(0,T.length>2?2:x[f].length));
   const C=logNorm(v.content||""); const posOnly=/만족|좋다|좋아|잘\s*(지내|적응|먹|잔|자)|편안|즐거/.test(C) && !/불만|어렵|힘들|싫|불편|못\s|불면|갈등|다툼|문제/.test(C);
-  if(posOnly && T.length){ const P=sdPositive(v,T); let rs=csReason(v.reason||""); return {reason:rs||`○ ${T.map(x=>x.name).join(", ")} 관련 상황을 확인하기 위하여 상담을 실시함`, ...P}; }
+  if(posOnly && T.length){ const P=sdPositive(v,T); let rs=csReason(v.reason||""); return {reason:rs||`○ ${T.map(x=>x.name).join(", ")} 관련 상황을 확인하기 위하여 상담을 실시함`, ...P, _T:T}; }
   const raw=logNorm(v.content||""), frs=csFrags(raw);
   const userC=frs.filter(f=>isSentenceLike(f)||/다고/.test(f)||/(다툼|갈등|싸움|어려움)$/.test(f)||csSaid(f)).map(f=>csContent(f).replace(/^○\s*/,""));
   const topicLine = T.length ? `상담 주제: ${T.map(x=>x.name).join(", ")}` : "";
@@ -2748,7 +2307,7 @@ function sdBuild(v){
   if(pLines.length<3) ["2주 후 재상담하여 변화된 모습을 확인함","상담 내용을 담당 직원과 공유하여 일관되게 지원함","필요시 보호자와 상담 내용을 공유함"].forEach(l=>{ if(pLines.length<3) pLines.push(l); });
   let rs=csReason(v.reason||""); if(!rs && T.length) rs=`○ ${T.map(x=>x.name).join(", ")} 관련 상황을 확인하기 위하여 상담을 실시함`;
   if(/전화/.test(v.reason||"")) rs=rs.replace("요청에 따라 상담을 실시함","전화 요청으로 상담을 실시함");
-  return {reason:rs, content:cLines.map(x=>"○ "+x).join("\n"), opinion:oLines.map(x=>"○ "+x).join("\n"), plan:pLines.map(x=>"○ "+x).join("\n")};
+  return {reason:rs, content:cLines.map(x=>"○ "+x).join("\n"), opinion:oLines.map(x=>"○ "+x).join("\n"), plan:pLines.map(x=>"○ "+x).join("\n"), _T:T};
 }
 function memoObs(t){ const fr=csFrags(logNorm(t)); return fr.map(f=>{ let x=f.replace(/○○/g,"\u0001");
   if(/(다|요|됨|임)$/.test(x)) return "○ "+toGaejo(x).replace(/^○\s*/,"").replace(/\u0001/g,"○○");
@@ -2775,12 +2334,171 @@ function pgBuild(v){
   const L=[...ev]; for(const l of base){ if(L.length>=(o||ev.length?4:0)) break; if(!L.some(x=>x.slice(0,8)===l.slice(0,8))) L.push(l); }
   return {content:reportFmt(v.content), obs:memoObs(o), eval:L.map(x=>"○ "+x).join("\n")};
 }
+/* ================= 바로 채우는 서식: 메모 → 서식 자동 완성 (회의록·고충·사고·개별지원·교육) ================= */
+const OL=a=>[...new Set(a.filter(Boolean))].map(x=>"○ "+x).join("\n");
+const userL=t=>csFrags(logNorm(t||"")).map(f=>toGaejo(f.replace(/○○/g,"\u0001")).replace(/^○\s*/,"").replace(/\u0001/g,"○○"));
+const mergeL=(user,auto,max)=>{ const out=[...user]; for(const l of auto){ if(max&&out.length>=max) break; if(!out.some(x=>x.slice(0,8)===l.slice(0,8))) out.push(l); } return out; };
+const isoOf=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const addDays=(iso,n)=>{ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return ""; d.setDate(d.getDate()+n); return isoOf(d); };
+const addMonths=(iso,n)=>{ const d=new Date(iso+"T00:00:00"); if(isNaN(d)) return ""; d.setMonth(d.getMonth()+n); return isoOf(d); };
+/* 상담·관찰: 조치와 연계 */
+const ACTMAP={적응:"하루 일과를 다시 안내하고 담당 직원을 정하여 가까이에서 지원함",수면:"취침 전 TV·휴대폰 사용을 줄이도록 안내하고 편안한 취침 환경을 함께 정리함",식사:"선호 음식과 식사량을 확인하고 식사 시 개별 지원 방법을 직원과 공유함",관계:"관련 이용인의 이야기를 각각 듣고 서로의 입장을 정리하도록 도움",가족:"보호자에게 상담 내용을 전달하고 귀가·연락 일정을 함께 조율함",정서:"이용인의 감정을 충분히 들어 주고 마음이 편해지는 활동을 함께 정함",건강:"증상을 확인하여 건강 기록에 남기고 보호자에게 알림",행동:"행동이 나타난 상황을 기록하고 직원 간 대응 방법을 공유함",위생:"위생 관리 순서를 함께 확인하고 필요한 물품을 준비함",금전:"용돈 사용 내역을 함께 확인함",직장:"직장 담당자에게 연락하여 상황을 공유함",참여:"희망 활동을 확인하여 프로그램 담당자에게 전달함",휴대폰:"휴대폰 사용 규칙을 이용인과 함께 정함",외출:"외출 시 안전 수칙을 다시 안내함",생활:"스스로 할 수 있는 생활 기술을 함께 정해 연습을 시작함",고충:"이용인의 불편 사항을 고충처리 절차에 따라 접수함",인권:"즉시 시설장(인권보호 담당자)에게 보고하고 이용인의 안전을 먼저 확보함",배변:"배변 상태를 확인하여 기록하고 물과 채소 섭취를 늘리도록 지원함",투약:"복약 시간과 방법을 확인하여 약물복용 기록지에 기록함",치아:"치아 상태를 확인하고 양치 지원과 치과 진료 일정을 협의함",낙상:"이동 동선의 위험 요소를 점검하고 보행 시 곁에서 지원함"};
+const LINKMAP={수면:"C3",식사:"C3",건강:"C3",배변:"C3",투약:"C3",치아:"C3",낙상:"C3",관계:"C2",행동:"C2",정서:"C2",적응:"C2",생활:"C2",외출:"C2",금전:"C2",참여:"C2",직장:"C2",휴대폰:"C2",위생:"C2",가족:"G",고충:"B3",인권:"B2"};
+const LINKTXT={C3:"건강상태 점검 기록에 반영함 (평가지표 C3 이용자의 건강지원)",C2:"개별지원계획 점검 시 반영함 (평가지표 C2 개별서비스 수행)",G:"보호자 상담 내용으로 기록하여 공유함",B3:"고충처리대장에 접수하고 30일 이내 처리 결과를 안내함 (평가지표 B3 고충처리)",B2:"인권보호 규정에 따라 시설장에게 보고하고, 필요시 장애인권익옹호기관 신고 절차를 검토함 (평가지표 B2)"};
+function linkLines(T){ const ks=[...new Set(T.map(x=>LINKMAP[x.k]).filter(Boolean))]; return ks.map(k=>LINKTXT[k]); }
+/* 회의록 */
+const AG_TOP=[[/인권|학대|존중|성희롱|괴롭힘/,"인권 보호"],[/고충|불만|건의|불편/,"고충·건의 사항"],[/나들이|외출|소풍|여행|체험|견학/,"나들이·외부활동"],[/식단|식사|반찬|급식|간식|생선|고기/,"식단·급식"],[/안전|소방|대피|화재|사고|낙상|소화기/,"안전 관리"],[/프로그램|활동|교실|수업/,"프로그램 운영"],[/후원|기부|봉사/,"후원·자원봉사"],[/예산|비용|결산|회계|지출|영수증|정산/,"예산·회계"],[/행사|생일|명절|잔치|송년|축제|크리스마스|성탄/,"행사"],[/교육|연수|훈련/,"교육"],[/건강|병원|약|검진|투약|진료/,"건강 관리"],[/청소|위생|방역|소독|빨래/,"위생·환경"],[/근무|휴가|대체|인력|교대|당직|채용/,"근무·인력"],[/보호자|가족|귀가|면회/,"보호자 소통"],[/평가|서류|점검|감사|보고/,"평가·서류 준비"],[/○○님|이용인|사례/,"이용인 지원"]];
+const WHO_RE=/(시설장|사무국장|원장|국장|팀장|사회재활교사|생활재활교사|조리원|영양사|운전원|전\s*직원|직원|[가-힣]{1,3}\s*(?:선생님|쌤|교사|주임|대리))/;
+const WHEN_RE=/(\d{1,2})\s*[\/.]\s*(\d{1,2})\s*일?|(\d{1,2})\s*월\s*(\d{1,2})\s*일|(다음|이번)\s*주(?:\s*[월화수목금토일]요일)?|내일|모레|월말|연말|오늘\s*중|[월화수목금토일]요일/;
+const DEC_RE=/(하기로|기로\s*(?:함|했|정|결정)|결정|확정|정함|정했|합의|승인|가결|통과|(?:으)?로\s*(?:함|했다|한다|정함)$)/;
+const TODO_RE=/(까지|담당|맡|예약|연락|구입|구매|작성|제출|신청|섭외|공지|전달|정리|준비|확인|발송|알림|요청)/;
+function hoFrags(t){ return logNorm(t).replace(/\r/g,"").split(/\n|(?<=[.!?。])\s+|(?<=(?:다|요|함|음|임|됨))\.\s*|;|,\s*(?=\S)/).map(x=>x.replace(/^[\s○•·\-*]+|^\d+[.)]\s*/,"").replace(/[.。]+$/,"").trim()).filter(x=>x.length>1); }
+function hoTopic(f){ for(const [r,n] of AG_TOP) if(r.test(f)) return n; return "기타 사항"; }
+function hoDisc(f){ let x=f.trim();
+  if(/의견$/.test(x)) return x+"이 제시됨";
+  if(/의견(이|도)?\s*(있음|있었음|있었다|나옴|나왔다|많음|많았다)$/.test(x)) return x.replace(/의견(이|도)?\s*\S+$/,"의견이 제시됨");
+  if(/필요$/.test(x)) return x+"함";
+  if(/(좋겠|하자|필요하|어떨|제안|건의)/.test(x)){ x=x.replace(/(는|다는|자는)?\s*의견(이\s*(있음|있었음|나옴|제시됨))?$/,"").replace(/(좋겠|하자|필요하|어떨)(다|어요|음|습니다)?$/,(m,a)=>a==="하자"?"하자":a==="어떨"?"어떻겠냐":a+"다").trim(); return /(다|자|냐)$/.test(x)?`${x}는 의견이 제시됨`:`${x} 의견이 제시됨`; }
+  if(/(다|요)$/.test(x)) return toGaejo(x).replace(/^○\s*/,"");
+  if(/(함|음|됨|임)$/.test(x)) return x;
+  return `${x}에 대하여 논의함`; }
+function hoDec(f){ let x=toGaejo(f).replace(/^○\s*/,""); if(/(함|음|됨|임)$/.test(x)) return x; return `${x}(으)로 결정함`.replace(/(\S)\(으\)로/,(m,c)=>c+(hasJong(c)&&!/[ㄹ]$/.test(c)?"으로":"로")); }
+function hoTodo(f){ const w=(f.match(WHO_RE)||[])[1]||""; const wm=f.match(WHEN_RE); let when="";
+  if(wm){ if(wm[1]) when=`${+wm[1]}. ${+wm[2]}.`; else if(wm[3]) when=`${+wm[3]}. ${+wm[4]}.`; else when=wm[0].replace(/\s+/g," "); }
+  let task=f.replace(w,"").replace(wm?wm[0]:"","").replace(/까지|담당(자)?|맡기로|맡음|이\s*맡|가\s*맡|[-:→]/g," ").replace(/\s+/g," ").trim().replace(/(하기로\s*(함|했다)?|하기|할\s*것|해야\s*함|하기로)$/,"").trim();
+  return {task:task||f, who:w.replace(/\s+/g," ")||"[담당]", when:when||"[기한]"}; }
+function hoBuild(v){
+  const memo=(v.memo||"").trim(); const T=(v.title||"").replace(/\s/g,"");
+  const isRep=/보고/.test(v.dtype||"");
+  const out={}; let todos=[];
+  if(memo){
+    const frs=hoFrags(memo); const disc=[], dec=[];
+    frs.forEach(f=>{ const isTodo=TODO_RE.test(f) && (WHO_RE.test(f)||WHEN_RE.test(f));
+      if(isTodo){ todos.push(hoTodo(f)); if(DEC_RE.test(f)) dec.push(hoDec(f.replace(WHO_RE,"").replace(WHEN_RE,"").replace(/까지/,"").trim())); return; }
+      if(DEC_RE.test(f)) dec.push(hoDec(f)); else disc.push(f); });
+    let tops=[...new Set([...disc,...dec].map(hoTopic))]; if(tops.length>1) tops=tops.filter(t=>t!=="기타 사항");
+    if(!(v.agenda||"").trim()) out.agenda=(tops.length?tops:["[안건]"]).map((t,i)=>`${i+1}. ${t}`).join("\n");
+    if(!(v.discuss||"").trim()){ const G={}; disc.forEach(f=>{ (G[hoTopic(f)]||(G[hoTopic(f)]=[])).push(hoDisc(f)); });
+      const ks=Object.keys(G); out.discuss=ks.length>1?ks.map((k,i)=>`[${k}]\n${G[k].map(x=>"○ "+x).join("\n")}`).join("\n"):ks.length?G[ks[0]].map(x=>"○ "+x).join("\n"):"○ [논의 내용]"; }
+    if(!(v.decide||"").trim()) out.decide=dec.length?dec.map(x=>"○ "+x).join("\n"):"○ 결정 사항 없음 (다음 회의에서 계속 논의함)";
+  } else { out.discuss=memoFmt(v.discuss)||""; out.decide=reportFmt(v.decide); }
+  if((v.todo||"").trim()) todos=(v.todo||"").split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ const p=l.split(/\s*[-\/|]\s*/); return p.length>=3?{task:p[0],who:p[1],when:p[2].replace(/까지$/,"")}:hoTodo(l); });
+  const ind=/고충/.test(T)?(/직원/.test(T)?"A5-⑤ 직원 고충처리 회의 근거 (고충이 없어도 연 2회 이상)":"B3 고충처리 회의 근거 (고충 접수가 없어도 연 1회 이상)"):/인권|안전.*간담|간담.*안전/.test(T)?"A6-④ 직원 인권·안전보장 간담회 근거 (연 1회 이상, 회의 내용을 게시·단체 대화방·전자우편 등으로 공유한 방법을 함께 기록)":/사례/.test(T)?"C2-②③ 개별지원계획의 연계·조정 및 점검 근거":/만족|욕구/.test(T)?"C4-④ 조사 결과를 운영에 반영한 근거":"";
+  const end=[];
+  end.push({t:"gap"},{t:"p",text:"4. 향후 조치 계획",bold:1},{t:"table",w:[3,1.4,1.2,1],rows:[[{text:"할 일",label:1},{text:"담당",label:1},{text:"기한",label:1},{text:"확인",label:1}],...(todos.length?todos:[{task:"",who:"",when:""}]).map(t=>[{text:t.task},{text:t.who},{text:t.when},{text:""}])]});
+  if(ind) end.push({t:"gap"},{t:"p",text:`※ 평가지표 연계: ${ind}`});
+  if(isRep) end.push({t:"gap"},{t:"p",text:"위와 같이 회의 결과를 보고합니다."});
+  return {v:out, end, title:isRep?"회의 결과 보고서":"회의록"};
+}
+/* 고충처리 */
+const GC_ACT=[[/춥|추워|난방|보일러|이불/,"난방 상태와 실내 온도를 점검하고 필요한 경우 난방 시간·온도와 침구를 조정함"],[/덥|더워|에어컨|냉방|선풍기/,"냉방 기기 작동 상태를 점검하고 실내 온도를 조정함"],[/시끄|소음|잠을\s*못|코골/,"소음 원인을 확인하고 취침 시간 등 생활 규칙을 함께 정함"],[/반찬|식사|밥|간식|음식|맛/,"이용인의 음식 선호를 확인하여 식단에 반영함"],[/룸메이트|같은\s*방|방\s*(을|이)?\s*(바꿔|배치|좁)|짐|침대|옷장/,"생활 공간 배치를 함께 점검하고 필요시 조정을 검토함"],[/분실|없어|잃어|물건/,"분실 경위를 확인하고 개인 물품 보관 방법을 개선함"],[/직원|선생님|말투|태도|무시|소리\s*지/,"관련 직원 면담으로 사실을 확인하고, 필요시 응대 방법 개선과 직원 인권교육에 반영함"],[/외출|나가|자유/,"외출 의사를 존중하여 안전한 외출 방법과 일정을 함께 정함"],[/용돈|돈/,"용돈 사용 방식에 대한 의견을 듣고 관리 방법을 함께 조정함"],[/화장실|욕실|냄새|청소|더러/,"해당 공간의 위생 상태를 점검하고 청소·환기 일정을 조정함"],[/프로그램|활동|심심/,"희망 활동을 확인하여 다음 달 프로그램 계획에 반영함"],[/휴대폰|핸드폰|TV|티비|와이파이|인터넷/,"사용 시간·규칙에 대한 의견을 듣고 생활 규칙을 함께 조정함"],[/동료|친구|다툼|싸움|괴롭/,"관련 이용인과 각각 면담하여 상황을 확인하고 관계 회복을 지원함"]];
+function gcBuild(v){
+  const c=logNorm(v.content||""), due=v.date?addDays(v.date,30):"";
+  const who=(v.who||"").trim()||"제기자";
+  const content=OL([...userL(c).map(x=>x)]);
+  const check=(v.check||"").trim()?reportFmt(v.check):OL(["고충 내용과 관련된 장소·상황을 직접 확인함 (확인 일시: [  ])",`${who}의 이야기를 다시 듣고 원하는 해결 방법을 확인함`,"관련 직원·이용인의 의견을 함께 확인함"]);
+  const acts=GC_ACT.filter(([r])=>r.test(c)).map(([,s])=>s);
+  const action=(v.action||"").trim()?reportFmt(v.action):OL([...(acts.length?acts:["[처리 내용]을(를) 시행함"]),"처리 후 같은 불편이 반복되지 않는지 2주간 확인함"]);
+  const route=(v.route||"").trim();
+  const notify=(v.notify||"").trim()?reportFmt(v.notify):OL([`처리 결과를 ${who}에게 [  ]월 [  ]일 ${/전화/.test(route)?"전화로":"직접 만나"} 안내함 (처리 기한: ${due?fmtDate(due):"접수일 + 30일"})`,"이용인이 이해하기 쉬운 말로 설명하고 만족 여부를 확인함","제기자가 원하지 않는 경우를 제외하고 게시판(홈페이지)에 처리 결과를 공지함"]);
+  let status="";
+  if(v.done && v.date){ const n=Math.round((new Date(v.done+"T00:00:00")-new Date(v.date+"T00:00:00"))/864e5); status=n<=30?`처리 완료 (접수 후 ${n}일, 기한 내 처리)`:`처리 완료 (접수 후 ${n}일, 기한 30일 초과 → 지연 사유 기록 필요)`; }
+  else status=due?`처리 중 (처리 기한 ${fmtDate(due)})`:"처리 중";
+  const mid=[{t:"table",rows:[[{text:"처리 기한",label:1},{text:due?fmtDate(due)+" (접수일 + 30일)":"접수일을 넣으면 자동 계산"},{text:"처리 상태",label:1},{text:status}]]}];
+  const end=[{t:"gap"},{t:"p",text:"고충처리대장 기재용 (한 줄)",bold:1},{t:"table",rows:[[{text:"접수일",label:1},{text:"제기자",label:1},{text:"고충 요지",label:1},{text:"처리 기한",label:1},{text:"처리 결과",label:1},{text:"안내일",label:1}],[{text:v.date?fmtDate(v.date):""},{text:who},{text:userL(c)[0]||""},{text:due?fmtDate(due):""},{text:(acts[0]||"").replace(/함$/,"함")},{text:""}]]},{t:"gap"},{t:"p",text:"※ 평가지표 B3 고충처리: 담당자 지정, 접수·처리·결과 문서화, 30일 이내 처리 결과 안내·공지"}];
+  return {v:{content,check,action,notify}, mid, end};
+}
+/* 사고·위기 */
+const SGK=[{re:/넘어|낙상|미끄|계단|떨어/,n:"낙상(넘어짐)",act:["즉시 이용인 곁으로 가서 움직이지 않도록 하고 의식과 통증 부위를 확인함","다친 부위를 소독·냉찜질 등 응급처치함","통증·부기가 계속되면 병원 진료를 지원함"],cause:["바닥 미끄러움, 장애물, 신발 상태 등 환경 요인 (추정)","보행이 불안정한 개인 요인 (추정)"],prev:["사고 장소의 미끄럼 방지와 장애물 정리 등 환경을 개선함","보행 지원이 필요한 이용인이 이동할 때 직원이 곁에서 지원함","전 직원에게 사고 경위와 예방 방법을 공유함"]},
+ {re:/다툼|싸움|때림|때렸|폭행|공격|밀침|밀었/,n:"이용인 간 다툼",act:["즉시 두 이용인을 분리하여 안전을 확보함","다친 곳이 있는지 확인하고 각각 진정할 수 있도록 지원함"],cause:["[갈등의 직접적인 계기] (추정)","생활 공간·일과에서 쌓인 불편함 (추정)"],prev:["관련 이용인과 각각 면담하여 감정과 입장을 확인함","갈등이 반복되지 않도록 생활 공간·일과 조정을 검토함","필요시 사례회의에서 지원 방법을 논의함","폭력 피해가 있으면 인권보호 절차에 따라 처리함"]},
+ {re:/투약|약을|약\s*먹|복약|약\s*바뀌|약\s*누락/,n:"투약 오류",act:["오류 내용을 즉시 확인하고 이용인의 상태를 관찰함","의료기관·약국에 연락하여 조치 방법을 확인함"],cause:["투약 전 확인 절차 누락 (추정)"],prev:["투약 때 이름·약·시간을 2인이 함께 확인함","약물복용 기록지를 매회 작성함","약 보관함을 이용인별로 구분함"]},
+ {re:/실종|없어졌|이탈|길을\s*잃|찾을\s*수/,n:"실종(무단 이탈)",act:["즉시 주변을 찾고 시설장에게 보고함","[  ]분 안에 찾지 못하면 112에 신고함"],cause:["외출·이동 중 관찰 공백 (추정)"],prev:["외출할 때 인원을 수시로 확인함","연락처가 적힌 인식표(카드)를 지니도록 함","배회 가능성이 있는 이용인은 지문 사전등록 여부를 확인함"]},
+ {re:/화상|데임|데었|뜨거/,n:"화상",act:["즉시 흐르는 찬물로 15분 이상 식힘","물집을 터뜨리지 않고 병원 진료를 지원함"],cause:["뜨거운 물·음식을 다루는 중 생긴 사고 (추정)"],prev:["뜨거운 음식·물은 식혀서 제공함","주방 기기를 쓸 때 직원이 곁에서 지원함"]},
+ {re:/질식|목에\s*걸|사레|기도/,n:"기도 막힘",act:["즉시 기도 막힘 응급처치(하임리히법)를 실시함","119에 신고함"],cause:["음식 크기·먹는 속도 (추정)"],prev:["음식을 작게 잘라 제공함","식사 때 직원이 곁에서 살핌"]},
+ {re:/경련|발작|쓰러/,n:"발작·쓰러짐",act:["주변의 위험한 물건을 치우고 머리를 보호함","발작 시간을 확인하고 5분 이상 계속되면 119에 신고함"],cause:["[확인 필요]"],prev:["발작 대응 방법을 전 직원에게 교육함","발생 기록을 의료기관과 공유함"]}];
+function sgBuild(v){
+  const w=logNorm([v.stype,v.what].join(" ")), K=SGK.find(k=>k.re.test(w))||{n:(v.stype||"").trim()||"기타 사고",act:["즉시 이용인의 안전을 확보하고 상태를 확인함","필요한 응급처치를 실시함"],cause:["[원인 확인 필요] (추정)"],prev:["사고 원인을 확인하여 같은 사고가 생기지 않도록 환경과 지원 방법을 개선함","전 직원에게 사고 경위와 예방 방법을 공유함"]};
+  const when=[v.date?fmtDate(v.date):"",(v.time||"").trim()].filter(Boolean).join(" ");
+  const what=OL([`${when||"[발생 일시]"} ${(v.where||"").trim()||"[장소]"}에서 ${(v.who||"").trim()||"○○님"}에게 ${K.n} 사고가 발생함`,...userL(v.what),"사고 직전 상황(함께 있던 사람, 하던 활동): [  ]"]);
+  const first=OL(mergeL(userL(v.first),K.act));
+  const ru=String(v.report||""); const report=OL(mergeL(userL(v.report),[/시설장/.test(ru)?"":"시설장 보고: [  ]시 [  ]분",/보호자/.test(ru)?"":"보호자 연락: [  ]시 [  ]분 (전화), 사고 경위와 조치 내용을 안내함",/병원|진료/.test(ru)?"":"병원 진료 여부: [진료 기관·결과 또는 해당 없음]"].filter(Boolean),5));
+  const cause=OL(mergeL(userL(v.cause),K.cause));
+  const prev=OL(mergeL(userL(v.prev),K.prev));
+  const obs=OL(mergeL(userL(v.obs),["사고 후 48시간 동안 이용인의 상태를 관찰하여 기록함","보호자에게 경과를 다시 알림","다음 직원회의에서 사고 사례를 공유함"]));
+  return {v:{what,first,report,cause,prev,obs,stype:(v.stype||"").trim()||K.n}};
+}
+/* 개별지원계획 */
+const GOALMAP={적응:"새 환경과 일과에 익숙해져 안정적으로 생활한다",수면:"규칙적인 수면 습관을 갖는다 (주 5일 이상 밤에 깨지 않고 잠)",식사:"골고루 먹는 습관을 기른다 (새 반찬 주 2회 이상 먹어 보기)",관계:"동료 이용인과 갈등 없이 지낸다 (다툼 월 1회 이하)",가족:"가족과 정기적으로 소통한다 (월 2회 이상)",정서:"마음이 힘들 때 말이나 그림 카드로 표현한다",건강:"건강 상태를 정기적으로 확인하고 관리한다 (월 1회 측정)",행동:"화가 날 때 대체 표현 방법을 사용한다",위생:"스스로 위생 관리를 한다 (주 5일 이상 체크표 완료)",금전:"용돈 기입장을 스스로 작성한다 (주 1회)",직장:"직장 생활에 안정적으로 적응한다",참여:"원하는 활동에 주 1회 이상 참여한다",휴대폰:"스스로 정한 휴대폰 사용 규칙을 지킨다",외출:"직원과 함께 대중교통으로 목적지까지 이동한다 (월 2회 연습)",생활:"일상생활 기술을 스스로 수행한다 (주 2회 연습)",고충:"불편한 점을 직원에게 말로 전한다",배변:"규칙적인 배변 습관을 갖는다",투약:"정해진 시간에 약을 복용한다",치아:"하루 2회 이상 양치한다",낙상:"넘어짐 없이 안전하게 이동한다",인권:"안전하고 존중받는 환경에서 생활한다"};
+function gbBuild(v){
+  const raw=logNorm(v.needs||""), frs=csFrags(raw);
+  const rows=[], used=new Set(), strong=[];
+  frs.forEach(f=>{ const T=logTopics(f); if(/좋아|잘\s*함|잘해|관심|즐겨|좋아함/.test(f)) strong.push(f);
+    if(!T.length){ if(!/좋아|잘\s*함|잘해|관심/.test(f)) rows.push({area:"기타",now:f,goal:"[목표 확인 필요]",sup:"[지원 내용 확인 필요]"}); return; }
+    const k=T[0]; if(used.has(k.k)){ const r=rows.find(x=>x.k===k.k); if(r) r.now+=", "+f; return; } used.add(k.k);
+    rows.push({k:k.k,area:k.name.replace(/\(.*\)/,""),now:f,goal:GOALMAP[k.k]||"[목표 확인 필요]",sup:(k.p||[]).slice(0,2).join(" / ")||ACTMAP[k.k]||""}); });
+  const staff=(v.staff||"").trim().replace(/\s*○○○$/,"")||"담당 직원";
+  const d=v.date||todayISO(), mid6=addMonths(d,6), end12=addDays(addMonths(d,12),-1);
+  const assess=(v.assess||"").trim()?reportFmt(v.assess):OL([rows.length?`주요 욕구 영역: ${rows.map(r=>r.area).join(", ")}`:"[욕구 영역 확인 필요]",...(strong.length?[`강점·선호: ${strong.join(", ")}`]:[]),"본인과 보호자의 의견을 함께 듣고 지원 우선순위를 정함","욕구사정 근거: 상담일지, 관찰일지, 욕구조사 결과"]);
+  const goal=(v.goal||"").trim()?reportFmt(v.goal):OL([`${rows.length?rows.slice(0,2).map(r=>r.area).join("·")+" 영역의 ":""}자립 능력을 높여 지역사회 안에서 안정적으로 생활한다`]);
+  const check=(v.check||"").trim()?reportFmt(v.check):OL(["월 1회 관찰일지·프로그램 일지로 목표별 진행 상황을 기록함",`중간 점검: ${fmtDate(mid6)} (사례회의)`,`재사정 및 계획 재수립: ${fmtDate(end12)}까지 (12개월 이내, 평가지표 C2-③)`,"점검 결과에 따라 목표와 지원 내용을 수정·보완하고 그 근거를 기록함 (C2-④)"]);
+  const period=(v.period||"").trim()||`${fmtDate(d)} ~ ${fmtDate(end12)}`;
+  const end=[{t:"gap"},{t:"p",text:"3. 영역별 지원 계획",bold:1},{t:"table",w:[1.1,2,2,2.4,1.1],rows:[[{text:"영역",label:1},{text:"현재 모습(욕구)",label:1},{text:"단기 목표",label:1},{text:"지원 내용",label:1},{text:"담당·주기",label:1}],...(rows.length?rows:[{area:"",now:"",goal:"",sup:""}]).map(r=>[{text:r.area},{text:r.now},{text:r.goal},{text:r.sup},{text:`${staff}\n월 1회 점검`}])]}];
+  end.push({t:"gap"},{t:"p",text:"4. 점검·평가 계획",bold:1},{t:"table",rows:[[{text:check}]]});
+  end.push({t:"gap"},{t:"p",text:"계획 수립 참여 확인",bold:1},{t:"table",rows:[[{text:"본인",label:1},{text:"보호자",label:1},{text:"담당자",label:1},{text:"시설장",label:1}],[{text:"\n(서명)",tall:1},{text:"\n(서명)",tall:1},{text:"\n(서명)",tall:1},{text:"\n(서명)",tall:1}]]});
+  return {v:{assess,goal,check,period}, end};
+}
+/* 교육 결과보고 */
+const EDU=[
+ {re:/학대|신고\s*의무|성범죄/,n:"장애인학대 예방 및 신고의무 교육",ind:"B2-④ 장애인학대 예방 및 장애인 대상 성범죄 신고의무 교육: 연 1회 이상, 1시간 이상",std:1,goal:"장애인학대의 유형과 징후를 이해하고, 신고의무자로서 발견했을 때의 대응 절차를 익힌다.",c:["장애인학대의 정의와 유형(신체적·정서적·성적 학대, 경제적 착취, 방임)","학대 징후를 알아차리는 방법과 일상 속 인권침해 사례","신고의무자의 의무와 신고 방법(장애인권익옹호기관, 112)","신고자 보호와 시설 내 대응 절차"]},
+ {re:/긴급\s*복지/,n:"긴급복지 신고의무 교육",ind:"B2-④ 긴급복지 신고의무 교육: 연 1회 이상, 1시간 이상",std:1,goal:"위기 상황에 놓인 사람을 발견했을 때 긴급복지지원 제도를 안내하고 신고하는 방법을 익힌다.",c:["긴급복지지원 제도의 목적과 지원 대상","위기 상황을 발견했을 때 신고 방법(보건복지상담센터 129, 읍면동)","신고의무자의 역할"]},
+ {re:/성희롱|괴롭힘/,n:"직장 내 성희롱 예방 및 괴롭힘 금지 교육",ind:"A6-③ 직원 인권보호 교육: 연 1회 이상 (직장 내 성희롱 예방·괴롭힘 금지 내용 필수, B영역 이용자 인권교육과 별도)",std:0,goal:"직장 내 성희롱과 괴롭힘의 기준을 이해하고 예방·대응 방법을 익혀 서로 존중하는 근무 환경을 만든다.",c:["직장 내 성희롱의 정의와 판단 기준","직장 내 괴롭힘의 유형과 사례","피해가 생겼을 때 신고·조치 절차와 2차 피해 방지","이용인·보호자에 의한 폭언 등에 대한 대응 방법"]},
+ {re:/개인정보|비밀\s*보장/,n:"개인정보 보호 교육",ind:"B1-③ 개인정보 보호를 위한 직원교육: 연 1회 이상 (온라인 교육은 수료증 필수)",std:0,goal:"이용인 개인정보의 수집·보관·활용 원칙을 이해하고 유출을 예방한다.",c:["개인정보와 고유식별정보(주민등록번호 등)의 뜻","수집·이용 동의서 작성 방법","문서·PC 보안(잠금장치, 비밀번호, 파일 암호화)","개인정보 열람자 지정과 파기 방법"]},
+ {re:/안전|소방|화재|대피|모의\s*훈련|지진/,n:"안전교육 및 모의훈련",ind:"A1 시설환경 개선 노력: 안전교육·모의훈련 실시 근거",std:0,goal:"화재 등 재난 상황에서 안전하게 대피하는 방법을 익히고 실제 훈련으로 대응 능력을 높인다.",c:["화재·지진 때 행동 요령","대피 경로와 비상구 위치 확인","소화기 사용 실습","이용인별 대피 지원 역할 나누기"],cU:["불이 나면 ‘불이야’ 외치기","비상구 표시 찾기","젖은 수건으로 코와 입을 막고 낮은 자세로 나가기","선생님과 함께 모이는 곳으로 가기"]},
+ {re:/건강|응급|심폐|약물|뇌전증|감염|손\s*씻/,n:"건강교육",ind:"C3-① 이용자 및 직원 대상 건강 관련 교육: 연 1회 이상",std:0,goal:"이용인의 건강을 지키기 위한 기본 지식과 응급 상황 대처 방법을 익힌다.",c:["응급처치 기본(심폐소생술, 기도 막힘)","약물 복용 관리와 투약 기록 방법","발작 등 응급 상황 대처","감염병 예방과 개인위생"],cU:["손 씻기 6단계 따라 하기","몸이 아플 때 말하는 방법","약은 정해진 시간에 먹기","골고루 먹고 운동하기"]},
+ {re:/성\s*교육/,n:"성교육",ind:"",std:0,goal:"내 몸과 다른 사람의 몸을 존중하고 안전한 관계를 맺는 방법을 익힌다.",c:["몸의 변화와 개인위생","좋은 접촉과 싫은 접촉 구분하기","싫을 때 거절하고 도움 요청하기","공적인 장소와 사적인 장소 구분하기"],cU:["내 몸은 소중해요","싫어요·안 돼요 말하기","도움이 필요하면 선생님에게 말하기"]},
+ {re:/인권/,n:"인권교육",ind:"",std:0,goal:"이용인의 존엄과 권리를 이해하고 일상에서 인권을 존중하는 태도를 기른다.",c:["인권의 의미와 장애인권리협약 주요 내용","일상생활 속 인권침해 사례(사생활, 자기결정, 언어 표현)","인권을 존중하는 의사소통 방법","인권침해가 생겼을 때 대응 절차"],cU:["내 몸과 마음은 소중해요 (내 권리 알기)","싫어요·도와주세요 말하기 연습","내 물건·내 방·내 이야기를 지키는 방법","어려운 일이 생기면 누구에게 말할지 알기"]}];
+function hoursOf(s){ const t=String(s||""); let m=t.match(/(\d+(?:\.\d+)?)\s*시간/); if(m) return parseFloat(m[1]); m=t.match(/(\d{1,2}):(\d{2})\s*[~\-]\s*(\d{1,2}):(\d{2})/); if(m){ const h=((+m[3]*60+ +m[4])-(+m[1]*60+ +m[2]))/60; return h>0?Math.round(h*10)/10:0; } m=t.match(/(\d+)\s*분/); return m?Math.round(+m[1]/60*10)/10:0; }
+function gyBuild(v){
+  const t=logNorm([v.title,v.memo].join(" ")), K=EDU.find(k=>k.re.test(t))||{n:(v.title||"").trim()||"교육",ind:"",std:0,goal:"교육 주제에 대한 이해를 높이고 업무와 생활에 적용한다.",c:["[교육 내용 확인 필요]"]};
+  const isU=/이용인|이용자|입소/.test(v.target||""); const hr=hoursOf(v.time), prev=hoursOf(v.prev)||parseFloat(v.prev)||0, tot=Math.round((hr+prev)*10)/10;
+  let ind=K.ind, need=K.std;
+  if(K.n==="인권교육"){ ind=isU?"B2-③ 이용자 인권교육: 교육계획서가 있고 연 4시간 이상 (내부 강사는 2시간까지 인정)":"B2-④ 직원 인권교육: 연 2회 이상, 연 8시간 이상 (이용자 인권교육과 별도)"; need=isU?4:8; }
+  const goal=(v.goal||"").trim()?reportFmt(v.goal):OL([K.goal]);
+  const content=(v.content||"").trim()?reportFmt(v.content):OL([...(isU&&K.cU?K.cU:K.c),...userL(v.memo).map(x=>`현장 내용: ${x}`)]);
+  const react=(v.react||"").trim()?reportFmt(v.react):OL(["교육 내용에 집중하여 끝까지 참여함 [참여 모습 확인]",isU?"그림·영상 자료를 활용하여 이용인이 이해하기 쉽게 진행함":"사례 중심으로 진행하여 업무에 적용할 방법을 함께 나눔","교육 만족도: [  ]점 (응답 [  ]명)"]);
+  const L=[];
+  if(ind) L.push(ind);
+  L.push(`이번 교육 시간: ${hr?hr+"시간":"[  ]시간"}${prev?`, 올해 누적: ${tot}시간`:""}`);
+  if(need){ const cur=prev?tot:hr; L.push(cur>=need?`기준 ${need}시간 충족`:`기준 ${need}시간까지 ${Math.round((need-cur)*10)/10}시간 더 필요함`); }
+  L.push("참석하지 못한 직원은 별도로 이수하고 이수증·교육자료를 보관함");
+  if(/온라인/.test(v.where||"")) L.push("온라인 교육은 수료증을 반드시 보관함");
+  const link=(v.link||"").trim()?reportFmt(v.link):OL(L);
+  const next=(v.next||"").trim()?reportFmt(v.next):OL([need&&(prev?tot:hr)<need?`남은 ${Math.round((need-(prev?tot:hr))*10)/10}시간은 [  ]월에 추가 교육을 실시함`:"다음 교육은 교육계획에 따라 [  ]월에 실시함","교육 내용을 업무 회의에서 다시 공유하여 현장에 적용함"]);
+  const names=(v.names||"").split("\n").map(s=>s.trim()).filter(Boolean);
+  const nPeople=+(((v.people||"").match(/(\d+)\s*명/)||[])[1]||0);
+  const rowsN=names.length?names:Array(Math.max(nPeople,5)).fill("");
+  const end=[{t:"gap"},{t:"p",text:"교육 참석자 서명",bold:1},{t:"table",w:[.6,2.2,2,1.6],rows:[[{text:"연번",label:1},{text:"직위·성명",label:1},{text:"서명",label:1},{text:"비고",label:1}],...rowsN.map((n,i)=>[{text:String(i+1)},{text:n,tall:1},{text:""},{text:""}])]}];
+  return {v:{goal,content,react,link,next,title:(v.title||"").trim()||K.n}, end};
+}
+
 function docBlocks(f,v){
   if(f.id==="sangdam"){ const grp=/[“"']|(보호자|어머니|아버지).*(말|하셨|하심)/.test(v.content||""); const S=sdBuild(v); v={...v, ...S, ...(grp?{content:reportFmt(v.content,true)}:{})}; }
   if(f.id==="gwanchal" && (v.fact||v.think||v.next||"").trim()){ v={...v, ...gwBuild(v)}; }
   if(f.id==="program"){ v={...v, ...pgBuild(v)}; }
-  if(f.id==="hoeui"){ v={...v, discuss:memoFmt(v.discuss)||"", decide:reportFmt(v.decide), todo:reportFmt(v.todo)}; }
+  let X=null;
+  if(f.id==="sangdam"){ const T=v._T||logTopics([v.title,v.reason,v.content].join(" ")); v={...v, act:(v.act||"").trim()?reportFmt(v.act):OL(T.map(x=>ACTMAP[x.k]).filter(Boolean).slice(0,4).concat(T.length?[]:["상담 내용을 담당 직원과 공유함"])), link:(v.link||"").trim()?reportFmt(v.link):OL(linkLines(T).concat(["상담 내용을 담당 직원과 공유하여 일관되게 지원함"]))}; }
+  if(f.id==="gwanchal" && (v.fact||"").trim()){ const T=logTopics(v.fact); if(!(v._raw_support||"").trim() && !(getF(f).support||"").trim()) v.support=OL(T.map(x=>ACTMAP[x.k]).filter(Boolean).slice(0,3)); v.link=(v.link||"").trim()?reportFmt(v.link):OL(linkLines(T).concat(["관찰 내용을 직원 회의에서 공유함"])); }
+  if(f.id==="hoeui"){ X=hoBuild(v); v={...v,...X.v}; }
+  if(f.id==="gochung"){ X=gcBuild(v); v={...v,...X.v}; }
+  if(f.id==="sago"){ X=sgBuild(v); v={...v,...X.v}; }
+  if(f.id==="gaebyeol"){ X=gbBuild(v); v={...v,...X.v}; }
+  if(f.id==="gyoyuk"){ X=gyBuild(v); v={...v,...X.v}; }
   const B=docBlocks0(f,v), c=signCfg(f);
+  if(X){
+    if(X.title && B[0] && B[0].t==="title") B[0]={...B[0],text:X.title};
+    if(X.mid){ const i=B.findIndex(b=>b.t==="table"); B.splice(i>=0?i+1:B.length,0,{t:"gap"},...X.mid); }
+    if(X.end){ const L=B.length, endsOrg=L>=2&&B[L-1].t==="center"&&B[L-2].t==="gap"; B.splice(endsOrg?L-2:L,0,...X.end); }
+  }
   if(c.n>0) B.unshift({t:"approval",labels:c.labels});
   if(c.sign){
     const has=k=>f.fields.some(x=>x.k===k);
@@ -2869,8 +2587,8 @@ function docBlocks0(f,v){
     return B;
   }
   /* generic: 짧은 칸은 표, 긴 칸은 제목+표 한 칸 */
-  const shorts=f.fields.filter(x=>x.short && !["org","greet"].includes(x.k));
-  const longs=f.fields.filter(x=>!x.short && x.k!=="greet");
+  const shorts=f.fields.filter(x=>x.short && !x.notbl && !["org","greet"].includes(x.k));
+  const longs=f.fields.filter(x=>!x.short && !x.notbl && x.k!=="greet" && !(x.opt && x.hideEmpty && !g(x.k)));
   const B = f.id==="annae" ? [{t:"title",text:g("title")||"안내문"}] : [{t:"title",text:f.name}];
   if(f.id==="annae"){
     B.push({t:"p",text:`${g("to")||"보호자님"}, ${g("greet")}`},{t:"gap"});
@@ -2885,7 +2603,7 @@ function docBlocks0(f,v){
     rows.push(b?[{text:a.label,label:1},{text:g(a.k)},{text:b.label,label:1},{text:g(b.k)}]:[{text:a.label,label:1},{text:g(a.k),span:3}]); }
   if(rows.length) B.push({t:"table",rows});
   B.push({t:"gap"});
-  B.push({t:"table",rows:longs.map(x=>[{text:x.label,label:1},{text:g(x.k)||"",span:3}])});
+  B.push({t:"table",rows:longs.map(x=>[{text:x.dl||x.label,label:1},{text:g(x.k)||"",span:3}])});
   if(g("org")) B.push({t:"gap"},{t:"center",text:g("org"),bold:1,size:28});
   return B;
 }
@@ -3013,7 +2731,7 @@ function renderForms(){
     <p class="fstat">서식을 고르고 빈칸을 채우면 서식 모양 그대로 워드 파일로 받아요.</p>
     <div class="fhub">
       <section class="fhub-l">
-        <div class="form-grid">${FORMS.map(f=>`<button type="button" class="form-card b3d" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div>
+        <h3 class="sub-title">큰 문서는 AI에게 맡기기 <small>(결과보고서·사업계획서·운영계획서·예산집행보고서)</small></h3><p class="hint ad-hint">단어·숫자만 적으면 평가지침과 우리 서식에 맞춘 요청문이 만들어지고, 챗GPT·제미나이·클로드로 바로 보내요.</p><div class="form-grid ad-grid">${FORMS.filter(f=>f.kind==="aidoc").map(f=>`<button type="button" class="form-card b3d ad-card" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div><h3 class="sub-title">바로 채우는 서식 <small>(일지·회의록·공문·평가 서식)</small></h3><div class="form-grid">${FORMS.filter(f=>f.kind!=="aidoc").map(f=>`<button type="button" class="form-card b3d" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div>
         <button type="button" class="upload-cta b3d mk-cta" data-goto="make"><span class="tx"><b>+ 새 서식 만들기</b><span>방문대장·예산 공개·외출 신청서 등 목록에 없는 서식을 바로 만들어요</span></span><span class="go">→</span></button>
         ${myFormsHTML()}
         <button type="button" class="upload-cta b3d" data-goto="upload"><span class="em">📤</span><span class="tx"><b>내 서식 올려서 채우기</b><span>센터 서식(워드·한글)을 올리면 빈칸을 찾아 채워요</span></span><span class="go">→</span></button>
@@ -3030,7 +2748,134 @@ function fieldHTML(f,v,x){
     : `<input id="${id}" type="text" data-fk="${x.k}" placeholder="${esc(x.ph||"")}" value="${esc(v[x.k]||"")}">`;
   return `<div class="field"><label for="${id}">${esc(x.label)} ${x.opt?"<small>(선택)</small>":""}</label><div class="with-mic">${ctl}${x.type==="date"?"":mic}</div></div>`;
 }
+/* ================= 쉬운 입력 (질문에 답하면 서식이 자동 완성) ================= */
+const TOPIC_CHIPS=["입소 후 적응","수면(잠)","식사","동료 관계","가족·귀가","기분·정서","건강","약 복용","배변","치아","보행(넘어짐)","위생","용돈","직장","프로그램 참여","휴대폰 사용","외출","일상생활 기술","불편·건의(고충)"];
+const WIZ={
+ gyeolgwa:{steps:[
+  {k:"title",q:"어떤 사업(프로그램)이었나요?",type:"text",ph:"예: 이용인 요리 교실",quick:["요리 교실","나들이","텃밭 가꾸기","운동 교실","미술 활동"]},
+  {k:"period",q:"언제부터 언제까지 했나요?",type:"text",ph:"예: 2026. 3. ~ 10."},
+  {k:"n",q:"몇 번 하고, 몇 명이 참여했나요?",type:"nums",items:[["plan","계획","회"],["done","실제로 한 횟수","회"],["ppl","참여 인원","명"]]},
+  {k:"react",q:"참여자 반응은 어땠나요?",type:"chips",opts:["매우 좋았어요","좋았어요","보통이에요","아쉬웠어요"]},
+  {k:"good",q:"잘된 점을 모두 골라 주세요",type:"multi",opts:["스스로 하는 일이 늘었어요","서로 친해졌어요","새로운 것을 배웠어요","자신감이 생겼어요","건강·체력이 좋아졌어요","지역 이웃과 만났어요"]},
+  {k:"bad",q:"아쉬운 점을 모두 골라 주세요",type:"multi",opts:["날씨·일정이 바뀌었어요","개별 도움이 더 필요했어요","시간이 부족했어요","예산이 부족했어요","참여가 적은 날이 있었어요","없어요"]},
+  {k:"money",q:"예산은 얼마였고 얼마를 썼나요? (모르면 비워요)",type:"nums",items:[["bud","예산","원"],["used","쓴 돈","원"]]},
+  {k:"next",q:"다음에는 어떻게 하나요?",type:"chips",opts:["계속 진행해요","내용을 바꿔서 계속해요","이번으로 마쳐요"]}],
+  apply(f,v,a){
+   const T=exTopic(a.title||""), c=exCore(a.title||"")||"[사업명]", plan=+a.plan||0, done=+a.done||0, ppl=+a.ppl||0;
+   v.title=a.title||""; v.period=a.period||""; v.people=ppl?`이용인 ${ppl}명`:"";
+   const rate=plan&&done?Math.round(done/plan*100):0;
+   v.content=`○ 사업명: ${c}\n○ 장소: ${T.place}\n○ 추진 과정\n${T.steps.map((s,i)=>`  ${i+1}) ${s[0]}: ${s[1]}`).join("\n")}`;
+   const ach=/좋았/.test(a.react||"")?"달성":a.react==="보통이에요"?"대체로 달성":"일부 달성";
+   const GOOD={"스스로 하는 일이 늘었어요":"활동 과정에서 스스로 해 보는 일이 늘어나 자립 생활 기술이 향상됨","서로 친해졌어요":"함께 활동하며 이용인 간 대화와 협력이 늘어 관계가 가까워짐","새로운 것을 배웠어요":"새로운 기술과 경험을 익히며 활동 영역이 넓어짐","자신감이 생겼어요":"작은 성공 경험이 쌓이며 자신감과 성취감이 높아짐","건강·체력이 좋아졌어요":"꾸준한 활동으로 건강과 체력 관리에 도움이 됨","지역 이웃과 만났어요":"지역사회 이웃과 만나는 기회가 늘어 사회 참여가 확대됨"};
+   const BAD={"날씨·일정이 바뀌었어요":"날씨와 일정 변동으로 일부 회기가 계획과 다르게 진행됨","개별 도움이 더 필요했어요":"참여자별 수준 차이가 있어 개별 지원 인력이 더 필요했음","시간이 부족했어요":"활동 시간이 부족하여 충분히 마무리하지 못한 회기가 있었음","예산이 부족했어요":"재료비 등 예산이 부족하여 활동 내용을 일부 조정함","참여가 적은 날이 있었어요":"컨디션 등의 이유로 참여 인원이 적은 날이 있었음"};
+   const g=(a.good||[]).map(x=>GOOD[x]).filter(Boolean), bd=(a.bad||[]).filter(x=>x!=="없어요").map(x=>BAD[x]).filter(Boolean);
+   v.result=[`○ 실시 현황: ${plan?`계획 ${plan}회 중 `:""}${done?`${done}회 실시`:"[  ]회 실시"}${rate?` (달성률 ${rate}%)`:""}${ppl?`, 실 인원 ${ppl}명${done?`, 연인원 ${ppl*done}명`:""}`:""} 참여`,...T.goals.map(x=>`○ 목표 “${x}” → ${ach}`),...g.map(x=>"○ "+x)].join("\n");
+   const RS={"매우 좋았어요":"참여 이용인 대부분이 매우 만족하였으며 다음 활동을 기대하는 반응을 보임","좋았어요":"참여 이용인 대부분이 만족하였으며 즐겁게 참여함","보통이에요":"참여 이용인의 만족도는 보통 수준으로 활동 내용 보완이 필요함","아쉬웠어요":"참여 이용인의 만족도가 기대보다 낮아 활동 방식의 개선이 필요함"};
+   v.sat=[`○ ${RS[a.react]||"참여 이용인의 반응: [  ]"}`,"○ 만족도 조사 결과: 응답 [  ]명 중 [  ]명 만족 ([  ]%)","○ 이용인 소감: “[  ]”"].join("\n");
+   v.good=["[잘된 점]",...(g.length?g:["이용인이 준비 과정부터 직접 참여하여 활동에 대한 관심이 높았음"]).map(x=>"○ "+x),"","[아쉬운 점]",...(bd.length?bd:["특별한 어려움 없이 계획대로 진행됨"]).map(x=>"○ "+x)].join("\n");
+   const bu=+a.bud||0, us=+a.used||0;
+   v.budget=bu||us?[`○ 예산 ${bu?bu.toLocaleString("ko-KR")+"원":"[  ]원"} 중 ${us?us.toLocaleString("ko-KR")+"원":"[  ]원"} 집행${bu&&us?` (집행률 ${Math.round(us/bu*100)}%)`:""}`,...T.budget.map(x=>`  - ${x[0]}: [  ]원`)].join("\n"):"";
+   const NX={"계속 진행해요":"참여자의 만족도가 높아 다음 해에도 계속 진행할 예정임","내용을 바꿔서 계속해요":"참여자 의견을 반영하여 활동 내용을 보완한 뒤 계속 진행할 예정임","이번으로 마쳐요":"이번 사업으로 마무리하고, 결과를 다음 사업 기획에 참고함"};
+   const FIX={"날씨·일정이 바뀌었어요":"날씨·일정 변동에 대비하여 대체 활동을 미리 준비함","개별 도움이 더 필요했어요":"자원봉사자 등 개별 지원 인력을 보강함","시간이 부족했어요":"회기별 활동 시간을 충분히 확보하여 진행함","예산이 부족했어요":"후원·외부 지원을 연계하여 필요한 예산을 확보함","참여가 적은 날이 있었어요":"이용인이 원하는 활동을 반영하여 참여를 높임"};
+   const nx=[NX[a.next]||T.nx, ...(a.bad||[]).map(x=>FIX[x]).filter(Boolean), "만족도 조사에서 나온 의견을 다음 사업 계획에 반영함"];
+   v.next=nx.filter(Boolean).map(x=>"○ "+x).join("\n");
+  }},
+ sangdam:{steps:[
+  {k:"who",q:"누구와 상담했나요?",type:"chips",opts:["이용인 본인","보호자","이용인과 보호자 함께"]},
+  {k:"how",q:"어떻게 상담했나요?",type:"chips",opts:["대면","전화","가정 방문","문자"]},
+  {k:"why",q:"왜 상담했나요?",type:"chips",opts:["정기 상담","보호자 요청","이용인 요청","생활에 변화가 있어서"]},
+  {k:"tp",q:"어떤 이야기를 했나요? (여러 개 골라도 돼요)",type:"multi",opts:TOPIC_CHIPS},
+  {k:"st",q:"요즘 상태는 어떤가요?",type:"chips",opts:["잘 지내고 만족해요","어려움이 있어요"]},
+  {k:"memo",q:"더 적고 싶은 말이 있으면 짧게 적어요 (선택)",type:"text",ph:"예: 밤에 자주 깬다고 함"}],
+  apply(f,v,a){
+   v.target=a.who||v.target; v.method=a.how||v.method;
+   v.reason=a.why==="생활에 변화가 있어서"?"생활 변화 관찰로 상담 실시":(a.why||"");
+   if(a.how==="전화" && /요청/.test(a.why||"")) v.reason=a.why.replace("요청","전화 요청");
+   const tp=(a.tp||[]).map(x=>x.replace(/\(.*\)/,"").replace("기분·정서","기분 정서").replace("가족·귀가","가족 귀가"));
+   v.title=v.title||((a.tp||[]).slice(0,2).join(", ")+(a.tp&&a.tp.length?" 상담":""));
+   v.content=[a.memo||"", tp.join(", "), a.st==="잘 지내고 만족해요"?"대체로 만족함":a.st==="어려움이 있어요"?"어려움이 있다고 함":""].filter(Boolean).join(", ");
+  }},
+ gwanchal:{steps:[
+  {k:"when",q:"언제 본 모습인가요?",type:"chips",opts:["아침","점심","저녁","밤","외출 중","프로그램 시간"]},
+  {k:"tp",q:"무엇을 보았나요?",type:"multi",opts:["식사","수면(잠)","기분·정서","동료 관계","위생","프로그램 참여","행동","건강"]},
+  {k:"st",q:"어떤 모습이었나요?",type:"chips",opts:["좋은 모습이에요","걱정되는 모습이에요"]},
+  {k:"memo",q:"본 그대로 짧게 적어요",type:"text",ph:"예: 반찬을 스스로 덜어 먹음"}],
+  apply(f,v,a){
+   v.time=a.when||v.time;
+   const tp=(a.tp||[]).map(x=>x.replace(/\(.*\)/,"").replace("기분·정서","기분"));
+   const tail=a.st==="좋은 모습이에요"?"스스로 잘함":a.st==="걱정되는 모습이에요"?"어려워함":"";
+   v.fact=[a.memo||"", ...(a.memo?[]:tp.map(x=>`${a.when?a.when+" ":""}${x} ${tail}`.trim()))].filter(Boolean).join(", ") + (a.memo&&tp.length?`, ${tp.join("·")} 관련 ${tail}`:"");
+  }},
+ program:{steps:[
+  {k:"title",q:"오늘 한 프로그램은 무엇인가요?",type:"text",ph:"예: 텃밭 가꾸기",quick:["요리 교실","텃밭 가꾸기","미술 활동","운동","나들이"]},
+  {k:"n",q:"몇 명이 참여했나요?",type:"nums",items:[["ppl","참여 인원","명"]]},
+  {k:"react",q:"참여 모습은 어땠나요?",type:"chips",opts:["즐겁게 끝까지 참여했어요","대체로 잘 참여했어요","어려워하는 분이 있었어요"]},
+  {k:"memo",q:"기억에 남는 모습을 짧게 적어요 (선택)",type:"text",ph:"예: ○○님이 물뿌리개를 먼저 챙김"}],
+  apply(f,v,a){ v.title=a.title||v.title; if(+a.ppl) v.people=`이용인 ${+a.ppl}명`;
+   const R={"즐겁게 끝까지 참여했어요":"모두 끝까지 즐겁게 참여함","대체로 잘 참여했어요":"대체로 잘 참여함","어려워하는 분이 있었어요":"일부 참여자가 활동을 어려워함"};
+   v.obs=[a.memo||"",R[a.react]||""].filter(Boolean).join(", ");
+   if(a.title && FILLX.program && !v._wzEx){ const ex=FILLX.program(v); if(ex.goal) v.goal=ex.goal; if(ex.content) v.content=ex.content; }
+  }},
+ hoeui:{steps:[
+  {k:"type",q:"어떤 회의였나요?",type:"chips",opts:["직원회의","운영위원회","보호자 간담회","사례회의","고충처리 회의","인권·안전 간담회","직원 고충 회의"]},
+  {k:"memo",q:"회의 메모를 적은 그대로 붙여 넣어요 (줄마다 하나씩)",type:"area",rows:7,ph:"예:\n가을 나들이 장소 공원이 좋겠다\n이동 거리 생각해서 공원으로 가기로 함\n차량 예약 시설장 10/18까지\n11월 식단에 생선 반찬 늘리자는 의견\n간식비 영수증 정리 김선생님 이번 주"},
+  {k:"n",q:"몇 명이 참석했나요?",type:"nums",items:[["ppl","참석 인원","명"]]},
+  {k:"dtype",q:"어떤 문서로 만들까요?",type:"chips",opts:["회의록","회의 결과 보고"]}],
+  apply(f,v,a){ const mo=new Date().getMonth()+1; if(a.type) v.title=`${mo}월 ${a.type}`; if(+a.ppl) v.people=`총 ${+a.ppl}명`; if(a.dtype) v.dtype=a.dtype;
+   v.memo=a.memo||"";
+   if(a.memo){ v.agenda=""; v.discuss=""; v.decide=""; } else if(a.type && FILLX.hoeui){ const ex=FILLX.hoeui(v); if(ex.agenda) v.agenda=ex.agenda; }
+  }},
+ gochung:{steps:[
+  {k:"who",q:"누가 불편을 말했나요?",type:"chips",opts:["이용인 본인","보호자","직원"]},
+  {k:"route",q:"어떻게 접수했나요?",type:"chips",opts:["직접 말함","건의함","전화","홈페이지","상담 중"]},
+  {k:"memo",q:"어떤 불편이었나요? 짧게 적어요",type:"area",rows:3,ph:"예: 방이 춥다, 밤에 잘 때 춥다고 함"},
+  {k:"act",q:"어떻게 처리했나요? (모르면 비워요, 자동으로 들어가요)",type:"text",ph:"예: 보일러 온도 2도 올림, 겨울 이불 교체"}],
+  apply(f,v,a){ if(a.who) v.who=a.who==="이용인 본인"?"이용인 ○○님":a.who; if(a.route) v.route=a.route; v.content=a.memo||""; v.action=a.act||""; }},
+ sago:{steps:[
+  {k:"stype",q:"어떤 사고였나요?",type:"chips",opts:["넘어짐","다툼","투약 오류","실종","화상","기도 막힘","발작","기타"]},
+  {k:"tw",q:"언제, 어디서였나요?",type:"text",ph:"예: 14:20 2층 계단"},
+  {k:"memo",q:"있었던 일을 짧게 적어요",type:"area",rows:3,ph:"예: 계단 내려오다 넘어짐, 무릎 찰과상, 울면서 아프다고 함"},
+  {k:"rep",q:"누구에게 언제 알렸나요? (선택)",type:"text",ph:"예: 시설장 14:30 보고, 보호자 14:40 전화"}],
+  apply(f,v,a){ if(a.stype) v.stype=a.stype==="넘어짐"?"넘어짐(낙상)":a.stype; const tw=(a.tw||"").trim(), tm=tw.match(/\d{1,2}\s*[:시]\s*\d{0,2}\s*분?/); if(tm){ v.time=tm[0].trim(); v.where=tw.replace(tm[0],"").trim(); } else if(tw) v.where=tw; v.what=a.memo||""; v.report=a.rep||""; }},
+ gaebyeol:{steps:[
+  {k:"tp",q:"지원이 필요한 영역을 골라요 (여러 개)",type:"multi",opts:TOPIC_CHIPS},
+  {k:"memo",q:"현재 모습과 바라는 점을 짧게 적어요",type:"area",rows:4,ph:"예: 밤에 자주 깸, 혼자 버스 타보고 싶음, 요리 좋아함, 용돈 금방 씀"},
+  {k:"voice",q:"본인·보호자는 무엇을 바라나요? (선택)",type:"text",ph:"예: 본인: 혼자 시장 가고 싶음 / 보호자: 건강 챙겨 주길 바람"}],
+  apply(f,v,a){ const tp=(a.tp||[]).map(x=>x.replace(/\(.*\)/,"").trim()); const m=(a.memo||"").trim(); v.needs=[m,...tp.filter(t=>!logTopics(m).some(k=>logTopics(t).includes(k)))].filter(Boolean).join(", "); v.voice=a.voice||""; }},
+ gyoyuk:{steps:[
+  {k:"kind",q:"어떤 교육이었나요?",type:"chips",opts:["직원 인권교육","이용인 인권교육","장애인학대 예방·신고의무 교육","긴급복지 신고의무 교육","직장 내 성희롱·괴롭힘 예방교육","개인정보 보호 교육","안전교육·모의훈련","건강교육","성교육"]},
+  {k:"how",q:"누가 했나요?",type:"chips",opts:["외부 강사","내부 강사(양성과정 수료)","온라인 교육"]},
+  {k:"n",q:"시간과 인원을 적어요",type:"nums",items:[["hr","교육 시간","시간"],["ppl","참석 인원","명"],["prev","올해 앞서 받은 시간","시간"]]},
+  {k:"memo",q:"기억나는 교육 내용 (선택)",type:"area",rows:3,ph:"예: 학대 유형, 신고 방법 112, 사례 토론"}],
+  apply(f,v,a){ if(a.kind){ v.title=a.kind; v.target=/이용인/.test(a.kind)?"이용인":"직원"; } if(+a.hr) v.time=`${+a.hr}시간`; if(+a.ppl) v.people=`${v.target||"직원"} ${+a.ppl}명`; v.prev=+a.prev?`${+a.prev}시간`:""; if(a.how){ v.lecturer=a.how; if(/온라인/.test(a.how)) v.where="온라인"; } v.memo=a.memo||""; }}
+};
+function wizHTML(f){
+  const W=WIZ[f.id]; if(!W) return ""; const v=getF(f), a=v._wz||(v._wz={});
+  const step=(s,i)=>{ let ctl="";
+    if(s.type==="area") ctl=`<textarea class="wz-in wz-area" rows="${s.rows||5}" data-wzt="${s.k}" placeholder="${esc(s.ph||"")}">${esc(a[s.k]||"")}</textarea>`;
+    if(s.type==="text") ctl=`<input type="text" class="wz-in" data-wzt="${s.k}" value="${esc(a[s.k]||"")}" placeholder="${esc(s.ph||"")}">${s.quick?`<div class="chips wz-quick">${s.quick.map(o=>`<button type="button" class="chip-b" data-wzq="${s.k}" data-val="${esc(o)}">${esc(o)}</button>`).join("")}</div>`:""}`;
+    if(s.type==="chips"||s.type==="multi") ctl=`<div class="chips">${s.opts.map(o=>{ const on=s.type==="multi"?(a[s.k]||[]).includes(o):a[s.k]===o; return `<label class="chip"><input type="${s.type==="multi"?"checkbox":"radio"}" name="wz-${s.k}" value="${esc(o)}" data-wzc="${s.k}" data-multi="${s.type==="multi"?1:0}" ${on?"checked":""}><span>${esc(o)}</span></label>`; }).join("")}</div>`;
+    if(s.type==="nums") ctl=`<div class="wz-nums">${s.items.map(([k,l,u])=>`<label>${esc(l)} <input type="number" min="0" inputmode="numeric" data-wzt="${k}" value="${esc(a[k]||"")}"> ${u}</label>`).join("")}</div>`;
+    return `<div class="wz-step"><p class="wz-q"><b>${i+1}</b>${esc(s.q)}</p>${ctl}</div>`; };
+  return `<div class="wiz" id="wiz"><div class="wiz-head"><b>쉬운 입력</b><span>질문에 답만 하면 오른쪽 서식이 자동으로 완성돼요.</span></div>${W.steps.map(step).join("")}</div>`;
+}
+function wizApply(f){ const W=WIZ[f.id]; if(!W) return; const v=getF(f); W.apply(f,v,v._wz||{}); syncFields(f); refreshPreview(f); }
+document.addEventListener("change",e=>{
+  const el=e.target.closest("[data-wzc]"); if(!el || !curForm || !WIZ[curForm.id]) return;
+  const v=getF(curForm), a=v._wz||(v._wz={}), k=el.dataset.wzc;
+  if(el.dataset.multi==="1"){ const s=new Set(a[k]||[]); el.checked?s.add(el.value):s.delete(el.value); a[k]=[...s]; } else a[k]=el.value;
+  wizApply(curForm);
+});
+document.addEventListener("input",e=>{
+  const el=e.target.closest("[data-wzt]"); if(!el || !curForm || !WIZ[curForm.id]) return;
+  const v=getF(curForm); (v._wz||(v._wz={}))[el.dataset.wzt]=el.value; wizApply(curForm);
+});
+document.addEventListener("click",e=>{
+  const q=e.target.closest("[data-wzq]"); if(!q || !curForm || !WIZ[curForm.id]) return;
+  const v=getF(curForm); (v._wz||(v._wz={}))[q.dataset.wzq]=q.dataset.val; const inp=document.querySelector(`[data-wzt="${q.dataset.wzq}"]`); if(inp) inp.value=q.dataset.val; wizApply(curForm);
+});
 function renderForm(f){
+  if(f.kind==="aidoc"){ renderAiDoc(f); return; }
   applyCustom(f);
   const v=getF(f);
   const shortF=f.fields.filter(x=>x.short), longF=f.fields.filter(x=>!x.short);
@@ -3052,8 +2897,11 @@ function renderForm(f){
     <div class="fsplit">
       <section class="fin" id="fin" aria-label="입력">
         ${["hoeui","sangdam","gwanchal","program"].includes(f.id)?`<div class="fmemo-box"><div><b>📷 ${f.id==="hoeui"?"회의":f.id==="sangdam"?"상담":"기록"} 메모 사진으로 채우기</b><span>손글씨 메모·화이트보드 사진을 올리면, AI가 사진을 읽어 아래 칸을 채우도록 도와드려요.${(v._imgs||[]).length?` (지금 ${(v._imgs||[]).length}장 올림)`:""}</span></div><label class="pill b3d main" for="fmemo-top-img">메모 사진 올리기</label><input type="file" id="fmemo-top-img" class="sr-file" accept="image/*" multiple></div>`:""}
+        ${wizHTML(f)}
+        ${WIZ[f.id]?`<details class="wiz-more"><summary>칸을 하나씩 직접 보고 고치기</summary><div class="wiz-more-in">`:""}
         <div class="fgrid">${shortF.map(x=>fieldHTML(f,v,x)).join("")}</div>
         ${longF.map(x=>fieldHTML(f,v,x)).join("")}
+        ${WIZ[f.id]?`</div></details>`:""}
         ${customHTML(f)}
         ${signHTML(f)}
       </section>
@@ -3074,9 +2922,234 @@ function renderForm(f){
   if(openAIOnRender){ setTimeout(()=>{openAIOnRender=false;},400); document.getElementById("fai").hidden=false; const ms=document.getElementById("fsplit-status"); if(ms) ms.textContent=`메모 사진 ${(v._imgs||[]).length}장을 붙여 두었어요. ① 챗GPT로 열기 → 열린 창에서 + 버튼으로 같은 사진을 붙이고 보내세요.`; }
 }
 function updateFormLink(f){ const a=document.getElementById("fgpt"); if(a) a.href="https://chatgpt.com/?q="+encodeURIComponent(formPrompt(f,getF(f)).slice(0,1800)); }
-function refreshPreview(f){ const p=document.getElementById("fpreview"); if(p) p.innerHTML=blocksHTML(docBlocks(f,getF(f))); updateFormLink(f); if(ATT[f.id]) document.querySelectorAll(".atttbl [data-amap]").forEach(sel=>{ const sm=sel.nextElementSibling; if(sm) sm.textContent=(attValue(f,sel.value)||"").slice(0,40)||"(빈칸)"; }); }
+function refreshPreview(f){ if(f.kind==="aidoc"){ adRefresh(f); return; } { const w=adFlag(getF(f)), st=document.getElementById("fstatus"); if(st&&w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. 개인정보는 지워 주세요 (평가지표 B1 비밀보장).`; } } const p=document.getElementById("fpreview"); if(p) p.innerHTML=blocksHTML(docBlocks(f,getF(f))); updateFormLink(f); if(ATT[f.id]) document.querySelectorAll(".atttbl [data-amap]").forEach(sel=>{ const sm=sel.nextElementSibling; if(sm) sm.textContent=(attValue(f,sel.value)||"").slice(0,40)||"(빈칸)"; }); }
 function blocksText(B){ return B.map(b=>b.t==="approval"?"결재: "+b.labels.join(" / "):b.t==="sign"?`${b.date}\n작성자 ${b.name||""} (서명)`:b.t==="table"?b.rows.map(r=>r.map(c=>c.text||"").join(" | ")).join("\n"):b.t==="gap"||b.t==="line"?"":b.text).join("\n"); }
 function blankBlocks(f){ applyCustom(f); const v={}, keep=f.kind==="survey"?["qs","intro","open","title"]:f.kind==="ledger"?["title","blank","rows"]:[]; f.fields.forEach(x=>v[x.k]= keep.includes(x.k)?(x.def||""):""); return docBlocks(f,v); }
+
+/* ================= AI 보고서 도우미: 결과보고서·사업계획서·운영계획서·예산집행보고서·사례관리 계획서 ================= */
+/* 세부사업 한 줄 → {name, per, basis, ppl, yeon, bud, time} (연인원·예산 미리 계산) */
+function parseSub(line){
+  const s=String(line||"").replace(/(\d),(\d{3})/g,"$1$2").trim(); if(!s) return null;
+  const stop=/\s*(?:매일|연중|주\s*\d|월\s*\d|연\s*\d|년\s*\d|분기|\d)/; const mi=s.search(stop);
+  const name=(mi>0?s.slice(0,mi):s).replace(/[\/,:]\s*$/,"").replace(/\s*계획$/,"").trim()||s;
+  let per=0, basis="", months=12, m;
+  if((m=s.match(/(\d{1,2})\s*[~\-]\s*(\d{1,2})\s*월/))) months=Math.max(1,+m[2]-+m[1]+1);
+  if(/매일|1일\s*\d*\s*회|하루/.test(s)){ per=months<12?Math.round(months*30.4):365; basis=months<12?`${months}개월×약 30일`:"365일"; }
+  else if((m=s.match(/주\s*(\d+)\s*회/))){ const wk=months<12?Math.round(months*4.3):52; per=+m[1]*wk; basis=`주${m[1]}회×${wk}주`; }
+  else if((m=s.match(/월\s*(\d+)\s*회/))){ per=+m[1]*months; basis=`월${m[1]}회×${months}개월`; }
+  else if((m=s.match(/분기\s*(?:별\s*)?(\d+)?\s*회?/))){ const k=+(m[1]||1); per=k*4; basis=`분기${k}회×4분기`; }
+  else if((m=s.match(/(?:연|년)\s*(\d+)\s*회/))){ per=+m[1]; basis=`연${per}회`; }
+  const pm=s.match(/(\d+)\s*명/); const ppl=pm?+pm[1]:0;
+  const bm=s.match(/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)/); const bud=bm?Math.round(parseFloat(bm[1])*(/천/.test(bm[2])?1000:/만/.test(bm[2])?10000:1)):0;
+  const time=(s.match(/(연중|상반기|하반기|\d{1,2}\s*[~\-]\s*\d{1,2}\s*월|[1-4]\s*분기)/)||[])[1]||"";
+  return {name, per, basis, ppl, yeon:per*ppl, bud, time, raw:s};
+}
+const chun = n => (n/1000).toLocaleString("ko-KR",{maximumFractionDigits:1});
+/* 예산·집행 한 줄 → {name, bud, used, rate} */
+function parseExec(line){
+  const s=String(line||"").replace(/(\d),(\d{3})/g,"$1$2").trim(); if(!s) return null;
+  const re=/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)?/g; const nums=[]; let m;
+  while((m=re.exec(s))){ const u=m[2]||""; if(!u && !/^\d{4,}$/.test(m[1])) continue; nums.push(Math.round(parseFloat(m[1])*(/천/.test(u)?1000:/만/.test(u)?10000:1))); }
+  const mi=s.search(/\s*(?:예산|\d)/); const name=(mi>0?s.slice(0,mi):s).trim();
+  const bud=nums[0]||0, used=nums[1]||0;
+  return {name, bud, used, rate:bud&&used?Math.round(used/bud*1000)/10:0, rest:bud&&used?bud-used:0, note:s.replace(/.*\d\s*(천\s*원|만\s*원|원)\s*/,"").trim()};
+}
+const IND = {
+  C2:"C2 개별서비스 수행의 전문성: 욕구사정 → 개별지원계획 수립 → 서비스 연계·조정 → 12개월 이내 점검·평가 → 평가 결과로 수정·보완하는 흐름이 드러나게 함",
+  C3:"C3 이용자의 건강지원: 이용자·직원 건강교육 연 1회 이상, 약물관리 지침과 약물복용 기록, 건강상태(혈압·혈당·체중 등) 정기 점검, 정기 건강검진 연 1회와 결과에 따른 조치",
+  C4:"C4 서비스 욕구 및 만족도 조사: 조사 지침 마련, 연 1회 이상 실시, 문항별 결과 분석, 시설 운영·서비스 개발에 반영한 근거, 장애유형에 맞는 조사도구(지적장애는 그림 도구 등)",
+  C1:"C1 시설 선택과 이용 종료 지원: 시설안내서 비치, 이용 상담 시 욕구·정보 수집, 예비방문(가입주) 서비스, 이용 종료·중단 요청 시 상담",
+  B1:"B1 비밀보장: 개인정보 보호 규정, 개인정보 보호 직원교육 연 1회 이상, 개인정보 수집·활용 동의서, 개인정보 파일 보안(열람자 지정·잠금·비밀번호·암호화)",
+  B2:"B2 학대예방 및 인권보장: 인권보호 규정, 이용자 인권교육 계획 및 연 4시간 이상, 직원 인권교육 연 2회·8시간 이상, 장애인학대 예방·성범죄 신고의무 교육 연 1회·1시간 이상, 긴급복지 신고의무 교육 연 1회·1시간 이상",
+  B3:"B3 고충처리: 고충처리 담당 직원 지정, 고충 접수·처리 과정과 결과 문서화, 건의함·홈페이지 등 고충 제기 통로, 30일 이내 처리 결과 안내·공지, 고충이 없어도 연 1회 이상 고충처리 회의",
+  A1:"A1 시설환경 개선 노력: 안전관리계획, 자체 안전점검, 안전교육·모의훈련, 생활공간 청결, 환경개선",
+  A3:"A3 직원역량강화: 직원 자격, 교육시간 이수, 수퍼비전 체계, 교육 평가",
+  A5:"A5 직원복지: 복무규정, 휴가제도, 포상제도, 상해보험, 직원 고충처리(고충이 없어도 연 2회 이상 회의), 대체인력지원 사업 활용",
+  A6:"A6 직원의 인권 및 안전보장: 직원 인권보장 규정, 직원 인권교육 연 1회 이상(직장 내 성희롱 예방·괴롭힘 금지 포함), 인권·안전 간담회 연 1회 이상 및 내용 공유"
+};
+const AIDOC = {
+ saeop:{name:"사업계획서", ind:["C2","C3","C4","B2","B3","B1","A1","A5","A6"],
+  outline:["Ⅰ. 사업 목표: 1. 사명 2. 미션 및 비전 3. 운영 목적 4. 운영 목표(측정 가능한 목표)",
+   "Ⅱ. 시설 현황: 1. 운영 개요(사업기간·장소·대상·직원 구성) 2. 업무 분장(고충처리 담당, 인권보호 담당(교육 포함), 개인정보 보호·열람 담당) 3. 운영 방침",
+   "Ⅲ. 주요 사업: 1. 세부사업 개요 표 [사업 | 주요 목적 및 목표 | 목표량(실인원·연인원, 산출식) | 예산(천원) | 시행 시기 | 담당(직위) | 기대효과] 2. 연간 중점 프로그램 표 [프로그램명 | 진행 횟수 | 세부 내용] 3. 월별 사업 진행 계획 표(1~12월)",
+   "Ⅳ. 평가지표 대비 연간 필수 이행 계획 표 [항목 | 기준 | 실시 시기 | 담당] (인권교육, 학대예방·신고의무 교육, 개인정보 교육, 건강교육·건강검진, 욕구·만족도 조사, 사례관리 점검, 고충처리 회의, 안전교육·모의훈련, 직원 간담회)",
+   "Ⅴ. 예산 운영 방향(재원별: 보조금·후원금·자부담)과 후원금 활용 방향",
+   "Ⅵ. 중장기 계획"],
+  extra:["목표량은 반드시 산출식을 함께 써(예: 4명×주7회×52주=1,456명). 아래 [앱이 미리 계산한 값]을 검산해서 쓰고, 틀리면 고쳐서 알려줘.",
+   "각 세부사업의 목표는 '무엇을 / 몇 회 / 몇 명 / 어떤 변화'가 드러나게 측정 가능하게 써.",
+   "세부사업 예산 합계와 총예산이 다르면 차액을 계산하고 '인건비·운영비 등 [사유 확인 필요]'로 표시해.",
+   "담당자는 실명 대신 직위로 써(예: 생활재활교사)."]},
+ unyeong:{name:"운영계획서", ind:["C2","C3","C4","B2"],
+  outline:["Ⅰ. 사업 개요: 사업명, 사업 기간, 사업 대상, 사업 예산, 사업 목적",
+   "Ⅱ. 사업 목표(5~6개, 측정 가능하게)",
+   "Ⅲ. 세부사업 운영계획: 세부사업마다 [사업 대상 | 사업 목표 | 사업 내용 | 추진 시기·횟수 | 목표 인원(실인원·연인원, 산출식) | 기대효과 | 평가 방법]",
+   "Ⅳ. 연간 운영실적 목표: 실인원, 연인원(세부사업 합계와 일치), 사업 예산, 운영 기간",
+   "Ⅴ. 종합 기대효과",
+   "Ⅵ. 결론"],
+  extra:["연간 연인원은 세부사업 연인원의 합계와 맞아야 해. 서로 다르면 어떤 기준으로 계산했는지 한 줄로 밝혀.",
+   "평생교육 안에 인권교육이 있으면 '이용인 인권교육 연 4시간 이상'이 드러나게 횟수·시간을 써.",
+   "사업 내용은 단어 나열로 끝내지 말고 '무엇을, 어떻게, 얼마나'가 보이게 1줄씩 풀어 써."]},
+ yesan:{name:"예산집행보고서", ind:["C3"],
+  outline:["Ⅰ. 사업 개요: 사업명, 집행 기간, 대상, 총예산, 총집행액",
+   "Ⅱ. 예산 집행 총괄표 [사업 | 예산액(천원) | 집행액(천원) | 집행률(%) | 잔액(천원) | 재원]",
+   "Ⅲ. 사업별 집행 내역: 사업마다 [사업 목적 | 사업 내용 | 목표·실적 인원 | 예산액·집행액·집행률 | 주요 집행 내역 | 성과]",
+   "Ⅳ. 미집행·변경 사유 및 조치(이월·반납·전용 등)",
+   "Ⅴ. 종합 평가 및 차년도 예산 반영 방향"],
+  extra:["집행률 = 집행액 ÷ 예산액 × 100 (소수점 첫째 자리), 잔액 = 예산액 − 집행액으로 계산하고, 합계 행을 꼭 넣어.",
+   "제목이 '보고서'이므로 계획만 쓰지 말고 반드시 집행액·집행률·잔액을 넣어. 집행액을 모르는 사업은 [확인 필요]로 둬.",
+   "후원금은 지정·비지정을 구분하고, 사용 결과를 공개한 방법이 자료에 있으면 써.",
+   "집행률이 90% 미만이거나 100%를 넘는 사업은 사유를 [사유 확인 필요]로 표시해."]},
+ gyeolgwa:{name:"결과보고서", ind:["C2","C3","C4","B2"],
+  outline:["Ⅰ. 기관 개요: 기관명, 사업명, 사업 기간, 대상, 작성자",
+   "Ⅱ. 사업 목적 및 목표(계획서의 목표를 그대로 다시 적기)",
+   "Ⅲ. 사업별 추진 결과: 사업마다 1) 세부 추진 내용 2) 추진 성과 - 정량: [구분 | 계획 | 실적 | 달성률] 표(실시 횟수, 실인원, 연인원, 예산 집행) - 정성: 이용인 변화 사례(○○님이 ~하게 됨) 3) 평가: 잘된 점, 문제점, 개선방안",
+   "Ⅳ. 예산 집행: [세입·세출 | 예산액 | 집행액 | 집행률 | 잔액] 표",
+   "Ⅴ. 만족도 조사 결과 및 반영 계획",
+   "Ⅵ. 총평 및 향후 과제(차년도 사업계획에 반영할 사항)",
+   "Ⅶ. 첨부(근거자료 목록: 프로그램 일지, 사진, 출석부, 만족도 조사지 등)"],
+  extra:["활동을 나열하지 말고 '목표 → 실적 → 달성률 → 이용인 변화 → 문제점 → 개선방안' 순서로 성과 중심으로 써.",
+   "달성률 = 실적 ÷ 계획 × 100 (소수점 첫째 자리). 연인원 = 실인원 × 실시 횟수(자료에 연인원이 있으면 그 값을 쓰고 검산).",
+   "이용인 변화는 내가 준 '있었던 일'만 근거로, '~하는 모습을 보여 ~능력이 향상된 것으로 평가됨'처럼 의미를 덧붙여 써. 없는 사례는 만들지 마.",
+   "문제점마다 바로 옆에 구체적인 개선방안을 짝지어 써."]},
+ sarye:{name:"사례관리 및 서비스과정 평가사업 계획서", ind:["C2","C4","C1"],
+  outline:["Ⅰ. 사업 개요: 사업명, 기간, 대상, 사업 목적",
+   "Ⅱ. 사례관리 평가: 가. 사업 목적 나. 사업 내용(개인별 서비스 현황 점검, 개별지원계획 평가, 행동·생활 변화 평가, 건강·사회적응 평가, 보호자 의견수렴, 향후 지원 방향) 다. 운영 방법(사례회의, 보호자 상담, 결과 분석, 계획 수정·보완) 라. 실적 목표(실인원·연인원·횟수) 마. 예산 바. 기대효과",
+   "Ⅲ. 욕구 및 만족도 조사: 가. 목적 나. 조사 영역 다. 조사 방법(장애유형별 조사도구) 라. 결과 분석 방법(문항별) 마. 운영 반영 방법 바. 실적 목표",
+   "Ⅳ. 분기별 추진 일정 표 [분기 | 내용]",
+   "Ⅴ. 종합 기대효과",
+   "Ⅵ. 평가 및 활용 방안(차년도 사업계획·개별지원계획 반영)"],
+  extra:["개별지원계획은 12개월 이내에 점검(회의 및 평가)하도록 일정에 넣어.",
+   "욕구조사와 만족도조사를 '지침 마련 → 연 1회 실시 → 문항별 분석 → 운영 반영'의 흐름으로 써.",
+   "지적장애 이용인은 그림 도구, 의사소통이 어려운 이용인은 보호자 조사·관찰 기록 등 대체 방법을 구체적으로 써."]}
+};
+function adData(f,v){
+  const lab=k=>(f.fields.find(x=>x.k===k)||{}).label||k;
+  return f.fields.filter(x=>(v[x.k]||"").trim() && x.k!=="title").map(x=>`- ${lab(x.k).replace(/\s*\(.*\)$/,"")}: ${x.type==="area"?"\n"+v[x.k].trim().split("\n").map(l=>"    "+l.trim()).filter(l=>l.trim()).join("\n"):v[x.k].trim()}`).join("\n");
+}
+function adCalc(f,v){
+  const D=AIDOC[f.doc]; const out=[];
+  if(f.doc==="yesan"){
+    const R=(v.rows||"").split("\n").map(parseExec).filter(Boolean); if(!R.length) return "";
+    const tb=R.reduce((a,r)=>a+r.bud,0), tu=R.reduce((a,r)=>a+r.used,0);
+    out.push("사업 | 예산액(천원) | 집행액(천원) | 집행률 | 잔액(천원)");
+    R.forEach(r=>out.push(`${r.name} | ${r.bud?chun(r.bud):"[확인 필요]"} | ${r.used?chun(r.used):"[확인 필요]"} | ${r.rate?r.rate+"%":"-"} | ${r.bud&&r.used?chun(r.rest):"-"}`));
+    out.push(`합계 | ${chun(tb)} | ${chun(tu)} | ${tb&&tu?Math.round(tu/tb*1000)/10+"%":"-"} | ${tb&&tu?chun(tb-tu):"-"}`);
+    return out.join("\n");
+  }
+  if(f.doc==="gyeolgwa"){
+    const L=(v.subs||"").split("\n").map(s=>s.trim()).filter(Boolean); if(!L.length) return "";
+    L.forEach(l=>{ let parts=l.split(/\s*\/\s*/); if(parts.length<2) parts=l.split(/\s*실적\s*/); const pl=parts[0], re=(parts[1]||"").replace(/실적\s*/,""); const P=parseSub(pl||""), Rr=String(re||"").replace(/(\d),(\d{3})/g,"$1$2");
+      const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0), yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0);
+      const rate=P&&P.per&&done?Math.round(done/P.per*1000)/10:0;
+      out.push(`${P?P.name:l}: 계획 ${P&&P.per?P.per+"회("+P.basis+")":"[확인 필요]"} / 실적 ${done?done+"회":"[확인 필요]"}${rate?` / 달성률 ${rate}%`:""}${P&&P.ppl&&done&&!yeon?` / 연인원 ${P.ppl*done}명(${P.ppl}명×${done}회)`:yeon?` / 연인원 ${yeon}명`:""}`); });
+    const B=(v.budget||"").split("\n").map(parseExec).filter(x=>x&&x.bud);
+    B.forEach(b=>out.push(`${b.name} 예산: ${chun(b.bud)}천원 중 ${b.used?chun(b.used)+"천원 집행 (집행률 "+b.rate+"%, 잔액 "+chun(b.rest)+"천원)":"집행액 [확인 필요]"}`));
+    return out.join("\n");
+  }
+  const S=(v.subs||"").split("\n").map(parseSub).filter(Boolean); if(!S.length) return "";
+  out.push("세부사업 | 연간 횟수(산출) | 실인원 | 연인원(산출식) | 예산(천원) | 시기");
+  S.forEach(x=>out.push(`${x.name} | ${x.per?`${x.per}회(${x.basis})`:"[확인 필요]"} | ${x.ppl?x.ppl+"명":"[확인 필요]"} | ${x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}명×${x.per}회)`:"[확인 필요]"} | ${x.bud?chun(x.bud):"-"} | ${x.time||"-"}`));
+  const ty=S.reduce((a,x)=>a+x.yeon,0), tb=S.reduce((a,x)=>a+x.bud,0);
+  out.push(`합계 | - | 최대 ${Math.max(...S.map(x=>x.ppl))}명(중복 제외 실인원 [확인 필요]) | ${ty.toLocaleString("ko-KR")}명 | ${tb?chun(tb):"-"} | -`);
+  const tot=num(String(v.total||"").replace(/천\s*원.*/,"")) * (/천/.test(v.total||"")?1000:1);
+  if(tot && tb && Math.abs(tot-tb)>=1000) out.push(`※ 총예산 ${chun(tot)}천원과 세부사업 예산 합계 ${chun(tb)}천원의 차이 ${chun(Math.abs(tot-tb))}천원 → 인건비·운영비 등 [사유 확인 필요]`);
+  return out.join("\n");
+}
+function adPrompt(f,v){
+  const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", title=(v.title||D.name).trim();
+  const form=(v._formText||"").trim(), fname=(v._formName||"").trim();
+  const calc=adCalc(f,v);
+  const P=[];
+  P.push(`너는 장애인공동생활가정(그룹홈) 행정 문서를 오래 써 온 사회복지 전문가야. 사회복지시설평가 현장평가위원이 읽어도 근거가 분명한 수준으로 써줘.`);
+  P.push(`\n[작성할 문서]\n${org}의 「${title}」 (${D.name})`);
+  if(form||fname){
+    P.push(`\n[서식] ${fname?`내가 첨부한 서식 파일(${fname})`:"아래 서식"}에 맞춰 작성해.\n- 서식의 항목 이름, 순서, 번호 체계(Ⅰ. 1. 가. 1)), 표 모양을 그대로 지켜.\n- 서식에 없는 항목은 새로 만들지 마. 꼭 필요한 내용은 가장 가까운 항목에 넣어.\n- 아래 [기본 목차]는 서식에 빠진 내용을 채울 때만 참고해.`);
+    if(form) P.push(`- 서식에서 읽어 온 항목:\n---\n${form.slice(0,2500)}\n---`);
+  } else P.push(`\n[서식] 첨부한 서식이 없으면 아래 [기본 목차]대로 써. 서식 파일을 함께 올렸다면 그 서식의 항목·순서·표 모양을 우선으로 따라.`);
+  P.push(`\n[기본 목차]\n${D.outline.map(x=>"- "+x).join("\n")}`);
+  P.push(`\n[우리 센터 자료] (이 자료에 있는 사실과 숫자만 사용)\n${adData(f,v)||"- [자료를 입력해 주세요]"}`);
+  if(calc) P.push(`\n[앱이 미리 계산한 값] (검산해서 쓰고, 틀린 곳이 있으면 고친 뒤 알려줘)\n${calc}`);
+  P.push(`\n[2026년 장애인공동생활가정 평가지표 반영]\n아래 기준이 문서 안에 자연스럽게 드러나도록 써. 근거 없는 실적을 만들지 말고, 계획서라면 '언제·누가·몇 회'로 이행 계획을 쓰고, 보고서라면 자료에 있는 실적만 써.\n${D.ind.map(k=>"- "+IND[k]).join("\n")}`);
+  P.push(`\n[작성 원칙]\n1. 사실과 숫자: 내가 준 자료에 없는 숫자, 날짜, 횟수, 금액, 만족도, 성과, 사례는 절대 만들지 말고 [확인 필요]로 비워 둬.\n2. 계산: 연인원 = 실인원 × 연간 횟수(산출식 함께 표기), 금액은 천원 단위, 비율은 소수점 첫째 자리. 합계는 꼭 검산해.\n3. 문체: 개조식(○, -)으로 쓰고 문장 끝은 '~함, ~임, ~됨, ~할 예정임'으로 맞춰. 공문서 맞춤법과 띄어쓰기를 지켜.\n4. 용어·개인정보: '수용', '입소자' 대신 '이용인'으로 써(서식이 '입소장애인'을 쓰면 서식 용어를 따라). 이용인 이름은 ○○님, 직원은 직위로 쓰고 진단명·주민등록번호·연락처는 넣지 마.\n5. 목표는 측정 가능하게(횟수·인원·비율·기간이 들어가게) 써.\n${D.extra.map((x,i)=>`${i+6}. ${x}`).join("\n")}`);
+  P.push(`\n[결과물]\n- 가능하면 첨부한 서식과 같은 모양의 워드(.docx) 파일로 만들어서 내려받을 수 있게 해줘. 파일을 만들 수 없으면 서식 순서대로 본문을 쓰고 표는 표로 만들어줘.\n- 문서 맨 뒤에 따로 ① 검산표(연인원·예산·달성률·집행률), ② [확인 필요] 목록과 무엇을 확인하면 되는지, ③ 평가지표 연계표(지표 | 문서 속 해당 내용)를 붙여줘.\n- 나에게 먼저 질문하지 말고 바로 작성해줘.`);
+  return P.join("\n");
+}
+function adFlag(v){ const all=Object.entries(v).filter(([k])=>!k.startsWith("_")).map(([,x])=>String(x||"")).join("\n"); const w=[];
+  if(/\d{6}\s*-\s*[1-4]\d{6}/.test(all)) w.push("주민등록번호");
+  if(/01[016789][-\s.]?\d{3,4}[-\s.]?\d{4}/.test(all)) w.push("휴대전화 번호");
+  return w; }
+function renderAiDoc(f){
+  const v=getF(f), D=AIDOC[f.doc]; if(!v.org && PROF.name) v.org=PROF.name;
+  const shortF=f.fields.filter(x=>x.short), longF=f.fields.filter(x=>!x.short);
+  app.innerHTML=`<div class="fpage fade adpage" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
+    <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small></h2></div>
+    <p class="status fstat" id="fstatus" role="status" aria-live="polite">내용을 단어로만 적어도 돼요. ②번 요청문이 평가지침과 우리 서식에 맞게 자동으로 완성되고, 버튼 하나로 AI에 보내요.</p>
+    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② AI에 보내기</button></div>
+    <div class="fsplit">
+      <section class="fin" id="fin" aria-label="입력">
+        <h3 class="ad-h"><b>1</b>기본 정보</h3>
+        <div class="fgrid">${shortF.map(x=>fieldHTML(f,v,x)).join("")}</div>
+        <h3 class="ad-h"><b>2</b>내용 (단어·숫자만 적어도 돼요)</h3>
+        ${longF.map(x=>fieldHTML(f,v,x)).join("")}
+        <h3 class="ad-h"><b>3</b>우리 센터 서식 <small>(있으면)</small></h3>
+        <div class="ad-form">
+          <label class="pill b3d main" for="ad-file">서식 파일 고르기</label><input type="file" id="ad-file" class="sr-file" accept=".docx,.hwpx,.txt,.hwp,.pdf">
+          <span class="ad-fname" id="ad-fname">${v._formName?esc(v._formName):"아직 고른 서식이 없어요"}</span>
+          <p class="hint">워드(.docx)·한글(.hwpx) 서식은 항목을 읽어 요청문에 넣어요. 한글(.hwp)·PDF는 여기서 읽지 못하니, AI 창에 파일을 직접 첨부해 주세요. 파일은 이 기기 밖으로 보내지 않아요.</p>
+          <div class="field"><label for="ff-${f.id}-_formText">서식 항목 <small>(읽어 온 내용을 고치거나 직접 붙여 넣어요)</small></label><textarea id="ff-${f.id}-_formText" data-fk="_formText" rows="4" placeholder="예: Ⅰ. 사업개요 / Ⅱ. 사업목표 / Ⅲ. 세부사업 운영계획 ...">${esc(v._formText||"")}</textarea></div>
+        </div>
+      </section>
+      <section class="fpv ad-out" id="fpv" aria-label="AI에 보내기">
+        <div class="ad-steps">
+          <p><b>1</b>아래 버튼을 누르면 요청문이 <b>복사</b>되고 AI 창이 열려요.</p>
+          <p><b>2</b>열린 창에서 <b>+ (클립)</b>을 눌러 우리 센터 서식 파일을 첨부해요.</p>
+          <p><b>3</b>입력창에 <b>붙여 넣기</b>(Ctrl+V, 휴대폰은 길게 눌러 붙여넣기) 후 보내요.</p>
+          <p><b>4</b>완성된 문서를 <b>워드 파일로 받거나</b> 복사해서 서식에 붙여요.</p>
+        </div>
+        <div class="ad-btns">
+          <a class="ad-go b3d" data-ai="gpt" href="https://chatgpt.com/" target="_blank" rel="noopener"><b>챗GPT</b><span>복사 후 열기</span></a>
+          <a class="ad-go b3d" data-ai="gem" href="https://gemini.google.com/app" target="_blank" rel="noopener"><b>제미나이</b><span>복사 후 열기</span></a>
+          <a class="ad-go b3d" data-ai="cla" href="https://claude.ai/new" target="_blank" rel="noopener"><b>클로드</b><span>복사 후 열기</span></a>
+          <button type="button" class="pill b3d" id="ad-copy">요청문만 복사</button>
+        </div>
+        <p class="status" id="ad-status" role="status" aria-live="polite"></p>
+        <div class="ad-calc" id="ad-calc"></div>
+        <div class="field"><label for="ad-prompt">완성된 AI 요청문 <small>(직접 고쳐도 돼요)</small></label>
+          <textarea id="ad-prompt" spellcheck="false" rows="16"></textarea>
+          <button type="button" class="pill b3d" id="ad-reset" hidden>입력 내용으로 다시 만들기</button></div>
+      </section>
+    </div></div>`;
+  adRefresh(f);
+}
+function adRefresh(f){
+  const v=getF(f), ta=document.getElementById("ad-prompt"); if(!ta) return;
+  if(!v._pEdited) ta.value=adPrompt(f,v);
+  const rb=document.getElementById("ad-reset"); if(rb) rb.hidden=!v._pEdited;
+  const c=adCalc(f,v), box=document.getElementById("ad-calc");
+  if(box) box.innerHTML=c?`<b>앱이 미리 계산한 값</b><table class="d-table">${c.split("\n").map((l,i)=>l.startsWith("※")?`<tr><td colspan="9" class="ad-warn">${esc(l)}</td></tr>`:`<tr>${l.split(" | ").map(x=>i===0&&f.doc!=="gyeolgwa"?`<th>${esc(x)}</th>`:`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</table>`:"";
+  const st=document.getElementById("fstatus"), w=adFlag(v);
+  if(st){ if(w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. AI에 보내기 전에 지워 주세요.`; } else if(st.classList.contains("warn")){ st.classList.remove("warn"); st.textContent="내용을 단어로만 적어도 돼요. ②번 요청문이 평가지침과 우리 서식에 맞게 자동으로 완성되고, 버튼 하나로 AI에 보내요."; } }
+}
+document.addEventListener("input",e=>{ if(e.target.id==="ad-prompt" && curForm && curForm.kind==="aidoc"){ const v=getF(curForm); v._pEdited=true; const rb=document.getElementById("ad-reset"); if(rb) rb.hidden=false; } });
+document.addEventListener("click",e=>{
+  if(!curForm || curForm.kind!=="aidoc") return;
+  const f=curForm, v=getF(f), st=document.getElementById("ad-status");
+  const go=e.target.closest(".ad-go"), cp=e.target.closest("#ad-copy");
+  if(go||cp){ const ta=document.getElementById("ad-prompt"); const w=adFlag(v);
+    const name={gpt:"챗GPT",gem:"제미나이",cla:"클로드"}[go&&go.dataset.ai]||"";
+    copyText(ta.value, cp?ta:null, ()=>{ if(st){ st.classList.toggle("warn",!!w.length); st.textContent=(w.length?`주의: ${w.join(", ")}이(가) 들어 있어요. `:"")+(go?`복사했어요! 열린 ${name} 창에서 서식 파일을 첨부하고 붙여 넣은 뒤 보내세요.`:"복사했어요! 쓰시는 AI 입력창에 붙여 넣으세요."); } },
+      ()=>{ if(st){ st.classList.add("warn"); st.textContent="자동 복사가 막혀 있어요. 아래 요청문을 길게 눌러 전체 선택 후 복사해 주세요."; } ta.focus(); ta.select(); });
+    return; }
+  if(e.target.closest("#ad-reset")){ v._pEdited=false; adRefresh(f); if(st) st.textContent="입력 내용으로 요청문을 다시 만들었어요."; return; }
+});
+document.addEventListener("change",async e=>{
+  if(e.target.id!=="ad-file" || !curForm || curForm.kind!=="aidoc" || !e.target.files[0]) return;
+  const f=curForm, v=getF(f), file=e.target.files[0]; v._formName=file.name; const nm=document.getElementById("ad-fname"); if(nm) nm.textContent=file.name;
+  const st=document.getElementById("ad-status");
+  try{ const t=await readFormFile(file); v._formText=t.split("\n").map(s=>s.trim()).filter(Boolean).slice(0,120).join("\n"); const ta=document.getElementById(`ff-${f.id}-_formText`); if(ta) ta.value=v._formText; if(st){ st.classList.remove("warn"); st.textContent=`서식 항목을 읽어 요청문에 넣었어요. AI 창에도 같은 파일(${file.name})을 첨부하면 모양까지 맞춰 줘요.`; } }
+  catch(err){ if(st){ st.classList.remove("warn"); st.textContent=`${/hwp$/i.test(file.name)?"한글(.hwp)":/pdf$/i.test(file.name)?"PDF":"이"} 파일은 여기서 항목을 읽지 못해요. 대신 AI 창에 ${file.name} 파일을 직접 첨부하세요. 요청문에 파일 이름을 넣어 두었어요.`; } }
+  e.target.value=""; adRefresh(f);
+});
 
 /* ---- 마이크 ---- */
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -3467,18 +3540,21 @@ const FILLX = {
   content:`이용인분들과 함께 ‘${c}’ 활동을 하려고 합니다.\n이번 활동으로 ${T.eff[0].replace(/(이|가) (생김|늘어남|높아짐|좋아짐)$/,"$1 $2").replace(/생김$/,"생기기를").replace(/늘어남$/,"늘어나기를").replace(/높아짐$/,"높아지기를").replace(/좋아짐$/,"좋아지기를").replace(/얻음$/,"얻기를").replace(/익힘$/,"익히기를").replace(/됨$/,"되기를").replace(/짐$/,"지기를")} 바라며 정성껏 준비하겠습니다.\n활동 중에는 직원이 함께하며 안전에 각별히 신경 쓰겠습니다.`,
   where:T.place, bring:T.prep, reply:"○월 ○일(○)까지 참여 여부를 알려주세요." }; },
  hoeui(v){ const t=(v.title||"").replace(/\s+/g,""), T=exTopic(v.title);
-  const type=/운영위/.test(t)?"운영위원회":/보호자|가족|간담/.test(t)?"보호자 간담회":/사례/.test(t)?"사례회의":"직원회의";
+  const type=/고충/.test(t)?(/직원/.test(t)?"직원 고충 회의":"고충처리 회의"):/인권|안전/.test(t)?"인권·안전 간담회":/운영위/.test(t)?"운영위원회":/보호자|가족|간담/.test(t)?"보호자 간담회":/사례/.test(t)?"사례회의":"직원회의";
   const ag={"직원회의":["지난달 업무 점검 및 이용인 생활 공유",`${T.hit?T.n+" 계획 논의":"다음 달 프로그램·행사 일정"}`,"안전·위생 점검 사항","기타 건의 사항"],
    "운영위원회":["지난 분기 운영 보고(사업·예산)","다음 분기 사업 계획 심의","후원금 사용 계획 보고","기타 안건"],
    "보호자 간담회":["센터 운영 및 이용인 생활 안내","올해 프로그램 결과 공유","보호자 의견 듣기","다음 행사 안내"],
-   "사례회의":["대상 이용인 현재 모습 공유 (○○님)","지원 목표 및 방법 논의","역할 분담 및 점검 일정"]}[type];
+   "사례회의":["대상 이용인 현재 모습 공유 (○○님)","개별지원계획 목표별 진행 상황 점검","지원 방법 수정·보완 논의","역할 분담 및 다음 점검 일정"],
+   "고충처리 회의":["지난 기간 고충 접수·처리 현황 점검 (접수 없음도 기록)","처리 중인 고충의 30일 기한 확인","고충 제기 통로(건의함·홈페이지) 운영 점검","이용인 의견 반영 방안"],
+   "인권·안전 간담회":["직원 인권·안전 관련 어려움 나누기","이용인·보호자에 의한 폭언 등 대응 방법 공유","직장 내 괴롭힘·성희롱 예방 수칙 확인","간담회 내용 공유 방법 정하기"],
+   "직원 고충 회의":["직원 고충 접수 현황 (없음도 기록)","근무 환경·휴가·대체인력 관련 의견","개선 방안 및 담당 정하기"]}[type];
   return { agenda:ag.map((a,i)=>`${i+1}. ${a}`).join("\n") }; },
  yokgu(v){ const T=exTopic(v.title); if(!T.hit||!T.yq) return {}; return { qs:T.yq.join("\n"), open:`그 밖에 ${T.n}에서 하고 싶은 것이 있나요?` }; },
  manjok(v){ const T=exTopic(v.title); if(!T.hit) return {}; return { qs:T.q.join("\n"), open:`${T.n}에서 더 바라는 점이 있나요?` }; }
 };
 /* 제목이 바뀌면: 비어 있거나 '지난번 예시 그대로'인 칸만 새 예시로 바꿈. 직접 고친 칸은 건드리지 않음 */
 function applyExamples(f, force){
-  const fn=FILLX[f.id]; if(!fn) return 0; const v=getF(f);
+  const fn=FILLX[f.id]; if(!fn || f.kind==="aidoc") return 0; const v=getF(f);
   if(!(v.title||"").trim() || (f.kind==="survey" && v.title===(f.fields.find(x=>x.k==="title")||{}).def && !force)) return 0;
   const ex=fn(v), prev=v._auto||{}, def=k=>(f.fields.find(x=>x.k===k)||{}).def||""; let n=0; const auto={};
   Object.entries(ex).forEach(([k,txt])=>{ const cur=v[k]||""; if(force || !cur.trim() || cur===prev[k] || cur===def(k)){ v[k]=txt; auto[k]=txt; n++; } else if(cur===prev[k]) auto[k]=txt; });
