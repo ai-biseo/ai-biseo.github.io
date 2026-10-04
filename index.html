@@ -1095,7 +1095,7 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .check-mini input,.check input{accent-color:var(--navy)}
 
 /* GNB */
-.gnb{background:#fff;border-bottom:1px solid var(--line);margin-inline:calc(50% - 50vw);padding-inline:max(32px,calc(50vw - 696px));position:relative}
+.gnb{background:#fff;border-bottom:1px solid var(--line);margin-inline:calc(50% - 50vw);padding-inline:max(32px,calc(26vw - 200px),calc(50vw - 696px));position:relative}
 .gnb-in{display:flex;align-items:center;gap:18px;min-height:60px;flex-wrap:wrap}
 .gnb-logo{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;padding:6px 0;text-align:left;color:var(--ink)}
 .gnb-logo .ic{width:30px;height:30px;color:var(--teal)}
@@ -1104,7 +1104,7 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .gnb nav{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
 .gnb nav button{background:none;border:0;padding:10px 12px;font-size:.95rem;font-weight:700;color:var(--ink);cursor:pointer;border-bottom:3px solid transparent}
 .gnb nav button:hover{color:var(--navy);border-bottom-color:var(--navy)}
-.gnb-top{background:var(--navy-deep);color:#CFE3DA;font-size:.75rem;margin-inline:calc(50% - 50vw);padding:4px max(32px,calc(50vw - 696px));display:flex;justify-content:flex-end;gap:14px}
+.gnb-top{background:var(--navy-deep);color:#CFE3DA;font-size:.75rem;margin-inline:calc(50% - 50vw);padding:4px max(32px,calc(26vw - 200px),calc(50vw - 696px));display:flex;justify-content:flex-end;gap:14px}
 .gnb-top a{color:#CFE3DA;text-decoration:none}
 .gnb-top a:hover{color:#fff;text-decoration:underline}
 .ic{width:20px;height:20px;flex:none}
@@ -1162,7 +1162,7 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .glinks.sub{margin-top:-6px}
 
 /* 하단 */
-.gfoot{background:#2F3E38;color:#B7C8C0;margin-inline:calc(50% - 50vw);padding:14px max(32px,calc(50vw - 696px));font-size:.78rem;line-height:1.7;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center}
+.gfoot{background:#2F3E38;color:#B7C8C0;margin-inline:calc(50% - 50vw);padding:14px max(32px,calc(26vw - 200px),calc(50vw - 696px));font-size:.78rem;line-height:1.7;display:flex;flex-wrap:wrap;gap:6px 24px;align-items:center}
 .gfoot b{color:#fff;font-size:.88rem}
 .gfoot a{color:#D6E5DE}
 .gfoot .gf-links{display:flex;gap:12px;flex-wrap:wrap}
@@ -1170,7 +1170,7 @@ footer{display:none!important}
 body:has(.tpage) .gfoot, body:has(.fpage) .gfoot{display:none}
 
 @media (min-width:900px){
-  body.home-mode .wrap{max-width:none;height:100vh;height:100dvh;padding:0 max(32px,calc(50vw - 696px));gap:12px}
+  body.home-mode .wrap{max-width:none;height:100vh;height:100dvh;padding:0 max(32px,calc(26vw - 200px),calc(50vw - 696px));gap:12px}
   body.home-mode main{flex:1;min-height:0;display:flex;flex-direction:column}
   .ghome{flex:1;min-height:0}
   .gvis{grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);flex:none}
@@ -1443,12 +1443,56 @@ body{background:#FFFFFF!important}
   body.home-mode .gcols > .gbox{padding:10px 18px!important;gap:6px!important}
   body.home-mode .bd-t{font-size:.8rem!important}
 }
+
+@media (min-width:900px){ body.home-mode .gcols > .gbox:nth-child(3) .ghelp{margin-top:auto} }
+@media (min-width:900px) and (max-height:640px){ body.home-mode .glinks.sub span,body.home-mode .ghelp span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0} body.home-mode .glinks.sub a{min-width:0} }
+/* 상단 메뉴 글자 빼기 + 위아래 여백 */
+.gnb nav{display:none!important}
+.gnb-prof{margin-left:auto!important}
+body.home-mode .qm b{white-space:nowrap}
+@media (min-width:900px){
+  body.home-mode .ghome{padding-top:26px!important;padding-bottom:60px!important}
+}
+@media (min-width:900px) and (max-height:800px){
+  body.home-mode .ghome{padding-top:20px!important;padding-bottom:44px!important}
+}
+
+/* 위쪽 민트 띠로 합치기: 첫 화면은 상단 줄을 숨기고 민트 상자 안에 새싹+기관명 */
+.gnb-prof{display:none!important}
+.gvis-brand{display:none}
+@media (min-width:900px){
+  body.home-mode .gnb{display:none!important}
+  body.home-mode .ghome{padding-top:18px!important}
+  body.home-mode{--gh:clamp(160px,26vh,220px)}
+  body.home-mode .gvis{height:var(--gh)!important;min-height:0!important;grid-template-columns:minmax(0,1fr) calc(var(--gh) * 1.86)!important}
+  body.home-mode .gvis-img{display:block!important;height:var(--gh)!important}
+  body.home-mode .gvis-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+  body.home-mode .gvis-img::before{background:linear-gradient(90deg,#D5EFE3 0%,rgba(213,239,227,0) 18%)!important}
+  body.home-mode .gvis-txt{justify-content:center;gap:8px!important;padding-block:14px!important}
+  body.home-mode .gvis-brand{display:flex;align-items:center;gap:8px;margin:0 0 4px;color:#22604C;cursor:pointer}
+  body.home-mode .gvis-brand .ic{width:26px;height:26px;color:#2E7D64}
+  body.home-mode .gvis-brand b{font-size:.95rem;font-weight:800;letter-spacing:-.01em}
+}
+@media (min-width:900px) and (max-height:640px){ body.home-mode{--gh:150px} body.home-mode .gvis{grid-template-columns:minmax(0,1fr) calc(var(--gh) * 1.86)!important} }
+@media (min-width:900px){ body.home-mode .gvis-kick{display:none!important} }
+@media (max-width:899px){ .gvis-img{height:auto!important;aspect-ratio:900/484} .gvis-img img{object-fit:contain} }
+/* 연한 민트 그라데이션 + 검색창 아래로 + 아래 두 상자 위로 */
+@media (min-width:900px){
+  body.home-mode .gvis{background:linear-gradient(100deg,#F7FCFA 0%,#EEF8F3 45%,#E2F3EA 100%)!important}
+  body.home-mode .gvis-img::before{background:linear-gradient(90deg,#E4F4EB 0%,rgba(228,244,235,0) 22%)!important}
+  body.home-mode .gvis .gsearch{margin-top:22px!important}
+  body.home-mode .gcols > .gbox:nth-child(2) .gprof,body.home-mode .gcols > .gbox:nth-child(3) .ghelp{margin-bottom:12px!important}
+}
+@media (min-width:900px) and (max-height:800px){
+  body.home-mode .gvis .gsearch{margin-top:18px!important}
+  body.home-mode .gcols > .gbox:nth-child(2) .gprof,body.home-mode .gcols > .gbox:nth-child(3) .ghelp{margin-bottom:10px!important}
+}
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
 <div class="wrap">
   <header class="gnb"><div class="gnb-in">
-    <button type="button" class="gnb-logo" data-gn="home" aria-label="처음 화면으로"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 3 2.5 5.5 7 5.5z"/></svg><span><b>우리 센터 AI 비서함</b><small>한국장애인공동생활가정</small></span></button>
+    <button type="button" class="gnb-logo" data-gn="home" aria-label="처음 화면으로"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 3 2.5 5.5 7 5.5z"/></svg><span><b>한국장애인공동생활가정</b></span></button>
     <nav aria-label="주 메뉴"><button type="button" data-gn="forms">서식 자료실</button><button type="button" data-gn="c-msg">문자·소통</button><button type="button" data-gn="donate">후원 관리</button><button type="button" data-gn="c-promo">홍보·안내</button><button type="button" data-gn="c-life">프로그램·생활</button><button type="button" data-gn="fridge">식단·요리</button><button type="button" data-gn="help">이용 안내</button></nav><button type="button" class="gnb-prof" id="gnb-prof" data-prof></button>
   </div></header>
   <header class="hero2" title="처음 화면으로" role="link" tabindex="0">
@@ -3311,6 +3355,7 @@ function renderHome(){
   app.innerHTML = `<div class="ghome fade">
     <section class="gvis">
       <div class="gvis-txt">
+        <p class="gvis-brand"><svg class="ic sprout" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21v-9"/><path d="M12 12c0-4 3-7 8-7 0 4-3 7-8 7z"/><path d="M12 14c0-3-2.5-5.5-7-5.5 0 3 2.5 5.5 7 5.5z"/></svg><b>한국장애인공동생활가정</b></p>
         <p class="gvis-kick">그룹홈(공동생활가정) 시설장 업무 지원</p>
         <h1>혼자서도 든든한 업무파트너, <span>AI 비서함</span></h1>
         <p class="gvis-sub">공문·보고서·일지·조사지는 서식으로, 후원·보호자 문자는 바로 완성으로.</p>
@@ -3753,9 +3798,29 @@ function route(){
   else if(h==="donate"){ renderDonate(); }
   else if(h==="month"){ renderMonth(); }
   else if(h==="help"){ renderHelp(); }
-  else renderHome();
+  else { renderHome(); requestAnimationFrame(alignHome); }
   window.scrollTo({top:0});
 }
+
+/* 관련 기관 칸: 평가지표 선 = 이달의 추천 아래선, 처음 쓰는 법 = 등록하기 상자 */
+function alignHome(){
+  const cols=document.querySelectorAll(".gcols > .gbox"); if(cols.length<3) return;
+  const c2=cols[1], c3=cols[2], prof=c2.querySelector(".gprof"), tiles=c2.querySelectorAll(".qm"), sub=c3.querySelector(".glinks.sub"), help=c3.querySelector(".ghelp");
+  if(!prof||!tiles.length||!sub||!help) return;
+  sub.style.marginBottom=""; help.style.height=""; help.style.marginTop="";
+  if(window.innerWidth<900) return;
+  const pr=prof.getBoundingClientRect(), hr=help.getBoundingClientRect();
+  help.style.boxSizing="border-box"; help.style.height=pr.height+"px";
+  const tb=Math.max(...[...tiles].map(t=>t.getBoundingClientRect().bottom));
+  const sb=sub.getBoundingClientRect().bottom;
+  const d=help.getBoundingClientRect().top - (pr.top);
+  if(Math.abs(d)>0.5) help.style.marginTop=(-d)+"px";
+  const sb2=sub.getBoundingClientRect().bottom;
+  const m=pr.top - tb; const cur=help.getBoundingClientRect().top - sb2;
+  sub.style.marginBottom=Math.max(0,m-cur)+"px";
+  const gl=c3.querySelector(".glinks:not(.sub)"); if(gl && gl.scrollHeight>gl.clientHeight+1){ sub.style.marginBottom=""; help.style.height=""; help.style.marginTop=""; }
+}
+window.addEventListener("resize",()=>{ if(document.querySelector(".gcols .ghelp")) alignHome(); });
 function go(hash){ if(location.hash==="#"+hash) route(); else location.hash = hash; }
 function goHome(){ if(location.hash){ history.pushState("",document.title,location.pathname+location.search); } route(); }
 
