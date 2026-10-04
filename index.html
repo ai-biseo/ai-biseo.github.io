@@ -1393,6 +1393,18 @@ body:has(.tpage) .gfoot, body:has(.fpage) .gfoot{display:none}
 }
 
 @media (min-width:900px) and (max-height:640px){ .bd-up{display:none!important} .bd li{padding:1px 0!important} .bd-btn{padding:1px 6px!important} .gvis{height:84px!important} .gvis-img{display:none!important} body.home-mode .gvis{grid-template-columns:1fr!important} }
+
+/* 세 칸 아래선 맞추기: 내용이 칸 높이에 고르게 펼쳐지게 */
+@media (min-width:900px){
+  body.home-mode .gcols > .gbox{display:flex;flex-direction:column}
+  body.home-mode .gboard .bd{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-between;min-height:0}
+  body.home-mode .gboard .bd li{flex:1 1 0;min-height:0}
+  body.home-mode .gcols > .gbox:nth-child(2) .qgrid{flex:1 1 auto;grid-auto-rows:1fr;min-height:0}
+  body.home-mode .gcols > .gbox:nth-child(2) .qm{justify-content:center}
+  body.home-mode .gcols > .gbox:nth-child(3) .glinks:not(.sub){flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-between;min-height:0}
+  body.home-mode .gcols > .gbox:nth-child(3) .glinks:not(.sub) li{flex:1 1 0;display:flex}
+  body.home-mode .gcols > .gbox:nth-child(3) .glinks:not(.sub) li a{flex:1}
+}
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -2185,6 +2197,21 @@ const FORMS = [
    {k:"next",label:"다음 지원 계획",type:"area",opt:1},
    {k:"writer",label:"작성자",short:1},
    {k:"org",label:"기관명",short:1}]},
+ {id:"sangdam", em:"🗣️", name:"상담일지", desc:"이용인·보호자 상담 기록", kind:"generic", note:"이름은 ○○님으로, 진단명·약 이름·주민번호는 적지 마세요. 상담 내용은 들은 말 그대로, 의견은 따로 적어요.",
+  fields:[
+   {k:"title",label:"상담 주제",ph:"예: 주말 귀가 일정 상의",short:1},
+   {k:"target",label:"상담 대상",ph:"예: 이용인 ○○님 / 보호자(○○님 어머니)",short:1},
+   {k:"date",label:"상담 일시",type:"date",def:"today",short:1},
+   {k:"time",label:"시간·장소",ph:"예: 15:00~15:40, 센터 상담실",short:1},
+   {k:"method",label:"상담 방법",ph:"예: 대면 / 전화 / 가정 방문 / 문자",short:1},
+   {k:"counselor",label:"상담자",ph:"예: 사회재활교사 ○○○",short:1},
+   {k:"reason",label:"상담 계기",type:"area",ph:"예: 보호자 요청 / 정기 상담 / 생활 변화 관찰"},
+   {k:"content",label:"상담 내용",type:"area",ph:"들은 말 그대로 적어요. 예: 보호자: “요즘 주말에 집에 오면 잠을 잘 못 잔다”고 말씀하심"},
+   {k:"opinion",label:"상담자 의견",type:"area",ph:"예: 주말 생활 리듬 변화가 영향을 주는 것으로 보임"},
+   {k:"plan",label:"조치 및 향후 계획",type:"area",ph:"예: 주중 취침 시간 기록 → 2주 뒤 보호자와 다시 상담"},
+   {k:"nextdate",label:"다음 상담 예정일",opt:1,ph:"예: 2026. 10. 25.",short:1},
+   {k:"writer",label:"작성자",short:1},
+   {k:"org",label:"기관명",short:1}]},
  {id:"yokgu", em:"🌱", name:"욕구조사지", desc:"이용인이 원하는 것을 묻는 쉬운 조사지", kind:"survey", scale:["원해요","보통이에요","원하지 않아요"],
   fields:[
    {k:"title",label:"조사 제목",def:"하고 싶은 것을 알려주세요",short:1},
@@ -2892,6 +2919,11 @@ const FILLX = {
    decide:`1. ______하기로 함\n2. ______은(는) 다음 회의에서 다시 논의함`,
    todo:`○ ______ - 담당: ○○○ - 기한: ○/○\n○ ______ - 담당: ○○○ - 기한: ○/○` }; },
  yokgu(v){ const T=exTopic(v.title); if(!T.hit||!T.yq) return {}; return { qs:T.yq.join("\n"), open:`그 밖에 ${T.n}에서 하고 싶은 것이 있나요?` }; },
+ sangdam(v){ return {
+  reason:"○ (정기 상담 / 보호자 요청 / 이용인 요청 / 생활 변화 관찰 중 고르기)\n○ 계기가 된 일: ______",
+  content:"○ 이용인 ○○님: “______”라고 말함\n○ 보호자: “______”라고 말씀하심\n○ 함께 확인한 내용: ______\n※ 들은 말 그대로 적어 주세요",
+  opinion:"○ ______ 부분에서 지원이 필요한 것으로 보임\n○ 이용인·보호자의 바람: ______",
+  plan:"○ ______ 하기로 함 (담당: ○○○, 기한: ○/○)\n○ 보호자에게 ______ 안내 예정\n○ 다음 상담에서 ______ 확인" }; },
  manjok(v){ const T=exTopic(v.title); if(!T.hit) return {}; return { qs:T.q.join("\n"), open:`${T.n}에서 더 바라는 점이 있나요?` }; }
 };
 /* 제목이 바뀌면: 비어 있거나 '지난번 예시 그대로'인 칸만 새 예시로 바꿈. 직접 고친 칸은 건드리지 않음 */
@@ -2938,6 +2970,12 @@ const FSYN = {
  obs:["참여모습","관찰내용","참여자반응","반응","관찰"],
  eval:["평가","평가및다음계획","다음계획","소감및평가"],
  org:["기관명","시설명","센터명","기관"],
+ method:["상담방법","방법"],
+ counselor:["상담자","상담원","면담자"],
+ reason:["상담계기","상담사유","의뢰사유","계기"],
+ opinion:["상담자의견","소견","의견"],
+ plan:["조치및향후계획","조치사항","향후계획","조치"],
+ nextdate:["다음상담예정일","차기상담일","다음상담"],
  to:["수신","수신자","받는분","받는사람"],
  via:["경유"],
  body:["본문","내용"],
