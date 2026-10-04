@@ -2621,7 +2621,7 @@ function csContent(t){
   }).join("\n");
 }
 function csSaid(f){ let x=f.trim(); if(/(다|요)$/.test(x)) return "";
-  const R=[[/(잠을\s*)?못\s*잠$/,"잠을 잘 자지 못한다"],[/잘\s*잠$/,"잠을 잘 잔다"],[/있음$/,"있다"],[/없음$/,"없다"],[/싶음$/,"싶다"],[/좋음$/,"좋다"],[/함$/,"한다"],[/잠$/,"잔다"],[/먹음$/,"먹는다"],[/감$/,"간다"],[/봄$/,"본다"]];
+  const R=[[/(다툼|갈등|싸움|어려움)$/,"$1이 있었다"],[/(잠을\s*)?못\s*잠$/,"잠을 잘 자지 못한다"],[/잘\s*잠$/,"잠을 잘 잔다"],[/있음$/,"있다"],[/없음$/,"없다"],[/싶음$/,"싶다"],[/좋음$/,"좋다"],[/함$/,"한다"],[/잠$/,"잔다"],[/먹음$/,"먹는다"],[/감$/,"간다"],[/봄$/,"본다"]];
   for(const [r,w] of R){ if(r.test(x)) return x.replace(r,w).replace(/잠을 못 잠을/,"잠을"); } return ""; }
 function csOpinion(v){
   const all=csNorm((v.reason||"")+" "+(v.content||"")); if(!all.trim()) return "";
@@ -2646,11 +2646,139 @@ function obsThink(v){ const a=csNorm(v.fact||""); if(!a) return ""; const tp=[..
   const L=[]; if(POS.test(a)) L.push(`${tp?tp+"에서 ":""}스스로 해 보려는 모습과 긍정적인 변화가 나타나고 있는 것으로 보임`); if(NEG.test(a)) L.push(`${tp?tp+"에 대한 ":""}불편함이 있는 것으로 보여 원인을 세심하게 살필 필요가 있음`); if(!L.length) L.push("관찰된 모습이 반복되는지 지속적으로 살펴볼 필요가 있음"); return L.map(x=>"○ "+x).join("\n"); }
 function obsNext(v){ const a=csNorm(v.fact||""); if(!a) return ""; const L=["같은 상황을 1~2주간 지속적으로 관찰하여 기록함"]; if(POS.test(a)) L.push("잘한 점을 구체적으로 칭찬하여 긍정적인 행동이 이어지도록 지원함"); if(NEG.test(a)) L.push("불편함의 원인을 확인하고 필요시 보호자·동료 직원과 공유함"); return L.map(x=>"○ "+x).join("\n"); }
 function progEval(v){ const a=csNorm(v.obs||""); if(!a) return ""; const L=[]; if(POS.test(a)) L.push("참여자들이 즐겁게 참여하여 활동 목표에 맞게 진행된 것으로 보임"); if(NEG.test(a)) L.push("일부 참여자가 어려움을 보여 활동 방법과 시간 조정이 필요함"); if(!L.length) L.push("계획한 활동을 진행하였으며 참여 모습을 지속적으로 관찰할 필요가 있음"); L.push("다음 회기에는 참여자의 반응을 반영하여 진행할 예정임"); return L.map(x=>"○ "+x).join("\n"); }
+/* ================= 일지 자동 작성 지식 (상담·관찰·프로그램 공통) ================= */
+const LOG_TYPO=[[/불편증/g,"불면증"],[/정응/g,"적응"],[/입소\s*후|입소후/g,"입소 후"],[/필요해보임/g,"필요해 보임"],[/필요해보인다/g,"필요해 보인다"],[/적응기간/g,"적응 기간"],[/적응문제/g,"적응 문제"],[/전화요청/g,"전화 요청"],[/대체적으로/g,"대체로"],[/입소자/g,"이용인"],[/동료관계/g,"동료 관계"],[/생활적응/g,"생활 적응"]];
+const logNorm=t=>{ let x=String(t||""); LOG_TYPO.forEach(([r,w])=>{ x=x.replace(r,w); }); return x.trim(); };
+const CKB=[
+ {k:"적응",re:/적응|입소|새 환경|낯설|익숙/,name:"입소 후 적응",
+  c:["입소 후 새로운 생활 환경과 일과에 적응하는 과정에서 느끼는 어려움에 대하여 이야기를 나눔","생활 규칙, 하루 일과, 함께 생활하는 이용인과의 관계 등 적응 상황을 함께 점검함","이용인은 [아직 낯설거나 힘든 점]에 대하여 이야기함"],
+  o:["입소 초기로 새로운 환경에 익숙해지기까지 충분한 적응 기간이 필요한 것으로 보임","환경 변화로 인한 긴장과 불안이 일상생활 전반에 영향을 주고 있는 것으로 보임","이용인이 편안함을 느낄 수 있도록 일관된 일과와 정서적 지지가 필요함"],
+  p:["입소 초기 4주간 주 1회 정기 상담을 실시하여 적응 상태를 확인함","하루 일과를 그림·표로 안내하여 생활 흐름을 익힐 수 있도록 지원함","담당 직원을 정하여 생활 전반을 가까이에서 지원함","보호자와 적응 상황을 정기적으로 공유함"]},
+ {k:"수면",re:/불면|수면|잠|밤에\s*깸|자주\s*깸|못\s*잠/,name:"수면 문제(불면 호소)",
+  c:["최근 잠들기 어렵거나 자다가 자주 깨는 등 수면에 어려움이 있다고 호소함","잠드는 시간 [  ]시경, 밤중에 깨는 횟수 [  ]회, 낮잠 여부 [  ]를 함께 확인함","취침 전 생활 습관(휴대폰·TV 사용, 카페인 음료, 늦은 간식 등)에 대하여 이야기를 나눔"],
+  o:["새로운 환경과 생활 리듬의 변화가 수면에 영향을 주고 있는 것으로 보임","수면 부족이 낮 시간의 컨디션과 활동 참여에 영향을 줄 수 있어 지속적인 관찰이 필요함","불면이 2주 이상 지속될 경우 보호자와 협의하여 진료 연계를 검토할 필요가 있음"],
+  p:["2주간 수면 기록(잠든 시간, 깬 횟수, 일어난 시간)을 작성하여 수면 양상을 확인함","취침 1시간 전 TV·휴대폰 사용을 줄이고 조명을 낮추는 등 편안한 취침 환경을 마련함","낮 시간 산책 등 신체 활동을 늘려 생활 리듬을 규칙적으로 유지하도록 지원함","2주 후 재상담하여 변화를 확인하고, 계속될 경우 보호자와 진료 연계를 협의함"]},
+ {k:"식사",re:/식사|식욕|밥|편식|반찬|먹|입맛|체중/,name:"식사",
+  c:["식사량, 좋아하는 음식과 싫어하는 음식, 식사 속도 등 식생활에 대하여 이야기를 나눔","최근 식사 시간에 [잘 먹는 음식/남기는 음식]에 대하여 함께 확인함","이용인이 식사와 관련하여 바라는 점을 들음"],
+  o:["식사에 대한 선호가 뚜렷하여 식단 구성 시 개별 선호를 반영할 필요가 있음","식사량 변화가 컨디션과 건강에 영향을 줄 수 있어 지속적인 관찰이 필요함","즐거운 식사 분위기를 통해 식사 참여를 높일 수 있을 것으로 보임"],
+  p:["2주간 식사량과 남긴 음식을 기록하여 식사 양상을 확인함","이용인의 선호 음식을 식단에 주 1회 이상 반영함","새로운 음식은 적은 양부터 함께 맛보도록 권함","체중 변화를 월 1회 확인함"]},
+ {k:"관계",re:/동료|친구|관계|다툼|갈등|싸움|룸메이트|같은\s*방|따돌/,name:"동료 관계",
+  c:["함께 생활하는 이용인과의 관계에서 느끼는 감정과 어려움에 대하여 이야기를 나눔","최근 있었던 [갈등 상황/불편했던 일]의 경위를 이용인의 이야기로 확인함","이용인이 바라는 관계와 해결 방법에 대하여 함께 생각해 봄"],
+  o:["동료 이용인과의 관계가 정서와 생활 만족도에 영향을 주고 있는 것으로 보임","서로의 생활 방식 차이에서 오는 갈등으로 보이며 중재와 관계 회복 지원이 필요함","갈등이 반복되지 않도록 생활 공간과 일과 조정을 검토할 필요가 있음"],
+  p:["관련 이용인과 각각 면담하여 서로의 입장을 확인하고 필요시 함께 이야기하는 자리를 마련함","함께하는 활동을 통해 긍정적인 관계 경험을 늘리도록 지원함","생활 속 관찰을 통해 관계 변화를 2주간 기록함","필요시 생활 공간(방 배치 등) 조정을 검토함"]},
+ {k:"가족",re:/가족|귀가|면회|부모|어머니|아버지|형제|외박/,name:"가족 관계 및 귀가",
+  c:["가족과의 연락, 면회, 주말 귀가 등 가족 관계에 대하여 이야기를 나눔","이용인이 가족에 대하여 느끼는 마음과 바라는 점을 들음","최근 귀가 또는 면회 후의 생활 모습에 대하여 함께 확인함"],
+  o:["가족과의 관계가 이용인의 정서적 안정에 중요한 영향을 주는 것으로 보임","귀가 전후 생활 리듬의 변화에 대한 세심한 지원이 필요함","보호자와의 긴밀한 소통을 통해 일관된 지원이 필요함"],
+  p:["보호자와 월 1회 이상 정기적으로 소통하며 생활 모습을 공유함","귀가 일정을 미리 안내하고 귀가 전후 생활 리듬을 함께 점검함","가족과 영상통화 등 연락 기회를 정기적으로 마련함"]},
+ {k:"정서",re:/우울|불안|짜증|화가|화를|눈물|울|기분|스트레스|외로|무기력/,name:"정서 상태",
+  c:["최근 기분 변화와 마음이 힘들었던 때에 대하여 이야기를 나눔","[기분이 가라앉은/불안했던] 상황과 그때의 생각을 이용인의 말로 확인함","이용인이 마음이 편해지는 방법과 도움을 받고 싶은 점을 함께 찾아봄"],
+  o:["최근 정서적으로 지친 모습을 보여 세심한 관심과 정서적 지지가 필요한 것으로 보임","기분 변화의 원인이 생활 환경, 관계, 건강 중 어디에 있는지 함께 살펴볼 필요가 있음","정서 상태가 지속적으로 좋지 않을 경우 보호자와 협의하여 전문 상담 연계를 검토할 필요가 있음"],
+  p:["주 1회 정기 상담을 통해 기분 변화를 확인함","이용인이 좋아하는 활동 시간을 늘려 긍정적인 경험을 할 수 있도록 지원함","직원 간 관찰 내용을 공유하여 일관되게 지지함","2주 이상 지속 시 보호자와 협의하여 전문 상담 연계를 검토함"]},
+ {k:"건강",re:/건강|통증|아프|아픔|병원|두통|복통|감기|기침|몸살|다침/,name:"건강 상태",
+  c:["최근 몸의 불편함과 아픈 곳에 대하여 이야기를 나눔","불편함이 시작된 시기와 정도 [  ]를 함께 확인함","병원 진료 여부와 이용인이 바라는 도움을 확인함"],
+  o:["건강 상태 변화에 대한 지속적인 확인과 빠른 대응이 필요한 것으로 보임","몸의 불편함이 일상생활과 활동 참여에 영향을 주고 있는 것으로 보임","보호자와 공유하여 필요한 진료가 이루어질 수 있도록 할 필요가 있음"],
+  p:["증상을 매일 확인하여 기록함","보호자에게 상황을 알리고 진료 일정을 협의함","증상이 심해질 경우 즉시 병원 진료를 지원함"]},
+ {k:"행동",re:/공격|소리\s*지|물건|던지|때리|자해|도전\s*행동|문제\s*행동|고집/,name:"행동 지원",
+  c:["최근 있었던 [행동] 상황의 경위와 그때의 마음에 대하여 이야기를 나눔","행동이 나타나기 전 상황(장소, 함께 있던 사람, 시간)을 함께 확인함","이용인이 화가 나거나 힘들 때 할 수 있는 다른 방법을 함께 찾아봄"],
+  o:["행동의 원인이 되는 상황을 파악하여 미리 예방하는 지원이 필요한 것으로 보임","이용인의 마음을 표현할 수 있는 대안적인 방법을 익힐 필요가 있음","안전을 위해 직원 간 일관된 대응이 필요함"],
+  p:["행동 발생 시 상황·원인·대응을 기록하여 2주간 패턴을 확인함","마음을 표현하는 방법(말·그림 카드 등)을 연습함","직원 회의에서 대응 방법을 공유하여 일관되게 지원함","보호자와 상황을 공유하고 필요시 전문가 자문을 받음"]},
+ {k:"위생",re:/위생|목욕|샤워|양치|세면|청결|옷\s*갈아|빨래/,name:"위생 관리",
+  c:["목욕, 양치, 옷 갈아입기 등 위생 관리 습관에 대하여 이야기를 나눔","스스로 하는 부분과 도움이 필요한 부분을 함께 확인함","위생 관리에서 어렵거나 귀찮은 점을 들음"],
+  o:["스스로 할 수 있는 부분을 늘려 위생 관리 습관을 기를 필요가 있음","단계별 안내가 있으면 스스로 수행할 수 있을 것으로 보임","칭찬과 격려를 통해 동기를 높이는 지원이 필요함"],
+  p:["위생 관리 순서를 그림 카드로 만들어 욕실에 붙여 둠","매일 체크표로 스스로 확인하도록 지원함","잘한 점을 구체적으로 칭찬하여 습관이 이어지도록 함"]},
+ {k:"금전",re:/용돈|돈|금전|지출|소비|저축/,name:"금전 관리",
+  c:["용돈 사용과 저축 등 금전 관리에 대하여 이야기를 나눔","최근 용돈 사용 내역과 사고 싶은 물건에 대하여 함께 확인함","이용인이 스스로 정하고 싶은 사용 규칙을 들음"],
+  o:["계획적인 소비 습관을 기르기 위한 단계적인 지원이 필요한 것으로 보임","스스로 결정하는 경험을 존중하면서 금전 관리 기술을 익히도록 할 필요가 있음","보호자와 용돈 관리 방식을 일관되게 맞출 필요가 있음"],
+  p:["용돈 기입장을 함께 작성하며 사용 내역을 확인함","주간 용돈 사용 계획을 이용인과 함께 세움","월 1회 보호자와 용돈 관리 상황을 공유함"]},
+ {k:"직장",re:/직장|일자리|작업|근로|출근|회사|보호작업/,name:"직장 생활",
+  c:["직장(작업) 생활에서 즐거운 점과 힘든 점에 대하여 이야기를 나눔","출퇴근, 업무 내용, 동료와의 관계 등 직장 적응 상황을 확인함","이용인이 직장 생활에서 바라는 점을 들음"],
+  o:["직장 생활이 이용인의 자신감과 생활 만족도에 중요한 영향을 주는 것으로 보임","업무나 관계에서 겪는 어려움에 대한 지속적인 지지가 필요함","직장 담당자와의 협력을 통해 일관된 지원이 필요함"],
+  p:["직장 담당자와 월 1회 연락하여 적응 상황을 공유함","출퇴근 준비와 일과 관리를 함께 점검함","직장에서 있었던 일을 매주 이야기 나누는 시간을 마련함"]},
+ {k:"참여",re:/프로그램|활동|참여|흥미|취미|여가|심심/,name:"프로그램 참여",
+  c:["센터 프로그램과 여가 활동 참여에 대하여 이야기를 나눔","좋아하는 활동과 하고 싶지 않은 활동, 그 이유를 함께 확인함","이용인이 새롭게 해 보고 싶은 활동을 들음"],
+  o:["이용인의 흥미를 반영한 활동으로 참여 동기를 높일 수 있을 것으로 보임","활동 참여가 정서적 안정과 생활 만족도에 긍정적인 영향을 줄 것으로 보임","참여 수준에 맞는 단계적인 지원이 필요함"],
+  p:["프로그램 희망조사 결과를 다음 달 프로그램 계획에 반영함","관심 있는 활동부터 짧은 시간으로 참여를 시작함","참여 모습을 프로그램 일지에 기록하여 개별지원계획에 반영함"]},
+ {k:"휴대폰",re:/휴대폰|핸드폰|스마트폰|게임|유튜브|폰/,name:"휴대폰 사용",
+  c:["휴대폰 사용 시간과 주로 하는 것(영상 시청, 게임 등)에 대하여 이야기를 나눔","휴대폰 사용이 수면과 일과에 주는 영향을 함께 확인함","이용인이 스스로 지킬 수 있는 사용 규칙을 함께 정해 봄"],
+  o:["휴대폰 사용 시간 조절이 생활 리듬 유지에 필요한 것으로 보임","스스로 정한 규칙을 지키는 경험을 통해 자기 관리 능력을 기를 수 있을 것으로 보임","대체할 수 있는 여가 활동을 함께 찾을 필요가 있음"],
+  p:["취침 1시간 전 휴대폰 보관 등 사용 규칙을 함께 정하여 실천함","1주간 사용 시간을 기록하여 함께 확인함","산책·만들기 등 대체 여가 활동을 안내함"]},
+ {k:"외출",re:/외출|이동|버스|길\s*찾|혼자\s*나가/,name:"외출·이동",
+  c:["외출과 이동(대중교통 이용 등)에 대하여 이야기를 나눔","혼자 할 수 있는 부분과 도움이 필요한 부분을 함께 확인함","이용인이 가 보고 싶은 곳을 들음"],
+  o:["안전한 외출을 위한 단계적인 연습이 필요한 것으로 보임","외출 경험을 통해 자신감과 지역사회 참여가 늘어날 것으로 보임","외출 시 안전 수칙에 대한 반복 안내가 필요함"],
+  p:["가까운 곳부터 직원과 함께 이동 연습을 함","외출 시 연락 방법과 안전 수칙을 카드로 만들어 지니도록 함","외출 후 소감을 함께 나눔"]},
+ {k:"생활",re:/청소|정리|일상생활|자립|요리|장보기/,name:"일상생활 기술",
+  c:["청소, 정리, 요리 등 일상생활에서 스스로 하는 일에 대하여 이야기를 나눔","스스로 할 수 있는 일과 도움이 필요한 일을 함께 확인함","이용인이 새롭게 해 보고 싶은 생활 기술을 들음"],
+  o:["단계적인 연습을 통해 스스로 할 수 있는 일을 늘려 갈 수 있을 것으로 보임","작은 성공 경험을 쌓아 자신감을 높이는 지원이 필요함","생활 기술 향상이 자립 생활에 도움이 될 것으로 보임"],
+  p:["주 2회 [생활 기술]을 직원과 함께 연습함","잘한 점을 구체적으로 칭찬하여 동기를 높임","월 1회 진행 상황을 확인하여 개별지원계획에 반영함"]}];
+function logTopics(text){ const t=logNorm(text); return CKB.filter(x=>x.re.test(t)); }
+const isSentenceLike=f=>/(다|요|함|음|임|됨|있음|없음)$/.test(f) && f.replace(/\s/g,"").length>=8;
+function logLines(user, kb, min, max){
+  const u=csFrags(logNorm(user)).map(f=>toGaejo(f.replace(/○○/g,"\u0001")).replace(/^○\s*/,"").replace(/\u0001/g,"○○"));
+  const out=[...u]; for(const l of kb){ if(out.length>=max) break; const key=l.slice(0,10); if(!out.some(x=>x.includes(key))) out.push(l); }
+  while(out.length<min && kb.length===0) break;
+  return out.slice(0,Math.max(max,u.length)).map(x=>"○ "+x).join("\n");
+}
+const POSLINE={적응:"새로운 생활 환경과 일과에 대체로 잘 적응하고 있다고 이야기함",식사:"식사에 대하여 대체로 만족한다고 하며 [좋아하는 음식]을 이야기함",관계:"함께 생활하는 이용인과 대체로 잘 지내고 있다고 이야기함",참여:"프로그램 활동에 즐겁게 참여하고 있다고 이야기함",수면:"요즘 잠을 잘 자고 있다고 이야기함",가족:"가족과의 연락과 귀가가 즐겁다고 이야기함",직장:"직장 생활이 즐겁다고 이야기함"};
+function sdPositive(v,T){
+  const names=T.map(x=>x.name);
+  const c=[`상담 주제: ${names.join(", ")}`, ...csContent(v.content).split("\n").map(x=>x.replace(/^○\s*/,"")), ...T.map(x=>POSLINE[x.k]||`${x.name}에 대하여 대체로 만족한다고 이야기함`), "이용인이 앞으로 해 보고 싶은 것과 바라는 점을 함께 들음"];
+  const o=[...csFrags(logNorm(v.opinion||"")).map(f=>toGaejo(f).replace(/^○\s*/,"")), /입소|적응/.test(v.content+v.reason)?"입소 초기임에도 시설 생활에 비교적 안정적으로 적응하고 있는 것으로 보임":"현재 생활에 대체로 만족하며 안정적으로 지내고 있는 것으로 보임", `${names.filter(n=>!/적응/.test(n)).join("·")||"생활 전반"}에 대한 만족도가 높아 현재의 지원 방식을 유지할 필요가 있음`, "긍정적인 경험이 이어질 수 있도록 지속적인 관심과 격려가 필요함"];
+  const p=[...csFrags(logNorm(v.plan||"")).map(f=>toGaejo(f).replace(/^○\s*/,"")), "현재의 일과와 지원 방식을 유지하며 월 1회 정기 상담으로 생활 상태를 확인함", ...(T.some(x=>x.k==="식사")?["이용인의 선호 음식을 식단 구성에 지속적으로 반영함"]:[]), ...(T.some(x=>x.k==="참여")?["새롭게 해 보고 싶은 활동을 확인하여 다음 달 프로그램 계획에 반영함"]:[]), ...(T.some(x=>x.k==="관계")?["함께하는 활동을 통해 동료 이용인과의 좋은 관계가 이어지도록 지원함"]:[]), "보호자에게 안정적인 생활 모습을 공유함"];
+  const u=a=>[...new Set(a.filter(Boolean))].map(x=>"○ "+x).join("\n");
+  return {content:u(c), opinion:u(o), plan:u(p)};
+}
+function sdBuild(v){
+  const all=logNorm([v.title,v.reason,v.content,v.opinion,v.plan].join(" "));
+  const T=logTopics([v.title,v.content,v.opinion].join(" ")).concat(logTopics(v.reason||"").filter(x=>x.k!=="가족"||!/요청/.test(v.reason||""))).filter((x,i,a)=>a.indexOf(x)===i);
+  const pick=(f)=>T.flatMap(x=>x[f].slice(0,T.length>2?2:x[f].length));
+  const C=logNorm(v.content||""); const posOnly=/만족|좋다|좋아|잘\s*(지내|적응|먹|잔|자)|편안|즐거/.test(C) && !/불만|어렵|힘들|싫|불편|못\s|불면|갈등|다툼|문제/.test(C);
+  if(posOnly && T.length){ const P=sdPositive(v,T); let rs=csReason(v.reason||""); return {reason:rs||`○ ${T.map(x=>x.name).join(", ")} 관련 상황을 확인하기 위하여 상담을 실시함`, ...P}; }
+  const raw=logNorm(v.content||""), frs=csFrags(raw);
+  const userC=frs.filter(f=>isSentenceLike(f)||/다고/.test(f)||/(다툼|갈등|싸움|어려움)$/.test(f)||csSaid(f)).map(f=>csContent(f).replace(/^○\s*/,""));
+  const topicLine = T.length ? `상담 주제: ${T.map(x=>x.name).join(", ")}` : "";
+  const cLines=[...(topicLine?[topicLine]:[]),...userC]; for(const l of pick("c")){ if(cLines.length>=2+T.length*3) break; cLines.push(l); }
+  if(!T.length && !userC.length && raw) cLines.push(...frs.map(f=>toGaejo(f).replace(/^○\s*/,"")));
+  const combo = T.length>1 && T[0].k==="적응" ? [`입소 초기 환경 변화가 ${T.slice(1).map(x=>x.name.replace(/\(.*\)/,"")).join("·")}에 영향을 주고 있는 것으로 보임`] : [];
+  const opin = (v.opinion||"").trim();
+  const oUser=csFrags(logNorm(opin)).map(f=>toGaejo(f).replace(/^○\s*/,"").replace(/입소 적응 기간이 필요해 보임/,"입소 초기로 충분한 적응 기간이 필요해 보임"));
+  const oLines=[...oUser]; for(const l of [...combo,...pick("o")]){ if(oLines.length>=Math.max(3,Math.min(5,T.length*2+1))) break; if(!oLines.some(x=>x.slice(0,8)===l.slice(0,8)) && !(/적응 기간/.test(l)&&oUser.some(x=>/적응/.test(x)))) oLines.push(l); }
+  if(oLines.length<3) ["상담 내용을 바탕으로 생활 전반에 대한 지속적인 관찰이 필요함","이용인의 이야기를 존중하며 스스로 해결 방법을 찾도록 지지할 필요가 있음","보호자와 상황을 공유하여 일관된 지원이 필요함"].forEach(l=>{ if(oLines.length<3) oLines.push(l); });
+  const pUser=csFrags(logNorm(v.plan||"")).map(f=>toGaejo(f).replace(/^○\s*/,""));
+  const pLines=[...pUser]; for(const l of pick("p")){ if(pLines.length>=Math.max(3,Math.min(6,T.length*2+2))) break; if(!pLines.some(x=>x.slice(0,8)===l.slice(0,8))) pLines.push(l); }
+  if(pLines.length<3) ["2주 후 재상담하여 변화된 모습을 확인함","상담 내용을 담당 직원과 공유하여 일관되게 지원함","필요시 보호자와 상담 내용을 공유함"].forEach(l=>{ if(pLines.length<3) pLines.push(l); });
+  let rs=csReason(v.reason||""); if(!rs && T.length) rs=`○ ${T.map(x=>x.name).join(", ")} 관련 상황을 확인하기 위하여 상담을 실시함`;
+  if(/전화/.test(v.reason||"")) rs=rs.replace("요청에 따라 상담을 실시함","전화 요청으로 상담을 실시함");
+  return {reason:rs, content:cLines.map(x=>"○ "+x).join("\n"), opinion:oLines.map(x=>"○ "+x).join("\n"), plan:pLines.map(x=>"○ "+x).join("\n")};
+}
+function memoObs(t){ const fr=csFrags(logNorm(t)); return fr.map(f=>{ let x=f.replace(/○○/g,"\u0001");
+  if(/(다|요|됨|임)$/.test(x)) return "○ "+toGaejo(x).replace(/^○\s*/,"").replace(/\u0001/g,"○○");
+  const R=[[/잘\s*함$/,"잘하는"],[/짜증\s*냄$/,"짜증을 내는"],[/화\s*냄$/,"화를 내는"],[/함$/,"하는"],[/깸$/,"깨는"],[/남김$/,"남기는"],[/냄$/,"내는"],[/봄$/,"보는"],[/먹음$/,"먹는"],[/웃음$/,"웃는"],[/울음$/,"우는"],[/잠$/,"자는"],[/챙김$/,"챙기는"],[/감$/,"가는"],[/옴$/,"오는"],[/없음$/,"없는"],[/있음$/,"있는"]];
+  for(const [r,w] of R){ if(r.test(x)) return "○ "+x.replace(r,w).replace(/\u0001/g,"○○")+" 모습이 관찰됨"; }
+  return "○ "+x.replace(/\u0001/g,"○○"); }).join("\n"); }
+function gwBuild(v){
+  const T=logTopics(v.fact||"");
+  const fact=memoObs(v.fact||"");
+  const pos=POS.test(v.fact||""), neg=NEG.test(v.fact||"");
+  const th=csFrags(logNorm(v.think||"")).map(f=>toGaejo(f).replace(/^○\s*/,""));
+  const base=[...(pos?["스스로 해 보려는 모습이 나타나 긍정적인 변화가 이어지고 있는 것으로 보임"]:[]),...(neg?["불편함이나 어려움이 있는 것으로 보여 원인을 세심하게 살필 필요가 있음"]:[]),...T.flatMap(x=>x.o)];
+  const tL=[...th]; for(const l of base){ if(tL.length>=3) break; if(!tL.some(x=>x.slice(0,8)===l.slice(0,8))) tL.push(l); }
+  if(tL.length<3) ["관찰된 모습이 반복되는지 지속적으로 살펴볼 필요가 있음","이용인의 선택과 표현을 존중하며 지원할 필요가 있음","직원 간 관찰 내용을 공유하여 일관되게 지원할 필요가 있음"].forEach(l=>{ if(tL.length<3) tL.push(l); });
+  const nx=csFrags(logNorm(v.next||"")).map(f=>toGaejo(f).replace(/^○\s*/,""));
+  const nb=[...T.flatMap(x=>x.p),...(pos?["잘한 점을 구체적으로 칭찬하여 긍정적인 행동이 이어지도록 지원함"]:[]),"같은 상황을 1~2주간 지속적으로 관찰하여 기록함","관찰 내용을 직원 회의에서 공유함"];
+  const nL=[...nx]; for(const l of nb){ if(nL.length>=Math.max(3,Math.min(5,T.length+2))) break; if(!nL.some(x=>x.slice(0,8)===l.slice(0,8))) nL.push(l); }
+  return {fact, think:tL.map(x=>"○ "+x).join("\n"), support:reportFmt(v.support), next:nL.map(x=>"○ "+x).join("\n")};
+}
+function pgBuild(v){
+  const o=v.obs||"", pos=POS.test(o), neg=NEG.test(o);
+  const ev=csFrags(logNorm(v.eval||"")).map(f=>toGaejo(f).replace(/^○\s*/,""));
+  const base=[...(pos?["참여자들이 즐겁게 참여하여 활동 목표에 맞게 진행된 것으로 보임"]:[]),...(neg?["일부 참여자가 어려움을 보여 활동 방법과 시간 조정이 필요함"]:[]),"참여자의 흥미와 수준에 맞는 활동으로 구성되어 집중도가 유지됨","스스로 해 보는 경험을 통해 자신감과 성취감을 느낄 수 있었던 것으로 보임","다음 회기에는 참여자의 반응을 반영하여 난이도와 진행 시간을 조정할 예정임"];
+  const L=[...ev]; for(const l of base){ if(L.length>=(o||ev.length?4:0)) break; if(!L.some(x=>x.slice(0,8)===l.slice(0,8))) L.push(l); }
+  return {content:reportFmt(v.content), obs:memoObs(o), eval:L.map(x=>"○ "+x).join("\n")};
+}
 function docBlocks(f,v){
-  if(f.id==="sangdam"){ const grp=/[“"']|(보호자|어머니|아버지).*(말|하셨|하심)/.test(v.content||"");
-    v={...v, reason:csReason(v.reason), content:grp?reportFmt(v.content,true):csContent(v.content), opinion:(v.opinion||"").trim()?reportFmt(v.opinion):csOpinion(v), plan:(v.plan||"").trim()?reportFmt(v.plan):csPlan(v)}; }
-  if(f.id==="gwanchal"){ v={...v, fact:memoFmt(v.fact), think:(v.think||"").trim()?reportFmt(v.think):obsThink(v), support:reportFmt(v.support), next:(v.next||"").trim()?reportFmt(v.next):obsNext(v)}; }
-  if(f.id==="program"){ v={...v, content:reportFmt(v.content), obs:memoFmt(v.obs), eval:(v.eval||"").trim()?reportFmt(v.eval):progEval(v)}; }
+  if(f.id==="sangdam"){ const grp=/[“"']|(보호자|어머니|아버지).*(말|하셨|하심)/.test(v.content||""); const S=sdBuild(v); v={...v, ...S, ...(grp?{content:reportFmt(v.content,true)}:{})}; }
+  if(f.id==="gwanchal" && (v.fact||v.think||v.next||"").trim()){ v={...v, ...gwBuild(v)}; }
+  if(f.id==="program"){ v={...v, ...pgBuild(v)}; }
   if(f.id==="hoeui"){ v={...v, discuss:memoFmt(v.discuss)||"", decide:reportFmt(v.decide), todo:reportFmt(v.todo)}; }
   const B=docBlocks0(f,v), c=signCfg(f);
   if(c.n>0) B.unshift({t:"approval",labels:c.labels});
