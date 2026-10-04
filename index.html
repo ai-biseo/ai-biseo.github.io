@@ -939,6 +939,12 @@ details.plan-more .aibar{border-style:dashed}
 .wiz{display:flex;flex-direction:column;gap:14px;border:2px solid #2E7D64;border-radius:12px;padding:14px 16px;background:#fff;margin-bottom:12px}
 .wiz-head b{display:block;font-size:1.05rem;color:#22604C}.wiz-head span{font-size:.85rem;color:var(--muted)}
 .wz-area{width:100%;font:inherit;line-height:1.5;padding:10px;border-radius:10px;border:1px solid #c9d6cf;resize:vertical}
+.ad-done{border:2px solid #2E7D64;background:#EAF5EF;border-radius:12px;padding:12px 14px;font-size:.95rem;line-height:1.6}.ad-done.bad{border-color:#B3261E;background:#FDECEA}.ad-done>b:first-child{display:block;font-size:1.05rem;color:#1F4E3D;margin-bottom:4px}.ad-done ol{margin:4px 0 6px;padding-left:20px}.ad-done p{margin:4px 0;font-size:.85rem;color:var(--muted)}
+.ad-mini{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:-4px 0 6px;font-size:.85rem;color:var(--muted)}
+.adpage .field:has(textarea[data-big])>label{display:none}
+.adpage textarea[data-big]{min-height:200px;font-size:1rem;line-height:1.6}
+.ad-more{margin-top:14px}
+.ad-thumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ad-thumbs figure{position:relative;margin:0}.ad-thumbs img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #c9d6cf}.ad-thumbs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#B3261E;color:#fff;font-size:14px;line-height:22px;cursor:pointer}.ad-pcount{font-size:.85rem;color:#22604C}
 .ad-hint{margin:-4px 0 10px;color:var(--muted);font-size:.9rem}
 .ad-card{border:2px solid #2E7D64}
 .ad-badge{font-size:.7rem;background:#2E7D64;color:#fff;border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:6px}
@@ -2939,6 +2945,7 @@ function parseSub(line){
   else if((m=s.match(/월\s*(\d+)\s*회/))){ per=+m[1]*months; basis=`월${m[1]}회×${months}개월`; }
   else if((m=s.match(/분기\s*(?:별\s*)?(\d+)?\s*회?/))){ const k=+(m[1]||1); per=k*4; basis=`분기${k}회×4분기`; }
   else if((m=s.match(/(?:연|년)\s*(\d+)\s*회/))){ per=+m[1]; basis=`연${per}회`; }
+  else if((m=s.match(/(\d+)\s*회/))){ per=+m[1]; basis=`${per}회`; }
   const pm=s.match(/(\d+)\s*명/); const ppl=pm?+pm[1]:0;
   const bm=s.match(/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)/); const bud=bm?Math.round(parseFloat(bm[1])*(/천/.test(bm[2])?1000:/만/.test(bm[2])?10000:1)):0;
   const time=(s.match(/(연중|상반기|하반기|\d{1,2}\s*[~\-]\s*\d{1,2}\s*월|[1-4]\s*분기)/)||[])[1]||"";
@@ -2950,7 +2957,7 @@ function parseExec(line){
   const s=String(line||"").replace(/(\d),(\d{3})/g,"$1$2").trim(); if(!s) return null;
   const re=/(\d+(?:\.\d+)?)\s*(천\s*원|만\s*원|원)?/g; const nums=[]; let m;
   while((m=re.exec(s))){ const u=m[2]||""; if(!u && !/^\d{4,}$/.test(m[1])) continue; nums.push(Math.round(parseFloat(m[1])*(/천/.test(u)?1000:/만/.test(u)?10000:1))); }
-  const mi=s.search(/\s*(?:예산|\d)/); const name=(mi>0?s.slice(0,mi):s).trim();
+  const mi=s.search(/\s*(?:예산|\d)/); const name=(mi>=0?s.slice(0,mi):s).trim();
   const bud=nums[0]||0, used=nums[1]||0;
   return {name, bud, used, rate:bud&&used?Math.round(used/bud*1000)/10:0, rest:bud&&used?bud-used:0, note:s.replace(/.*\d\s*(천\s*원|만\s*원|원)\s*/,"").trim()};
 }
@@ -3007,7 +3014,7 @@ const AIDOC = {
    "Ⅴ. 만족도 조사 결과 및 반영 계획",
    "Ⅵ. 총평 및 향후 과제(차년도 사업계획에 반영할 사항)",
    "Ⅶ. 첨부(근거자료 목록: 프로그램 일지, 사진, 출석부, 만족도 조사지 등)"],
-  extra:["활동을 나열하지 말고 '목표 → 실적 → 달성률 → 이용인 변화 → 문제점 → 개선방안' 순서로 성과 중심으로 써.",
+  extra:["성과를 쓰는 칸에는 활동을 나열하지 말고 '목표 → 실적 → 달성률 → 이용인 변화 → 문제점 → 개선방안'이 드러나게 성과 중심으로 써. (항목 순서는 서식을 따라)",
    "달성률 = 실적 ÷ 계획 × 100 (소수점 첫째 자리). 연인원 = 실인원 × 실시 횟수(자료에 연인원이 있으면 그 값을 쓰고 검산).",
    "이용인 변화는 내가 준 '있었던 일'만 근거로, '~하는 모습을 보여 ~능력이 향상된 것으로 평가됨'처럼 의미를 덧붙여 써. 없는 사례는 만들지 마.",
    "문제점마다 바로 옆에 구체적인 개선방안을 짝지어 써."]},
@@ -3022,6 +3029,13 @@ const AIDOC = {
    "욕구조사와 만족도조사를 '지침 마련 → 연 1회 실시 → 문항별 분석 → 운영 반영'의 흐름으로 써.",
    "지적장애 이용인은 그림 도구, 의사소통이 어려운 이용인은 보호자 조사·관찰 기록 등 대체 방법을 구체적으로 써."]}
 };
+const NOTE_EX={
+ saeop:"식사 및 영양관리 매일 4명 7653천원\n특별급식 월2회 4명 7650천원\n평생교육 미술·도예 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원\n올해 중점: 그림 안전교육, 카페 체험 늘리기\n작년 만족도 조사: 나들이 더 원함",
+ unyeong:"일상생활 지원 매일 4명 (식사·위생·건강·안전)\n평생교육 주1회 4명 (미술·도예·인권교육)\n여가생활 월2회 4명 (생일·영화·계절 나들이)\n지역사회적응훈련 월2회 4명 (버스·카페·식당 체험)\n총예산 148,095천원, 자원봉사자 연계",
+ yesan:"식생활 자립지원 7653천원 7482천원 식재료·간식\n특별급식 7650천원 7650천원 월2회 특별식\n평생교육 12150천원 11300천원 강사 2회 취소\n지역사회적응훈련 13172천원 12905천원 8월 폭염 1회 취소\n후원금 사용 내역 밴드에 매월 공개",
+ gyeolgwa:"지역사회적응훈련 계획 20회 / 실적 19회, 4명\n평생교육 계획 48회 / 실적 45회, 4명\n예산 13172천원 집행 12905천원\n○○님 처음 혼자 카페 키오스크 주문\n○○님 버스 카드 스스로 찍음\n8월 폭염으로 1회 취소\n만족도 4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견",
+ sarye:"사례관리 평가 연2회 (6월·12월), 4명\n욕구·만족도 조사 9월, 그림 카드 3단계, 보호자 설문 같이\n결과는 내년 개별지원계획에 반영"};
+FORMS.filter(f=>f.kind==="aidoc").forEach(f=>{ if(!f.fields.some(x=>x.k==="note")) f.fields.unshift({k:"note",label:"생각나는 대로 적어요",type:"area",main:1,ph:"한 줄에 하나씩, 단어와 숫자만 적어도 돼요.\n예:\n"+NOTE_EX[f.doc]}); f.fields.forEach(x=>{ if(!["note","title","period"].includes(x.k)) x.adv=1; }); });
 function adData(f,v){
   const lab=k=>(f.fields.find(x=>x.k===k)||{}).label||k;
   return f.fields.filter(x=>(v[x.k]||"").trim() && x.k!=="title").map(x=>`- ${lab(x.k).replace(/\s*\(.*\)$/,"")}: ${x.type==="area"?"\n"+v[x.k].trim().split("\n").map(l=>"    "+l.trim()).filter(l=>l.trim()).join("\n"):v[x.k].trim()}`).join("\n");
@@ -3029,7 +3043,8 @@ function adData(f,v){
 function adCalc(f,v){
   const D=AIDOC[f.doc]; const out=[];
   if(f.doc==="yesan"){
-    const R=(v.rows||"").split("\n").map(parseExec).filter(Boolean); if(!R.length) return "";
+    const nl=(v.note||"").split("\n").filter(l=>!/만족|공개|후원/.test(l)).map(parseExec).filter(x=>x&&x.bud&&x.used);
+    const R=[...(v.rows||"").split("\n").map(parseExec).filter(x=>x&&x.bud),...nl]; if(!R.length) return "";
     const tb=R.reduce((a,r)=>a+r.bud,0), tu=R.reduce((a,r)=>a+r.used,0);
     out.push("사업 | 예산액(천원) | 집행액(천원) | 집행률 | 잔액(천원)");
     R.forEach(r=>out.push(`${r.name} | ${r.bud?chun(r.bud):"[확인 필요]"} | ${r.used?chun(r.used):"[확인 필요]"} | ${r.rate?r.rate+"%":"-"} | ${r.bud&&r.used?chun(r.rest):"-"}`));
@@ -3037,16 +3052,17 @@ function adCalc(f,v){
     return out.join("\n");
   }
   if(f.doc==="gyeolgwa"){
-    const L=(v.subs||"").split("\n").map(s=>s.trim()).filter(Boolean); if(!L.length) return "";
+    const L=[...(v.subs||"").split("\n"),...(v.note||"").split("\n").filter(l=>/\/|실적/.test(l)&&!/예산|집행/.test(l))].map(s=>s.trim()).filter(Boolean);
     L.forEach(l=>{ let parts=l.split(/\s*\/\s*/); if(parts.length<2) parts=l.split(/\s*실적\s*/); const pl=parts[0], re=(parts[1]||"").replace(/실적\s*/,""); const P=parseSub(pl||""), Rr=String(re||"").replace(/(\d),(\d{3})/g,"$1$2");
-      const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0), yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0);
+      const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0), yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0); if(P&&!P.ppl) P.ppl=+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0);
       const rate=P&&P.per&&done?Math.round(done/P.per*1000)/10:0;
-      out.push(`${P?P.name:l}: 계획 ${P&&P.per?P.per+"회("+P.basis+")":"[확인 필요]"} / 실적 ${done?done+"회":"[확인 필요]"}${rate?` / 달성률 ${rate}%`:""}${P&&P.ppl&&done&&!yeon?` / 연인원 ${P.ppl*done}명(${P.ppl}명×${done}회)`:yeon?` / 연인원 ${yeon}명`:""}`); });
-    const B=(v.budget||"").split("\n").map(parseExec).filter(x=>x&&x.bud);
-    B.forEach(b=>out.push(`${b.name} 예산: ${chun(b.bud)}천원 중 ${b.used?chun(b.used)+"천원 집행 (집행률 "+b.rate+"%, 잔액 "+chun(b.rest)+"천원)":"집행액 [확인 필요]"}`));
+      out.push(`${P?P.name:l}: 계획 ${P&&P.per?P.per+"회"+(P.basis===P.per+"회"?"":"("+P.basis+")"):"[확인 필요]"} / 실적 ${done?done+"회":"[확인 필요]"}${rate?` / 달성률 ${rate}%`:""}${P&&P.ppl&&done&&!yeon?` / 연인원 ${P.ppl*done}명(${P.ppl}명×${done}회)`:yeon?` / 연인원 ${yeon}명`:""}`); });
+    const B=[...(v.budget||"").split("\n"),...(v.note||"").split("\n").filter(l=>/예산|집행/.test(l))].map(parseExec).filter(x=>x&&x.bud);
+    if(!out.length && !B.length) return "";
+    B.forEach(b=>out.push(`${b.name||"사업"} 예산: ${chun(b.bud)}천원 중 ${b.used?chun(b.used)+"천원 집행 (집행률 "+b.rate+"%, 잔액 "+chun(b.rest)+"천원)":"집행액 [확인 필요]"}`));
     return out.join("\n");
   }
-  const S=(v.subs||"").split("\n").map(parseSub).filter(Boolean); if(!S.length) return "";
+  const S=[...(v.subs||"").split("\n").map(parseSub).filter(Boolean),...(v.note||"").split("\n").filter(l=>!/중점|만족|총예산|:/.test(l)).map(parseSub).filter(x=>x&&x.per&&x.ppl)]; if(!S.length) return "";
   out.push("세부사업 | 연간 횟수(산출) | 실인원 | 연인원(산출식) | 예산(천원) | 시기");
   S.forEach(x=>out.push(`${x.name} | ${x.per?`${x.per}회(${x.basis})`:"[확인 필요]"} | ${x.ppl?x.ppl+"명":"[확인 필요]"} | ${x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}명×${x.per}회)`:"[확인 필요]"} | ${x.bud?chun(x.bud):"-"} | ${x.time||"-"}`));
   const ty=S.reduce((a,x)=>a+x.yeon,0), tb=S.reduce((a,x)=>a+x.bud,0);
@@ -3060,18 +3076,20 @@ function adPrompt(f,v){
   const form=(v._formText||"").trim(), fname=(v._formName||"").trim();
   const calc=adCalc(f,v);
   const P=[];
+  const np=(v._pics||[]).length;
+  if(fname||np){ const need=[fname?`서식 파일(${fname})`:"",np?`기록 사진 ${np}장`:""].filter(Boolean).join("과 "); P.push(`[먼저 확인] 이 메시지에 ${need}이 첨부되어 있지 않으면 작성하지 말고 “${need}을 첨부해 주세요”라고만 답해줘. 모두 첨부되면 아래 요청대로 바로 작성해줘.\n`); }
   P.push(`너는 장애인공동생활가정(그룹홈) 행정 문서를 오래 써 온 사회복지 전문가야. 사회복지시설평가 현장평가위원이 읽어도 근거가 분명한 수준으로 써줘.`);
   P.push(`\n[작성할 문서]\n${org}의 「${title}」 (${D.name})`);
   if(form||fname){
-    P.push(`\n[서식] ${fname?`내가 첨부한 서식 파일(${fname})`:"아래 서식"}에 맞춰 작성해.\n- 서식의 항목 이름, 순서, 번호 체계(Ⅰ. 1. 가. 1)), 표 모양을 그대로 지켜.\n- 서식에 없는 항목은 새로 만들지 마. 꼭 필요한 내용은 가장 가까운 항목에 넣어.\n- 아래 [기본 목차]는 서식에 빠진 내용을 채울 때만 참고해.`);
+    P.push(`\n[서식] ${fname?`내가 첨부한 서식 파일(${fname})`:"아래 서식"}에 맞춰 작성해.\n- 서식의 항목 이름, 순서, 번호 체계(Ⅰ. 1. 가. 1)), 표 모양을 그대로 지켜.\n- 서식에 없는 항목은 새로 만들지 마. 꼭 필요한 내용은 가장 가까운 항목에 넣어.\n- 서식의 빈칸·표는 모두 채우고, 자료가 없는 칸은 [확인 필요]로 둬.`);
     if(form) P.push(`- 서식에서 읽어 온 항목:\n---\n${form.slice(0,2500)}\n---`);
-  } else P.push(`\n[서식] 첨부한 서식이 없으면 아래 [기본 목차]대로 써. 서식 파일을 함께 올렸다면 그 서식의 항목·순서·표 모양을 우선으로 따라.`);
-  P.push(`\n[기본 목차]\n${D.outline.map(x=>"- "+x).join("\n")}`);
+  } else { P.push(`\n[서식] 아래 [기본 목차]대로 써.`); P.push(`\n[기본 목차]\n${D.outline.map(x=>"- "+x).join("\n")}`); }
   P.push(`\n[우리 센터 자료] (이 자료에 있는 사실과 숫자만 사용)\n${adData(f,v)||"- [자료를 입력해 주세요]"}`);
+  if(np) P.push(`\n[첨부 사진 읽기] 함께 첨부한 사진 ${np}장은 우리 센터의 회계·지출 기록(회계 프로그램 화면, 장부, 영수증)을 찍은 거야.\n1. 먼저 사진 속 기록을 [일자 | 내용 | 금액(원) | 사업(목) 구분] 표로 빠짐없이 옮겨 적어. 흐리거나 잘린 글자·숫자는 추측하지 말고 [판독 불가]로 표시해.\n2. 같은 기록이 두 사진에 겹쳐 찍혔으면 한 번만 세어.\n3. 옮긴 표를 사업별로 더해 집행액으로 쓰고, 위 자료의 예산액과 비교해 집행률·잔액을 계산해. 사진 합계와 내가 적은 숫자가 다르면 둘 다 보여 주고 [확인 필요]로 표시해.\n4. 사진 속 사람 이름, 주민등록번호, 계좌번호, 카드번호는 옮기지 마.\n5. 이 판독표는 보고서 맨 뒤 [붙임: 지출 기록 판독표]로 붙여.`);
   if(calc) P.push(`\n[앱이 미리 계산한 값] (검산해서 쓰고, 틀린 곳이 있으면 고친 뒤 알려줘)\n${calc}`);
   P.push(`\n[2026년 장애인공동생활가정 평가지표 반영]\n아래 기준이 문서 안에 자연스럽게 드러나도록 써. 근거 없는 실적을 만들지 말고, 계획서라면 '언제·누가·몇 회'로 이행 계획을 쓰고, 보고서라면 자료에 있는 실적만 써.\n${D.ind.map(k=>"- "+IND[k]).join("\n")}`);
   P.push(`\n[작성 원칙]\n1. 사실과 숫자: 내가 준 자료에 없는 숫자, 날짜, 횟수, 금액, 만족도, 성과, 사례는 절대 만들지 말고 [확인 필요]로 비워 둬.\n2. 계산: 연인원 = 실인원 × 연간 횟수(산출식 함께 표기), 금액은 천원 단위, 비율은 소수점 첫째 자리. 합계는 꼭 검산해.\n3. 문체: 개조식(○, -)으로 쓰고 문장 끝은 '~함, ~임, ~됨, ~할 예정임'으로 맞춰. 공문서 맞춤법과 띄어쓰기를 지켜.\n4. 용어·개인정보: '수용', '입소자' 대신 '이용인'으로 써(서식이 '입소장애인'을 쓰면 서식 용어를 따라). 이용인 이름은 ○○님, 직원은 직위로 쓰고 진단명·주민등록번호·연락처는 넣지 마.\n5. 목표는 측정 가능하게(횟수·인원·비율·기간이 들어가게) 써.\n${D.extra.map((x,i)=>`${i+6}. ${x}`).join("\n")}`);
-  P.push(`\n[결과물]\n- 가능하면 첨부한 서식과 같은 모양의 워드(.docx) 파일로 만들어서 내려받을 수 있게 해줘. 파일을 만들 수 없으면 서식 순서대로 본문을 쓰고 표는 표로 만들어줘.\n- 문서 맨 뒤에 따로 ① 검산표(연인원·예산·달성률·집행률), ② [확인 필요] 목록과 무엇을 확인하면 되는지, ③ 평가지표 연계표(지표 | 문서 속 해당 내용)를 붙여줘.\n- 나에게 먼저 질문하지 말고 바로 작성해줘.`);
+  P.push(`\n[결과물]\n- 가능하면 첨부한 서식과 같은 모양의 워드(.docx) 파일로 만들어서 내려받을 수 있게 해줘. 파일을 만들 수 없으면 서식 순서대로 본문을 쓰고 표는 표로 만들어줘.\n- ${form||fname?"서식 본문이 끝난 뒤, 서식과 구분해서 참고용으로":"문서 맨 뒤에 따로"} ① 검산표(연인원·예산·달성률·집행률), ② [확인 필요] 목록과 무엇을 확인하면 되는지, ③ 평가지표 연계표(지표 | 문서 속 해당 내용)를 붙여줘.\n- 나에게 먼저 질문하지 말고 바로 작성해줘.`);
   return P.join("\n");
 }
 function adFlag(v){ const all=Object.entries(v).filter(([k])=>!k.startsWith("_")).map(([,x])=>String(x||"")).join("\n"); const w=[];
@@ -3087,31 +3105,43 @@ function renderAiDoc(f){
     <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② AI에 보내기</button></div>
     <div class="fsplit">
       <section class="fin" id="fin" aria-label="입력">
-        <h3 class="ad-h"><b>1</b>기본 정보</h3>
-        <div class="fgrid">${shortF.map(x=>fieldHTML(f,v,x)).join("")}</div>
-        <h3 class="ad-h"><b>2</b>내용 (단어·숫자만 적어도 돼요)</h3>
-        ${longF.map(x=>fieldHTML(f,v,x)).join("")}
-        <h3 class="ad-h"><b>3</b>우리 센터 서식 <small>(있으면)</small></h3>
+        <h3 class="ad-h"><b>1</b>무엇을 쓸까요?</h3>
+        <div class="fgrid">${f.fields.filter(x=>x.short&&!x.adv).map(x=>fieldHTML(f,v,x)).join("")}</div>
+        <h3 class="ad-h"><b>2</b>생각나는 대로 적어요 <small>(한 줄에 하나, 단어·숫자만)</small></h3>
+        ${fieldHTML(f,v,f.fields.find(x=>x.k==="note")).replace('rows="','data-big="1" rows="')}
+        <div class="ad-mini"><button type="button" class="pill b3d" id="ad-ex">예시 넣어 보기</button><span>숫자가 있으면 앱이 연인원·집행률을 계산해서 같이 보내요.</span></div>
+        <h3 class="ad-h"><b>3</b>기록 사진 <small>(있으면 · 회계 프로그램 화면, 지출 장부, 영수증)</small></h3>
+        <div class="ad-form ad-pics">
+          <label class="pill b3d main" for="ad-pic">사진 올리기</label><input type="file" id="ad-pic" class="sr-file" accept="image/*" multiple>
+          <div class="ad-thumbs" id="ad-thumbs">${adThumbs(v)}</div>
+          <p class="hint">사진은 AI가 읽어요. 사진 속 날짜·내용·금액을 표로 옮긴 뒤 사업별로 합계를 내서 보고서에 쓰도록 요청문에 넣어 드려요. 이름·계좌번호가 보이면 가리고 찍어 주세요.</p>
+        </div>
+        <h3 class="ad-h"><b>4</b>우리 센터 서식 <small>(있으면)</small></h3>
         <div class="ad-form">
           <label class="pill b3d main" for="ad-file">서식 파일 고르기</label><input type="file" id="ad-file" class="sr-file" accept=".docx,.hwpx,.txt,.hwp,.pdf">
-          <span class="ad-fname" id="ad-fname">${v._formName?esc(v._formName):"아직 고른 서식이 없어요"}</span>
-          <p class="hint">워드(.docx)·한글(.hwpx) 서식은 항목을 읽어 요청문에 넣어요. 한글(.hwp)·PDF는 여기서 읽지 못하니, AI 창에 파일을 직접 첨부해 주세요. 파일은 이 기기 밖으로 보내지 않아요.</p>
-          <div class="field"><label for="ff-${f.id}-_formText">서식 항목 <small>(읽어 온 내용을 고치거나 직접 붙여 넣어요)</small></label><textarea id="ff-${f.id}-_formText" data-fk="_formText" rows="4" placeholder="예: Ⅰ. 사업개요 / Ⅱ. 사업목표 / Ⅲ. 세부사업 운영계획 ...">${esc(v._formText||"")}</textarea></div>
+          <span class="ad-fname" id="ad-fname">${v._formName?esc(v._formName):"없으면 그냥 넘어가도 돼요"}</span>
         </div>
+        <details class="wiz-more ad-more"><summary>더 자세히 적기 (선택)</summary><div class="wiz-more-in">
+          <div class="fgrid">${f.fields.filter(x=>x.short&&x.adv).map(x=>fieldHTML(f,v,x)).join("")}</div>
+          ${f.fields.filter(x=>!x.short&&x.adv).map(x=>fieldHTML(f,v,x)).join("")}
+          <div class="field"><label for="ff-${f.id}-_formText">서식 항목 <small>(서식 파일에서 읽어 온 내용, 고쳐도 돼요)</small></label><textarea id="ff-${f.id}-_formText" data-fk="_formText" rows="4" placeholder="예: Ⅰ. 사업개요 / Ⅱ. 사업목표 / Ⅲ. 세부사업 운영계획 ...">${esc(v._formText||"")}</textarea></div>
+          <p class="hint">워드(.docx)·한글(.hwpx) 서식은 항목을 읽어 요청문에 넣어요. 한글(.hwp)·PDF는 AI 창에 직접 첨부해 주세요.</p>
+        </div></details>
       </section>
       <section class="fpv ad-out" id="fpv" aria-label="AI에 보내기">
         <div class="ad-steps">
-          <p><b>1</b>아래 버튼을 누르면 요청문이 <b>복사</b>되고 AI 창이 열려요.</p>
-          <p><b>2</b>열린 창에서 <b>+ (클립)</b>을 눌러 우리 센터 서식 파일을 첨부해요.</p>
+          <p><b>1</b>아래 버튼을 누르면 AI 창이 열리면서 요청문이 <b>입력칸에 들어가요</b>. (챗GPT·클로드 / 제미나이는 붙여 넣기)</p>
+          <p><b>2</b>열린 창에서 <b>+ (클립)</b>을 눌러 우리 센터 서식 파일(기록 사진이 있으면 사진도)을 첨부해요.</p>
           <p><b>3</b>입력창에 <b>붙여 넣기</b>(Ctrl+V, 휴대폰은 길게 눌러 붙여넣기) 후 보내요.</p>
           <p><b>4</b>완성된 문서를 <b>워드 파일로 받거나</b> 복사해서 서식에 붙여요.</p>
         </div>
         <div class="ad-btns">
-          <a class="ad-go b3d" data-ai="gpt" href="https://chatgpt.com/" target="_blank" rel="noopener"><b>챗GPT</b><span>복사 후 열기</span></a>
+          <a class="ad-go b3d" data-ai="gpt" href="https://chatgpt.com/" target="_blank" rel="noopener"><b>챗GPT</b><span>요청문 넣어 열기</span></a>
           <a class="ad-go b3d" data-ai="gem" href="https://gemini.google.com/app" target="_blank" rel="noopener"><b>제미나이</b><span>복사 후 열기</span></a>
-          <a class="ad-go b3d" data-ai="cla" href="https://claude.ai/new" target="_blank" rel="noopener"><b>클로드</b><span>복사 후 열기</span></a>
+          <a class="ad-go b3d" data-ai="cla" href="https://claude.ai/new" target="_blank" rel="noopener"><b>클로드</b><span>요청문 넣어 열기</span></a>
           <button type="button" class="pill b3d" id="ad-copy">요청문만 복사</button>
         </div>
+        <div class="ad-done" id="ad-done" role="status" aria-live="polite" hidden></div>
         <p class="status" id="ad-status" role="status" aria-live="polite"></p>
         <div class="ad-calc" id="ad-calc"></div>
         <div class="field"><label for="ad-prompt">완성된 AI 요청문 <small>(직접 고쳐도 돼요)</small></label>
@@ -3121,6 +3151,12 @@ function renderAiDoc(f){
     </div></div>`;
   adRefresh(f);
 }
+function adDone(ok,name,w,filled,hasForm,np){ const att=np?`서식 파일과 <b>기록 사진 ${np}장</b>`:"서식 파일"; const b=document.getElementById("ad-done"); if(!b) return; b.hidden=false; b.classList.toggle("bad",!ok);
+  if(filled){ b.hidden=false; b.classList.remove("bad"); b.innerHTML=`<b>${name} 창에 요청문을 넣어서 열었어요</b><ol><li>${name} 입력칸에 요청문이 들어와 있으면 <b>+ (클립)</b>으로 ${att}을 첨부하고 <b>보내기</b>를 눌러요.</li>${hasForm?`<li>요청문이 먼저 전송되어 AI가 <b>“첨부해 주세요”</b>라고 답하면, ${att}을 올리고 “작성해줘”라고 보내요.</li>`:""}<li>입력칸이 비어 있으면 입력칸을 누르고 <b>붙여 넣기</b>해요. (요청문은 복사도 되어 있어요 · 컴퓨터 Ctrl+V · 휴대폰은 길게 눌러 ‘붙여넣기’)</li></ol>${w.length?`<p class="ad-warn">주의: ${w.join(", ")}이(가) 들어 있어요.</p>`:""}`; b.scrollIntoView({block:"nearest",behavior:"smooth"}); return; }
+  b.innerHTML=ok?`<b>요청문을 복사했어요${name?` · ${name} 창이 새로 열렸어요`:""}</b><ol><li>열린 창에서 <b>+ (클립)</b>을 눌러 ${att}을 첨부해요.</li><li>입력칸을 한 번 누르고 <b>붙여 넣기</b>해요. (컴퓨터 Ctrl+V · 휴대폰은 입력칸을 길게 눌러 ‘붙여넣기’)</li><li><b>보내기</b>를 눌러요.</li></ol><p>제미나이는 요청문을 자동으로 넣어 주는 기능이 없어서 붙여 넣기를 해야 해요.</p>${w.length?`<p class="ad-warn">주의: ${w.join(", ")}이(가) 들어 있어요. 보내기 전에 지워 주세요.</p>`:""}`
+   :`<b>자동 복사가 막혔어요</b><p>아래 요청문 칸이 전체 선택되어 있어요. 컴퓨터는 Ctrl+C, 휴대폰은 길게 눌러 ‘복사’한 뒤 AI 창에 붙여 넣어 주세요.</p>`;
+  b.scrollIntoView({block:"nearest",behavior:"smooth"}); }
+function adThumbs(v){ const L=v._pics||[]; return L.length?`${L.map((m,i)=>`<figure><img src="${m.thumb}" alt="기록 사진 ${i+1}"><button type="button" data-adpicdel="${i}" aria-label="사진 ${i+1} 빼기">×</button></figure>`).join("")}<span class="ad-pcount">${L.length}장 · AI 창에도 같은 사진을 꼭 첨부해요</span>`:`<span class="ad-pcount">아직 올린 사진이 없어요</span>`; }
 function adRefresh(f){
   const v=getF(f), ta=document.getElementById("ad-prompt"); if(!ta) return;
   if(!v._pEdited) ta.value=adPrompt(f,v);
@@ -3135,14 +3171,25 @@ document.addEventListener("click",e=>{
   if(!curForm || curForm.kind!=="aidoc") return;
   const f=curForm, v=getF(f), st=document.getElementById("ad-status");
   const go=e.target.closest(".ad-go"), cp=e.target.closest("#ad-copy");
-  if(go||cp){ const ta=document.getElementById("ad-prompt"); const w=adFlag(v);
+  if(go||cp){ e.preventDefault(); const ta=document.getElementById("ad-prompt"), text=ta.value, w=adFlag(v);
     const name={gpt:"챗GPT",gem:"제미나이",cla:"클로드"}[go&&go.dataset.ai]||"";
-    copyText(ta.value, cp?ta:null, ()=>{ if(st){ st.classList.toggle("warn",!!w.length); st.textContent=(w.length?`주의: ${w.join(", ")}이(가) 들어 있어요. `:"")+(go?`복사했어요! 열린 ${name} 창에서 서식 파일을 첨부하고 붙여 넣은 뒤 보내세요.`:"복사했어요! 쓰시는 AI 입력창에 붙여 넣으세요."); } },
-      ()=>{ if(st){ st.classList.add("warn"); st.textContent="자동 복사가 막혀 있어요. 아래 요청문을 길게 눌러 전체 선택 후 복사해 주세요."; } ta.focus(); ta.select(); });
+    let ok=false;
+    try{ const t=document.createElement("textarea"); t.value=text; t.setAttribute("readonly",""); t.style.cssText="position:fixed;top:0;left:0;width:1px;height:1px;opacity:0"; document.body.appendChild(t); t.focus(); t.select(); t.setSelectionRange(0,text.length); ok=document.execCommand("copy"); t.remove(); }catch(_){}
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(()=>{ if(!ok) adDone(true,name,w); },()=>{}); }catch(_){}
+    const pre=go&&{gpt:"https://chatgpt.com/?q=",cla:"https://claude.ai/new?q="}[go.dataset.ai];
+    if(go) window.open(pre?pre+encodeURIComponent(text):go.href,"_blank","noopener");
+    adDone(ok,name,w,!!pre,!!(v._formName||"").trim()||!!(v._pics||[]).length,(v._pics||[]).length);
+    if(!ok){ ta.focus(); ta.select(); }
     return; }
+  const pd=e.target.closest("[data-adpicdel]"); if(pd){ (v._pics||[]).splice(+pd.dataset.adpicdel,1); const box=document.getElementById("ad-thumbs"); if(box) box.innerHTML=adThumbs(v); adRefresh(f); return; }
+  if(e.target.closest("#ad-ex")){ v.note=NOTE_EX[f.doc]; const el=document.getElementById(`ff-${f.id}-note`); if(el){ el.value=v.note; el.rows=9; } adRefresh(f); return; }
   if(e.target.closest("#ad-reset")){ v._pEdited=false; adRefresh(f); if(st) st.textContent="입력 내용으로 요청문을 다시 만들었어요."; return; }
 });
 document.addEventListener("change",async e=>{
+  if(e.target.id==="ad-pic" && curForm && curForm.kind==="aidoc" && e.target.files.length){ const f=curForm, v=getF(f), L=v._pics||(v._pics=[]); const st=document.getElementById("ad-status");
+    for(const file of Array.from(e.target.files).slice(0,Math.max(0,10-L.length))){ try{ const r=await readRefImage(file); L.push({name:file.name,thumb:r.thumb}); }catch(_){} }
+    if(e.target.files.length+0>10-0 && st) st.textContent="사진은 한 번에 10장까지 넣을 수 있어요.";
+    e.target.value=""; const box=document.getElementById("ad-thumbs"); if(box) box.innerHTML=adThumbs(v); adRefresh(f); return; }
   if(e.target.id!=="ad-file" || !curForm || curForm.kind!=="aidoc" || !e.target.files[0]) return;
   const f=curForm, v=getF(f), file=e.target.files[0]; v._formName=file.name; const nm=document.getElementById("ad-fname"); if(nm) nm.textContent=file.name;
   const st=document.getElementById("ad-status");
@@ -3900,7 +3947,7 @@ const KAWID = [
   ["협회소식","https://kawid.or.kr/bbs/board.php?bo_table=B25","협회 동향"]
 ];
 function renderHome(){
-  const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}<small>${f.desc}</small></button>
+  const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}</button>
       <span class="bd-act"><button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
   const q=(attrs,ic,t,d)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
   app.innerHTML = `<div class="ghome fade">
