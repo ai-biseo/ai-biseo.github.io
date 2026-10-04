@@ -945,6 +945,7 @@ details.plan-more .aibar{border-style:dashed}
 .adpage textarea[data-big]{min-height:200px;font-size:1rem;line-height:1.6}
 .ad-more{margin-top:14px}
 .ad-thumbs{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.ad-thumbs figure{position:relative;margin:0}.ad-thumbs img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid #c9d6cf}.ad-thumbs button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#B3261E;color:#fff;font-size:14px;line-height:22px;cursor:pointer}.ad-pcount{font-size:.85rem;color:#22604C}
+.ad-sec{display:flex;flex-direction:column;gap:10px}.ad-sech{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}.ad-sech .ad-h{margin:0}.ad-dbtn{display:flex;gap:6px}.ad-ai{border-top:2px dashed #c9d6cf;padding-top:14px;margin-top:6px}.ad-paper{max-height:none}
 .ad-hint{margin:-4px 0 10px;color:var(--muted);font-size:.9rem}
 .ad-card{border:2px solid #2E7D64}
 .ad-badge{font-size:.7rem;background:#2E7D64;color:#fff;border-radius:999px;padding:2px 8px;vertical-align:middle;margin-left:6px}
@@ -1890,7 +1891,7 @@ const FORMS = [
    {k:"qs",label:"문항 (한 줄에 하나)",type:"area",def:"우리 집 식사가 맛있어요\n내 방이 편안해요\n선생님이 내 이야기를 잘 들어줘요\n하고 싶은 활동을 할 수 있어요\n나들이와 프로그램이 즐거워요\n우리 집에서 안전하다고 느껴요"},
    {k:"open",label:"자유 질문",def:"더 바라는 점이 있나요?",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"saeop", em:"🗂️", name:"사업계획서", desc:"세부사업만 적으면 평가지침에 맞춘 AI 요청문 완성", kind:"aidoc", doc:"saeop",
+ {id:"saeop", em:"🗂️", name:"사업계획서", desc:"세부사업만 적으면 계획서가 바로 나오고 AI로 완성", kind:"aidoc", doc:"saeop",
   fields:[
    {k:"title",label:"문서 제목",def:"2027년 사업계획서",short:1},
    {k:"org",label:"기관명",short:1},
@@ -1913,7 +1914,7 @@ const FORMS = [
    {k:"purpose",label:"사업 목적 (단어만)",type:"area",ph:"예: 안전한 주거, 일상생활 지원, 평생교육, 여가, 지역사회 적응, 자립 능력"},
    {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 내용)",type:"area",ph:"예:\n일상생활 지원 매일 4명 식사·위생·건강·안전관리\n평생교육 주1회 4명 인지학습·미술·도예·인권교육\n여가생활 지원 월2회 4명 생일·영화·계절 나들이\n지역사회적응훈련 월2회 4명 대중교통·카페·식당 체험"},
    {k:"memo",label:"더 넣고 싶은 내용",type:"area",opt:1,ph:"예: 자원봉사자 연계, 장애 특성상 소규모 외부활동 위주"}]},
- {id:"yesan", em:"💰", name:"예산집행보고서", desc:"예산액·집행액만 적으면 집행률까지 정리하는 AI 요청문", kind:"aidoc", doc:"yesan",
+ {id:"yesan", em:"💰", name:"예산집행보고서", desc:"예산·집행액만 적으면 집행률 보고서 → AI로 완성", kind:"aidoc", doc:"yesan",
   fields:[
    {k:"title",label:"문서 제목",def:"2026년 예산 집행 보고서",short:1},
    {k:"org",label:"기관명",short:1},
@@ -1924,7 +1925,7 @@ const FORMS = [
    {k:"rows",label:"사업별 예산·집행 (한 줄에 하나: 사업명 예산 집행액 주요 내역)",type:"area",ph:"예:\n식생활 자립지원 7653천원 7480천원 1일 3식·간식 식재료\n특별급식 7650천원 7650천원 월2회 특별식, 명절 4회\n평생교육 12150천원 11300천원 도예·미술 재료, 강사비\n지역사회적응훈련 13172천원 12900천원 나들이 교통비·입장료"},
    {k:"why",label:"미집행·변경 사유",type:"area",opt:1,ph:"예: 평생교육 강사 일정 취소 2회로 850천원 미집행 → 차년도 재료비로 이월 예정"},
    {k:"memo",label:"성과·특이사항",type:"area",opt:1,ph:"예: 후원금 사용 내역 밴드에 매월 공개, 공공요금 인상으로 운영비 증가"}]},
- {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"실적 숫자·있었던 일 → 성과 중심 결과보고 AI 요청문", kind:"aidoc", doc:"gyeolgwa",
+ {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"실적 숫자·있었던 일 → 결과보고서 → AI로 완성", kind:"aidoc", doc:"gyeolgwa",
   fields:[
    {k:"title",label:"사업명",ph:"예: 2026년 지역사회적응훈련 / 가을 단풍 나들이",short:1},
    {k:"org",label:"기관명",short:1},
@@ -1948,6 +1949,9 @@ const FORMS = [
    {k:"memo",label:"더 넣고 싶은 내용",type:"area",opt:1,ph:"예: 사례회의에 보호자 참여, 결과는 차년도 개별지원계획에 반영"}]}
 ];
 const FBY = Object.fromEntries(FORMS.map(f=>[f.id,f]));
+/* 서식 목록은 꼭 필요한 10개만 보여 줌 (나머지는 주소로만 열림) */
+const FORMS10=["gongmun","hoeui","sangdam","gwanchal","program","gochung","gaebyeol","saeop","gyeolgwa","yesan"];
+FORMS.splice(0,FORMS.length,...FORMS10.map(id=>FBY[id]));
 const fvals = {};
 function getF(f){ if(!fvals[f.id]){ const v={}, pf=profFill(); f.fields.forEach(x=>v[x.k]= x.def==="today"?todayISO():(pf[x.k]||x.def||"")); v._memo=""; v._paste=""; fvals[f.id]=v; } return fvals[f.id]; }
 const fv = (f,v,k) => { if(f._hide&&f._hide.has(k)) return ""; const x=f.fields.find(y=>y.k===k); const s=(v[k]||"").trim(); return x&&x.type==="date"?fmtDate(s):s; };
@@ -2737,7 +2741,7 @@ function renderForms(){
     <p class="fstat">서식을 고르고 빈칸을 채우면 서식 모양 그대로 워드 파일로 받아요.</p>
     <div class="fhub">
       <section class="fhub-l">
-        <h3 class="sub-title">큰 문서는 AI에게 맡기기 <small>(결과보고서·사업계획서·운영계획서·예산집행보고서)</small></h3><p class="hint ad-hint">단어·숫자만 적으면 평가지침과 우리 서식에 맞춘 요청문이 만들어지고, 챗GPT·제미나이·클로드로 바로 보내요.</p><div class="form-grid ad-grid">${FORMS.filter(f=>f.kind==="aidoc").map(f=>`<button type="button" class="form-card b3d ad-card" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div><h3 class="sub-title">바로 채우는 서식 <small>(일지·회의록·공문·평가 서식)</small></h3><div class="form-grid">${FORMS.filter(f=>f.kind!=="aidoc").map(f=>`<button type="button" class="form-card b3d" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div>
+        <h3 class="sub-title">보고서 <small>(입력하면 보고서가 먼저 나오고, AI로 문장까지 완성)</small></h3><p class="hint ad-hint">단어·숫자만 적으면 보고서가 바로 만들어지고, 아래 버튼으로 챗GPT·제미나이·클로드가 평가지침과 우리 서식에 맞춰 문장까지 완성해요.</p><div class="form-grid ad-grid">${FORMS.filter(f=>f.kind==="aidoc").map(f=>`<button type="button" class="form-card b3d ad-card" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div><h3 class="sub-title">바로 채우는 서식 <small>(공문·회의록·일지·평가 서식)</small></h3><div class="form-grid">${FORMS.filter(f=>f.kind!=="aidoc").map(f=>`<button type="button" class="form-card b3d" data-form="${f.id}"><span class="em">${f.em}</span><b>${f.name}</b><span>${f.desc}</span></button>`).join("")}</div>
         <button type="button" class="upload-cta b3d mk-cta" data-goto="make"><span class="tx"><b>+ 새 서식 만들기</b><span>방문대장·예산 공개·외출 신청서 등 목록에 없는 서식을 바로 만들어요</span></span><span class="go">→</span></button>
         ${myFormsHTML()}
         <button type="button" class="upload-cta b3d" data-goto="upload"><span class="em">📤</span><span class="tx"><b>내 서식 올려서 채우기</b><span>센터 서식(워드·한글)을 올리면 빈칸을 찾아 채워요</span></span><span class="go">→</span></button>
@@ -3035,7 +3039,7 @@ const NOTE_EX={
  yesan:"식생활 자립지원 7653천원 7482천원 식재료·간식\n특별급식 7650천원 7650천원 월2회 특별식\n평생교육 12150천원 11300천원 강사 2회 취소\n지역사회적응훈련 13172천원 12905천원 8월 폭염 1회 취소\n후원금 사용 내역 밴드에 매월 공개",
  gyeolgwa:"지역사회적응훈련 계획 20회 / 실적 19회, 4명\n평생교육 계획 48회 / 실적 45회, 4명\n예산 13172천원 집행 12905천원\n○○님 처음 혼자 카페 키오스크 주문\n○○님 버스 카드 스스로 찍음\n8월 폭염으로 1회 취소\n만족도 4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견",
  sarye:"사례관리 평가 연2회 (6월·12월), 4명\n욕구·만족도 조사 9월, 그림 카드 3단계, 보호자 설문 같이\n결과는 내년 개별지원계획에 반영"};
-FORMS.filter(f=>f.kind==="aidoc").forEach(f=>{ if(!f.fields.some(x=>x.k==="note")) f.fields.unshift({k:"note",label:"생각나는 대로 적어요",type:"area",main:1,ph:"한 줄에 하나씩, 단어와 숫자만 적어도 돼요.\n예:\n"+NOTE_EX[f.doc]}); f.fields.forEach(x=>{ if(!["note","title","period"].includes(x.k)) x.adv=1; }); });
+Object.values(FBY).filter(f=>f.kind==="aidoc").forEach(f=>{ if(!f.fields.some(x=>x.k==="note")) f.fields.unshift({k:"note",label:"생각나는 대로 적어요",type:"area",main:1,ph:"한 줄에 하나씩, 단어와 숫자만 적어도 돼요.\n예:\n"+NOTE_EX[f.doc]}); f.fields.forEach(x=>{ if(!["note","title","period"].includes(x.k)) x.adv=1; }); });
 function adData(f,v){
   const lab=k=>(f.fields.find(x=>x.k===k)||{}).label||k;
   return f.fields.filter(x=>(v[x.k]||"").trim() && x.k!=="title").map(x=>`- ${lab(x.k).replace(/\s*\(.*\)$/,"")}: ${x.type==="area"?"\n"+v[x.k].trim().split("\n").map(l=>"    "+l.trim()).filter(l=>l.trim()).join("\n"):v[x.k].trim()}`).join("\n");
@@ -3101,8 +3105,8 @@ function renderAiDoc(f){
   const shortF=f.fields.filter(x=>x.short), longF=f.fields.filter(x=>!x.short);
   app.innerHTML=`<div class="fpage fade adpage" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small></h2></div>
-    <p class="status fstat" id="fstatus" role="status" aria-live="polite">내용을 단어로만 적어도 돼요. ②번 요청문이 평가지침과 우리 서식에 맞게 자동으로 완성되고, 버튼 하나로 AI에 보내요.</p>
-    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② AI에 보내기</button></div>
+    <p class="status fstat" id="fstatus" role="status" aria-live="polite">내용을 단어로만 적어도 돼요. 오른쪽(②)에 보고서가 바로 만들어지고, 그 아래 버튼으로 AI가 문장까지 완성해요.</p>
+    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② 보고서·AI</button></div>
     <div class="fsplit">
       <section class="fin" id="fin" aria-label="입력">
         <h3 class="ad-h"><b>1</b>무엇을 쓸까요?</h3>
@@ -3128,25 +3132,34 @@ function renderAiDoc(f){
           <p class="hint">워드(.docx)·한글(.hwpx) 서식은 항목을 읽어 요청문에 넣어요. 한글(.hwp)·PDF는 AI 창에 직접 첨부해 주세요.</p>
         </div></details>
       </section>
-      <section class="fpv ad-out" id="fpv" aria-label="AI에 보내기">
-        <div class="ad-steps">
-          <p><b>1</b>아래 버튼을 누르면 AI 창이 열리면서 요청문이 <b>입력칸에 들어가요</b>. (챗GPT·클로드 / 제미나이는 붙여 넣기)</p>
-          <p><b>2</b>열린 창에서 <b>+ (클립)</b>을 눌러 우리 센터 서식 파일(기록 사진이 있으면 사진도)을 첨부해요.</p>
-          <p><b>3</b>입력창에 <b>붙여 넣기</b>(Ctrl+V, 휴대폰은 길게 눌러 붙여넣기) 후 보내요.</p>
-          <p><b>4</b>완성된 문서를 <b>워드 파일로 받거나</b> 복사해서 서식에 붙여요.</p>
+      <section class="fpv ad-out" id="fpv" aria-label="보고서와 AI">
+        <div class="ad-sec">
+          <div class="ad-sech"><h3 class="ad-h"><b>①</b>입력한 내용으로 만든 보고서</h3><div class="ad-dbtn"><button type="button" class="pill b3d main" id="ad-down">워드 받기</button><button type="button" class="pill b3d" id="ad-dcopy">복사</button></div></div>
+          <div class="paper ad-paper" id="ad-paper"></div>
+          <p class="hint">[확인 필요] 칸은 직접 채우거나, 아래 ②번 AI로 문장까지 완성해요.</p>
         </div>
-        <div class="ad-btns">
-          <a class="ad-go b3d" data-ai="gpt" href="https://chatgpt.com/" target="_blank" rel="noopener"><b>챗GPT</b><span>요청문 넣어 열기</span></a>
-          <a class="ad-go b3d" data-ai="gem" href="https://gemini.google.com/app" target="_blank" rel="noopener"><b>제미나이</b><span>복사 후 열기</span></a>
-          <a class="ad-go b3d" data-ai="cla" href="https://claude.ai/new" target="_blank" rel="noopener"><b>클로드</b><span>요청문 넣어 열기</span></a>
-          <button type="button" class="pill b3d" id="ad-copy">요청문만 복사</button>
+        <div class="ad-sec ad-ai">
+          <h3 class="ad-h"><b>②</b>AI로 문장까지 완성하기</h3>
+          <div class="ad-steps">
+            <p><b>1</b>버튼을 누르면 AI 창이 열리면서 요청문이 <b>입력칸에 들어가요</b>. (제미나이는 붙여 넣기)</p>
+            <p><b>2</b>열린 창에서 <b>+ (클립)</b>으로 우리 센터 서식 파일(사진이 있으면 사진도)을 첨부하고 보내요.</p>
+            <p><b>3</b>완성된 문서를 <b>워드 파일로 받거나</b> 복사해서 서식에 붙여요.</p>
+          </div>
+          <div class="ad-btns">
+            <a class="ad-go b3d" data-ai="gpt" href="https://chatgpt.com/" target="_blank" rel="noopener"><b>챗GPT</b><span>요청문 넣어 열기</span></a>
+            <a class="ad-go b3d" data-ai="gem" href="https://gemini.google.com/app" target="_blank" rel="noopener"><b>제미나이</b><span>복사 후 열기</span></a>
+            <a class="ad-go b3d" data-ai="cla" href="https://claude.ai/new" target="_blank" rel="noopener"><b>클로드</b><span>요청문 넣어 열기</span></a>
+            <button type="button" class="pill b3d" id="ad-copy">요청문만 복사</button>
+          </div>
+          <div class="ad-done" id="ad-done" role="status" aria-live="polite" hidden></div>
+          <p class="status" id="ad-status" role="status" aria-live="polite"></p>
+          <details class="wiz-more ad-pdet"><summary>AI 요청문 보기·고치기</summary><div class="wiz-more-in">
+            <div class="ad-calc" id="ad-calc"></div>
+            <div class="field"><label for="ad-prompt">완성된 AI 요청문 <small>(직접 고쳐도 돼요)</small></label>
+              <textarea id="ad-prompt" spellcheck="false" rows="14"></textarea>
+              <button type="button" class="pill b3d" id="ad-reset" hidden>입력 내용으로 다시 만들기</button></div>
+          </div></details>
         </div>
-        <div class="ad-done" id="ad-done" role="status" aria-live="polite" hidden></div>
-        <p class="status" id="ad-status" role="status" aria-live="polite"></p>
-        <div class="ad-calc" id="ad-calc"></div>
-        <div class="field"><label for="ad-prompt">완성된 AI 요청문 <small>(직접 고쳐도 돼요)</small></label>
-          <textarea id="ad-prompt" spellcheck="false" rows="16"></textarea>
-          <button type="button" class="pill b3d" id="ad-reset" hidden>입력 내용으로 다시 만들기</button></div>
       </section>
     </div></div>`;
   adRefresh(f);
@@ -3156,15 +3169,69 @@ function adDone(ok,name,w,filled,hasForm,np){ const att=np?`서식 파일과 <b>
   b.innerHTML=ok?`<b>요청문을 복사했어요${name?` · ${name} 창이 새로 열렸어요`:""}</b><ol><li>열린 창에서 <b>+ (클립)</b>을 눌러 ${att}을 첨부해요.</li><li>입력칸을 한 번 누르고 <b>붙여 넣기</b>해요. (컴퓨터 Ctrl+V · 휴대폰은 입력칸을 길게 눌러 ‘붙여넣기’)</li><li><b>보내기</b>를 눌러요.</li></ol><p>제미나이는 요청문을 자동으로 넣어 주는 기능이 없어서 붙여 넣기를 해야 해요.</p>${w.length?`<p class="ad-warn">주의: ${w.join(", ")}이(가) 들어 있어요. 보내기 전에 지워 주세요.</p>`:""}`
    :`<b>자동 복사가 막혔어요</b><p>아래 요청문 칸이 전체 선택되어 있어요. 컴퓨터는 Ctrl+C, 휴대폰은 길게 눌러 ‘복사’한 뒤 AI 창에 붙여 넣어 주세요.</p>`;
   b.scrollIntoView({block:"nearest",behavior:"smooth"}); }
+/* 입력 내용으로 보고서 초안(서식) 먼저 만들기 */
+function adLines(v){ return (v.note||"").split("\n").map(s=>s.trim()).filter(Boolean); }
+function adDraft(f,v){
+  const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
+  const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
+  B.push({t:"title",text:g("title")||D.name});
+  const sec=t=>B.push({t:"gap"},{t:"p",text:t,bold:1});
+  const box=lines=>B.push({t:"table",rows:[[{text:(lines.length?lines:["○ "+CK]).join("\n")}]]});
+  const tbl=(head,rows)=>B.push({t:"table",rows:[head.map(h=>({text:h,label:1})),...rows.map(r=>r.map(x=>({text:String(x)})))]});
+  const L=adLines(v);
+  const isNum=l=>/\d\s*(천\s*원|만\s*원|원|회|명)/.test(l);
+  const neg=/취소|폭염|어려|문제|부족|불참|지연|못|중단|사고/, chg=/○○님|처음|스스로|혼자|늘|변화|웃|좋아/;
+  const info=[[{text:"기관명",label:1},{text:org},{text:"대상",label:1},{text:g("target")||CK}],[{text:f.doc==="yesan"?"집행 기간":"사업 기간",label:1},{text:g("period")||CK,span:3}]];
+  if(f.doc==="yesan"){
+    const R=[...(v.rows||"").split("\n"),...L.filter(l=>!/만족|공개|후원/.test(l))].map(parseExec).filter(x=>x&&x.bud&&x.used);
+    const tb=R.reduce((a,r)=>a+r.bud,0), tu=R.reduce((a,r)=>a+r.used,0);
+    sec("Ⅰ. 사업 개요"); B.push({t:"table",rows:[...info,[{text:"총예산(천원)",label:1},{text:tb?chun(tb):CK},{text:"총집행액(천원)",label:1},{text:tu?chun(tu):CK}],[{text:"집행률",label:1},{text:tb&&tu?r1p(tu,tb)+"%":CK},{text:"잔액(천원)",label:1},{text:tb&&tu?chun(tb-tu):CK}]]});
+    sec("Ⅱ. 사업별 집행 총괄표");
+    tbl(["사업","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],[...(R.length?R.map(r=>[r.name||"사업",chun(r.bud),chun(r.used),r.rate+"%",chun(r.rest)]):[[CK,"","","",""]]),...(R.length?[["합계",chun(tb),chun(tu),r1p(tu,tb)+"%",chun(tb-tu)]]:[])]);
+    sec("Ⅲ. 사업별 주요 집행 내역"); box(R.map(r=>`○ ${r.name||"사업"}: ${r.note&&/[가-힣]/.test(r.note)?r.note:CK} (예산 ${chun(r.bud)}천원 중 ${chun(r.used)}천원 집행)`));
+    sec("Ⅳ. 미집행·변경 사유 및 조치"); const low=R.filter(r=>r.rest>0); box([...(g("why")?reportFmt(g("why")).split("\n"):[]),...low.map(r=>`○ ${r.name||"사업"}: 잔액 ${chun(r.rest)}천원 – 사유 ${/취소|폭염|지연/.test(r.note)?"("+r.note+")":CK}, 조치(반납·이월) ${CK}`)]);
+    const etc=L.filter(l=>!(parseExec(l)||{}).used);
+    sec("Ⅴ. 후원금 사용·특이사항"); box([...etc.map(l=>"○ "+l),...(g("memo")?["○ "+g("memo")]:[])]);
+    sec("Ⅵ. 종합 평가"); box(tb?[`○ 총예산 ${chun(tb)}천원 중 ${chun(tu)}천원을 집행하여 집행률 ${r1p(tu,tb)}%를 기록함`,...R.filter(r=>r.rate<90).map(r=>`○ ${r.name} 집행률 ${r.rate}%로 낮아 원인 분석이 필요함`),`○ 차년도 예산 반영 방향: ${CK}`]:[]);
+  } else if(f.doc==="gyeolgwa"){
+    sec("Ⅰ. 사업 개요"); B.push({t:"table",rows:[...info,[{text:"사업명",label:1},{text:g("title")||CK},{text:"작성자",label:1},{text:g("writer")||CK}]]});
+    const subs=[...(v.subs||"").split("\n"),...L.filter(l=>/\/|실적/.test(l)&&!/예산|집행/.test(l))].map(s=>s.trim()).filter(Boolean);
+    sec("Ⅱ. 계획 대비 실적");
+    tbl(["사업","계획","실적","달성률","연인원"],subs.length?subs.map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0);
+      return [P?P.name:l, P&&P.per?P.per+"회":CK, done?done+"회":CK, P&&P.per&&done?r1p(done,P.per)+"%":"-", yeon?yeon+"명":"-"]; }):[[CK,"","","",""]]);
+    const qual=L.filter(l=>chg.test(l)&&!/\//.test(l)&&!/만족/.test(l)&&!neg.test(l));
+    sec("Ⅲ. 정성적 성과 (이용인 변화 사례)"); box(qual.map(l=>`○ ${l.replace(/[.。]$/,"")} → [의미: 어떤 능력이 향상되었는지 확인 필요]`));
+    const bud=[...(v.budget||"").split("\n"),...L.filter(l=>/예산|집행/.test(l))].map(parseExec).filter(x=>x&&x.bud);
+    sec("Ⅳ. 예산 집행"); tbl(["항목","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],bud.length?bud.map(b=>[b.name||"사업 예산",chun(b.bud),b.used?chun(b.used):CK,b.rate?b.rate+"%":"-",b.used?chun(b.rest):"-"]):[[CK,"","","",""]]);
+    sec("Ⅴ. 만족도 조사 결과"); box([...L.filter(l=>/만족|좋아요|의견/.test(l)).map(l=>"○ "+l),...(g("sat")?["○ "+g("sat")]:[])]);
+    sec("Ⅵ. 문제점 및 개선방안"); box(L.filter(l=>neg.test(l)).map(l=>`○ 문제점: ${l} → 개선방안: ${CK}`));
+    sec("Ⅶ. 향후 계획"); box(g("next")?reportFmt(g("next")).split("\n"):[]);
+  } else {
+    const S=[...(v.subs||"").split("\n").map(parseSub).filter(Boolean),...L.filter(l=>!/중점|만족|총예산|:/.test(l)).map(parseSub).filter(x=>x&&x.per&&x.ppl)];
+    sec("Ⅰ. 사업 개요"); B.push({t:"table",rows:[...info,[{text:"총예산",label:1},{text:g("total")||(S.some(x=>x.bud)?chun(S.reduce((a,x)=>a+x.bud,0))+"천원":CK)},{text:"담당",label:1},{text:g("staff")||CK}]]});
+    sec("Ⅱ. 사업 목적 및 목표"); box([...(g("purpose")?["○ "+g("purpose")]:[]),`○ 목적: ${CK}`,...S.map(x=>`○ ${x.name}: 연 ${x.per}회, 연인원 ${x.yeon.toLocaleString("ko-KR")}명 운영`)]);
+    sec(f.doc==="sarye"?"Ⅲ. 세부 운영 계획":"Ⅲ. 세부사업 계획");
+    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud):"-",x.time||"-"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",S.some(x=>x.bud)?chun(S.reduce((a,x)=>a+x.bud,0)):"-","-"]]:[[CK,"","","","",""]]);
+    const etc=L.filter(l=>!S.some(x=>x.raw===l.replace(/(\d),(\d{3})/g,"$1$2").trim()));
+    sec("Ⅳ. 중점 추진 사항"); box([...etc.map(l=>"○ "+l),...["focus","prev","tool","memo"].filter(k=>g(k)).map(k=>"○ "+g(k))]);
+    sec("Ⅴ. 추진 일정"); box([`○ 분기별 일정: ${CK}`]);
+    sec("Ⅵ. 기대효과 및 평가 방법"); box([`○ 기대효과: ${CK}`,"○ 평가 방법: 프로그램 일지·출석부로 실적 확인, 연 1회 욕구·만족도 조사로 만족도 확인"]);
+  }
+  B.push({t:"gap"},{t:"center",text:org,bold:1,size:28});
+  return B;
+}
+const r1p=(a,b)=>b?Math.round(a/b*1000)/10:0;
+
 function adThumbs(v){ const L=v._pics||[]; return L.length?`${L.map((m,i)=>`<figure><img src="${m.thumb}" alt="기록 사진 ${i+1}"><button type="button" data-adpicdel="${i}" aria-label="사진 ${i+1} 빼기">×</button></figure>`).join("")}<span class="ad-pcount">${L.length}장 · AI 창에도 같은 사진을 꼭 첨부해요</span>`:`<span class="ad-pcount">아직 올린 사진이 없어요</span>`; }
 function adRefresh(f){
   const v=getF(f), ta=document.getElementById("ad-prompt"); if(!ta) return;
   if(!v._pEdited) ta.value=adPrompt(f,v);
+  const pp=document.getElementById("ad-paper"); if(pp) pp.innerHTML=blocksHTML(adDraft(f,v));
   const rb=document.getElementById("ad-reset"); if(rb) rb.hidden=!v._pEdited;
   const c=adCalc(f,v), box=document.getElementById("ad-calc");
   if(box) box.innerHTML=c?`<b>앱이 미리 계산한 값</b><table class="d-table">${c.split("\n").map((l,i)=>l.startsWith("※")?`<tr><td colspan="9" class="ad-warn">${esc(l)}</td></tr>`:`<tr>${l.split(" | ").map(x=>i===0&&f.doc!=="gyeolgwa"?`<th>${esc(x)}</th>`:`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</table>`:"";
   const st=document.getElementById("fstatus"), w=adFlag(v);
-  if(st){ if(w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. AI에 보내기 전에 지워 주세요.`; } else if(st.classList.contains("warn")){ st.classList.remove("warn"); st.textContent="내용을 단어로만 적어도 돼요. ②번 요청문이 평가지침과 우리 서식에 맞게 자동으로 완성되고, 버튼 하나로 AI에 보내요."; } }
+  if(st){ if(w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. AI에 보내기 전에 지워 주세요.`; } else if(st.classList.contains("warn")){ st.classList.remove("warn"); st.textContent="내용을 단어로만 적어도 돼요. 오른쪽(②)에 보고서가 바로 만들어지고, 그 아래 버튼으로 AI가 문장까지 완성해요."; } }
 }
 document.addEventListener("input",e=>{ if(e.target.id==="ad-prompt" && curForm && curForm.kind==="aidoc"){ const v=getF(curForm); v._pEdited=true; const rb=document.getElementById("ad-reset"); if(rb) rb.hidden=false; } });
 document.addEventListener("click",e=>{
@@ -3182,6 +3249,8 @@ document.addEventListener("click",e=>{
     if(!ok){ ta.focus(); ta.select(); }
     return; }
   const pd=e.target.closest("[data-adpicdel]"); if(pd){ (v._pics||[]).splice(+pd.dataset.adpicdel,1); const box=document.getElementById("ad-thumbs"); if(box) box.innerHTML=adThumbs(v); adRefresh(f); return; }
+  if(e.target.closest("#ad-down")){ saveFile(formFileName(f,v), zipStore(Object.entries(docxFiles(blocksDocx(adDraft(f,v))))), document.getElementById("ad-status")); return; }
+  if(e.target.closest("#ad-dcopy")){ copyText(blocksText(adDraft(f,v)),null,()=>{ if(st){ st.classList.remove("warn"); st.textContent="보고서 초안을 복사했어요."; } },()=>{ if(st){ st.classList.add("warn"); st.textContent="자동 복사가 막혀 있어요."; } }); return; }
   if(e.target.closest("#ad-ex")){ v.note=NOTE_EX[f.doc]; const el=document.getElementById(`ff-${f.id}-note`); if(el){ el.value=v.note; el.rows=9; } adRefresh(f); return; }
   if(e.target.closest("#ad-reset")){ v._pEdited=false; adRefresh(f); if(st) st.textContent="입력 내용으로 요청문을 다시 만들었어요."; return; }
 });
@@ -3900,7 +3969,7 @@ function homeBody(){
     <button type="button" class="forms-cta b3d" data-goto="forms">
       <span class="tx"><span class="kick">시설장님 업무의 중심</span><b>📂 서식함</b><span>공문·사업계획·결과보고·안내문·회의록·일지·프로그램 희망조사·만족도조사지를 빈칸만 채워 <strong>워드 파일</strong>로 받아요</span></span>
       <span class="go">→</span></button>
-    <div class="quick">${["gongmun","gyeolgwa","gwanchal","manjok"].map(id=>`<button type="button" class="b3d" data-form="${id}">${FBY[id].em} ${FBY[id].name}</button>`).join("")}<button type="button" class="b3d" data-goto="upload">📤 내 서식 올리기</button></div>
+    <div class="quick">${["gongmun","gyeolgwa","sangdam","hoeui"].map(id=>`<button type="button" class="b3d" data-form="${id}">${FBY[id].em} ${FBY[id].name}</button>`).join("")}<button type="button" class="b3d" data-goto="upload">📤 내 서식 올리기</button></div>
     <section class="sec"><h2 class="sec-title">무엇을 도와드릴까요?</h2>
       <div class="hgrid">
         ${card('data-catopen="msg"',"cat-msg","💌","문자·소통","후원자·보호자 감사·안부·안내 문자가 바로 완성돼요",`${TASKS.filter(t=>t.cat==="msg").length}가지`)}
@@ -4004,7 +4073,7 @@ function homeMain(){
   return `<button type="button" class="forms-cta b3d" data-goto="forms">
       <span class="tx"><span class="kick">시설장님 업무의 중심</span><b>📂 서식함</b><span>공문·사업계획·결과보고·안내문·회의록·일지·조사지를 빈칸만 채워 <strong>워드 파일</strong>로</span></span>
       <span class="go">→</span></button>
-    <div class="quick">${["gongmun","gyeolgwa","gwanchal","manjok"].map(id=>`<button type="button" class="b3d" data-form="${id}">${FBY[id].em} ${FBY[id].name}</button>`).join("")}<button type="button" class="b3d" data-goto="upload">📤 내 서식 올리기</button></div>
+    <div class="quick">${["gongmun","gyeolgwa","sangdam","hoeui"].map(id=>`<button type="button" class="b3d" data-form="${id}">${FBY[id].em} ${FBY[id].name}</button>`).join("")}<button type="button" class="b3d" data-goto="upload">📤 내 서식 올리기</button></div>
     ${favHTML}
     ${homeTiles()}
     <p class="h-safe"><b>꼭 지켜요</b> 실명 대신 ○○님 · 주민번호·진단명·연락처 넣지 않기 · 보내기 전에 직접 읽기</p>`;
