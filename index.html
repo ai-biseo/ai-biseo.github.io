@@ -9,7 +9,7 @@
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-title" content="AI 비서함">
-<title>우리 센터 AI 비서함</title>
+<title>우리 센터 AI 비서함</title><title>우리 센터 AI 비서함</title>
 <style>
 /* Layout: 한 기둥(최대 720px). 하늘색 점무늬 바탕 위에 굵은 테두리·바닥 그림자의 입체 버튼. 큰 글씨·높은 대비·색+글자로 상태 표시 */
 :root{
@@ -1017,6 +1017,8 @@ details.plan-more .aibar{border-style:dashed}
 /* ---------- 도우미 함수 ---------- */
 const F = (v,k,label) => (v[k]||"").trim() || "["+label+"]";
 const O = (v,k,before,after) => { const t=(v[k]||"").trim(); return t ? (before||"")+t+(after||"") : ""; };
+const ICONS=[[/나들이|버스|이동|외출|여행|공원|체험/,"버스·나무"],[/요리|식사|간식|김장|급식|밥/,"냄비·숟가락"],[/만족|좋아|웃/,"웃는 얼굴"],[/후원|감사|나눔|기부/,"하트·선물상자"],[/교육|수업|배움|평생/,"책·연필"],[/안전|화재|대피|사고/,"방패·소화기"],[/건강|병원|운동|산책|체력/,"하트 맥박·운동화"],[/예산|원|집행|비용/,"동전"],[/회|횟수|번/,"달력"],[/명|이용인|참여|인원/,"사람 아이콘"],[/생일|행사|파티|송년/,"케이크·풍선"],[/원예|텃밭|꽃|식물/,"새싹 화분"],[/음악|노래/,"음표"],[/미술|만들기|작품|공예/,"붓·팔레트"]];
+const iconOf=x=>{ const m=ICONS.find(([r])=>r.test(x)); return m?m[1]:"주제에 맞는 단순한 아이콘"; };
 const RULES = (list) => "\n\n지켜줄 것\n" + list.map(s=>"- "+s).join("\n");
 const NOFAKE = "내가 알려주지 않은 사실, 숫자, 날짜는 만들지 마.";
 const ASK = "정보가 부족하면 추측하지 말고 필요한 질문을 먼저 해줘.";
@@ -1035,11 +1037,11 @@ const USE_OPTS = [["봄 나들이","생활용품 마련","텃밭 가꾸기","식
 const holidayIdx = month<=2?0:(month===9||month===10)?1:month===12?3:month===5?4:2;
 
 const CAT_EM = {msg:"💌",doc:"📝",promo:"📣",life:"🌷"};
-const TASK_EM = {"donor-use":"🧾","donor-ask":"📣","donor-thanks":"🎁","donor-news":"💬","holiday-greeting":"🎊","guardian-notice":"📅","guardian-checkin":"🌼","hard-message":"🤝","result-report":"📊","plan":"🗂️","counsel-polish":"🗒️","minutes":"🧾","budget-explain":"🧮","official-letter":"📨","weekly-todo":"✅","newsletter":"📰","sns-post":"📱","notice":"📋","image-prompt":"🖼️","leisure-program":"🎨","outing":"🚌","menu":"🍲","easy-read":"🔤","event-prep":"🎉"};
+const TASK_EM = {"donor-use":"🧾","donor-ask":"📣","donor-thanks":"🎁","donor-news":"💬","holiday-greeting":"🎊","guardian-notice":"📅","guardian-checkin":"🌼","hard-message":"🤝","result-report":"📊","plan":"🗂️","counsel-polish":"🗒️","minutes":"🧾","budget-explain":"🧮","official-letter":"📨","weekly-todo":"✅","newsletter":"📰","sns-post":"📱","notice":"📋","infographic":"📊","cardnews":"🗂️","image-prompt":"🖼️","leisure-program":"🎨","outing":"🚌","menu":"🍲","easy-read":"🔤","event-prep":"🎉"};
 const CATS = {
   msg:{name:"문자·소통",ex:"후원자님·보호자님께 보내는 문자"},
   doc:{name:"서류·보고",ex:"보고서·계획서·회의록·기록"},
-  promo:{name:"홍보·안내문",ex:"소식지·SNS·가정통신문"},
+  promo:{name:"홍보·안내문",ex:"소식지·SNS·카드뉴스·인포그래픽"},
   life:{name:"프로그램·생활",ex:"여가·나들이·식단·행사 준비"}
 };
 
@@ -1303,6 +1305,78 @@ const TASKS = [
  },
  tip:"챗GPT나 제미나이(나노바나나)에 넣으면 바로 그림이 나와요. 그림 속 한글은 깨질 때가 많으니 글자는 미리캔버스나 캔바에서 올리세요. 실제 이용인 사진은 AI에 올리지 마세요.",
  next:["같은 장면을 색감만 바꿔서 한 장 더 그려줘.","사람을 빼고 풍경만 다시 그려줘.","위쪽 여백을 더 넓게 해서 다시 그려줘."]},
+
+{id:"infographic",cat:"promo",title:"인포그래픽 요청문",situation:"성과·안내를 한눈에 보이는 그림으로 만들고 싶어요",
+ desc:"항목과 숫자를 적고 디자인을 고르면, 챗GPT·제미나이에서 바로 인포그래픽 이미지가 나오는 요청문이 만들어져요.",
+ chips:[{k:"use",label:"어디에 쓰나요?",opts:["SNS 게시물(1:1)","인스타그램 세로(4:5)","소식지·게시판(A4 세로)","보고서 첨부(가로 16:9)"]},
+        {k:"topic",label:"어떤 내용인가요?",opts:["활동 성과 정리","행사·프로그램 안내","후원 감사·사용 내역","생활·안전 수칙","센터 소개"]},
+        {k:"layout",label:"어떻게 배치할까요?",opts:["숫자 강조 카드","위에서 아래 순서","시간 순서(타임라인)","두 가지 비교"]},
+        {k:"style",label:"디자인 스타일은요?",opts:["깔끔한 플랫 아이콘","따뜻한 손그림","귀여운 3D 아이콘","단정한 공공기관 보고서풍"]},
+        {k:"color",label:"색 조합은요?",opts:["초록·연두","주황·노랑","파랑·하늘","분홍·보라","흑백 + 포인트 한 색"]}],
+ inputs:[{k:"title",label:"큰 제목",ph:"예: 2026년 우리 센터 한 해 이야기"},
+         {k:"sub",label:"작은 제목·기간",opt:true,ph:"예: 2026. 1. ~ 12. 지역사회적응훈련"},
+         {k:"items",label:"넣을 항목 (한 줄에 하나, 숫자는 그대로)",area:true,ph:"예:\n나들이 19회\n참여 이용인 4명\n만족도 90%\n버스 혼자 타기 성공 2명"},
+         {k:"msg",label:"맨 아래 한 줄 메시지",opt:true,ph:"예: 함께해 주신 모든 분께 감사드립니다"},
+         {k:"org",label:"센터 이름 (아래쪽에 표기)",opt:true,ph:"예: ○○공동생활가정"},
+         {k:"extra",label:"더 원하는 것",opt:true,ph:"예: 단풍잎 장식, 동그란 아이콘"}],
+ build:v=>{
+   const RATIO={"SNS 게시물(1:1)":"정사각형 1:1","인스타그램 세로(4:5)":"세로 4:5","소식지·게시판(A4 세로)":"A4 세로(약 3:4)","보고서 첨부(가로 16:9)":"가로 16:9"};
+   const LAY={"숫자 강조 카드":"항목마다 둥근 카드 한 칸씩 나누고, 숫자는 크고 굵게, 설명은 그 아래 작게 넣어줘. 카드는 2열 격자로 고르게 배치해줘.",
+     "위에서 아래 순서":"제목 아래에 항목을 위에서 아래로 번호(1, 2, 3…)를 붙여 순서대로 배치하고, 항목 사이를 화살표나 점선으로 이어줘.",
+     "시간 순서(타임라인)":"가운데 세로선(타임라인)을 두고 항목을 시간 순서대로 좌우 번갈아 배치해줘. 각 항목 앞에 동그란 점을 찍어줘.",
+     "두 가지 비교":"화면을 왼쪽·오른쪽 두 칸으로 나눠 비교해줘. 앞쪽 절반 항목은 왼쪽, 나머지는 오른쪽에 넣고 가운데에 VS 대신 화살표를 넣어줘."};
+   const STY={"깔끔한 플랫 아이콘":"선이 정돈된 플랫 디자인. 단순한 평면 아이콘과 넉넉한 여백, 그림자는 거의 없이.",
+     "따뜻한 손그림":"색연필·마커로 그린 듯한 따뜻한 손그림 느낌. 아이콘도 손으로 그린 듯 살짝 삐뚤게.",
+     "귀여운 3D 아이콘":"말랑한 점토 느낌의 귀여운 3D 아이콘과 부드러운 그림자.",
+     "단정한 공공기관 보고서풍":"공공기관 보고서처럼 단정하고 신뢰감 있게. 반듯한 선, 표와 막대 모양 장식, 절제된 아이콘."};
+   const COL={"초록·연두":"짙은 초록(주색), 연두(보조색), 크림색 배경","주황·노랑":"주황(주색), 노랑(보조색), 아이보리 배경","파랑·하늘":"남색(주색), 하늘색(보조색), 흰 배경","분홍·보라":"분홍(주색), 연보라(보조색), 연한 미색 배경","흑백 + 포인트 한 색":"검정·회색 바탕 글자에 포인트 색 하나(초록)만 사용, 흰 배경"};
+   const L=(v.items||"").split("\n").map(x=>x.trim()).filter(Boolean);
+   const list=L.length?L.map((x,i)=>`${i+1}) "${x}" – 아이콘: ${iconOf(x)}`).join("\n"):"[넣을 항목]";
+   return `다음 내용으로 인포그래픽 이미지 1장을 만들어줘. (장애인 공동생활가정 ${v.topic})\n\n`+
+     `[비율] ${RATIO[v.use]}\n`+
+     `[큰 제목] "${F(v,"title","제목")}" – 맨 위에 가장 크고 굵게\n`+O(v,"sub","[작은 제목] \"","\" – 큰 제목 바로 아래 작게\n")+
+     `[항목] 아래 글자를 한 글자도 바꾸지 말고 그대로 넣어줘.\n${list}\n`+
+     `[배치] ${LAY[v.layout]}\n`+
+     O(v,"msg","[맨 아래 문구] \"","\"\n")+O(v,"org","[센터 이름] \"","\" – 오른쪽 아래 작게\n")+
+     `[디자인] ${STY[v.style]}\n[색] ${COL[v.color]}. 색은 3가지 안에서만 써줘.\n`+O(v,"extra","[추가] ","\n")+
+     `[글자] 한글은 또박또박한 고딕체로, 휴대폰에서도 읽히게 크게. 한 항목은 한 줄로 짧게.`+
+     RULES(["내가 적은 글자와 숫자만 넣고, 적지 않은 숫자·통계는 만들지 마.","한글 맞춤법이 틀리거나 글자가 깨지지 않게 정확하게 써줘.","실제 사람 얼굴 사진은 넣지 말고, 사람은 단순한 아이콘으로만 표현해줘.","장애를 불쌍하게 그리지 말고 함께하는 모습으로 표현해줘."]);
+ },
+ tip:"챗GPT는 '챗GPT' 버튼을 누르면 요청문이 채워진 채로 열려요. 제미나이는 붙여 넣은 뒤 아래 도구에서 '이미지 만들기'(나노바나나)를 고르세요. 글자가 틀리면 '틀린 글자만 고쳐줘'라고 하세요.",
+ next:["틀린 한글 글자만 정확하게 고쳐서 다시 만들어줘.","글자는 빼고 아이콘과 배치만 있는 배경으로 다시 만들어줘.","같은 디자인으로 색만 파랑으로 바꿔줘."]},
+
+{id:"cardnews",cat:"promo",title:"카드뉴스 요청문",situation:"SNS에 올릴 카드뉴스를 여러 장 만들고 싶어요",
+ desc:"장마다 넣을 말을 적고 디자인을 고르면, 같은 디자인으로 여러 장을 차례로 만들어 주는 요청문이 나와요.",
+ chips:[{k:"n",label:"몇 장으로 만들까요?",opts:["3장","5장","7장"],def:1},
+        {k:"where",label:"어디에 올리나요?",opts:["인스타그램(4:5)","카카오톡 채널(1:1)","네이버 블로그(1:1)"]},
+        {k:"topic",label:"어떤 내용인가요?",opts:["활동 소식","행사 안내","후원 감사","생활 정보·안전 수칙","센터 소개"]},
+        {k:"style",label:"디자인 스타일은요?",opts:["깔끔한 플랫 아이콘","따뜻한 손그림","귀여운 3D 아이콘","사진 느낌 배경 + 글자 상자"]},
+        {k:"color",label:"색 조합은요?",opts:["초록·연두","주황·노랑","파랑·하늘","분홍·보라"]},
+        {k:"tone",label:"말투는요?",opts:["따뜻하게","밝고 경쾌하게","차분하게"]}],
+ inputs:[{k:"title",label:"표지 제목 (1장)",ph:"예: 우리 동네 단풍 나들이 다녀왔어요"},
+         {k:"sub",label:"표지 작은 글",opt:true,ph:"예: 2026년 10월 · 지역사회적응훈련"},
+         {k:"points",label:"장마다 넣을 내용 (한 줄 = 한 장)",area:true,ph:"예:\n버스를 타고 공원에 갔어요\n○○님이 처음으로 버스 카드를 찍었어요\n함께 낙엽을 모아 액자를 만들었어요"},
+         {k:"closing",label:"마지막 장 문구",opt:true,ph:"예: 함께해 주신 봉사자님 고맙습니다"},
+         {k:"org",label:"센터 이름",opt:true,ph:"예: ○○공동생활가정"},
+         {k:"extra",label:"더 원하는 것",opt:true,ph:"예: 모든 장 오른쪽 위에 작은 단풍잎"}],
+ build:v=>{
+   const n=parseInt(v.n)||5, mid=n-2;
+   const RATIO={"인스타그램(4:5)":"세로 4:5","카카오톡 채널(1:1)":"정사각형 1:1","네이버 블로그(1:1)":"정사각형 1:1"};
+   const STY={"깔끔한 플랫 아이콘":"깔끔한 플랫 디자인, 단순한 평면 아이콘과 넉넉한 여백","따뜻한 손그림":"색연필·마커로 그린 듯한 따뜻한 손그림 일러스트","귀여운 3D 아이콘":"말랑한 점토 느낌의 귀여운 3D 일러스트","사진 느낌 배경 + 글자 상자":"부드럽게 흐린 풍경 그림 배경 위에 반투명 흰 글자 상자"};
+   const COL={"초록·연두":"짙은 초록·연두·크림색","주황·노랑":"주황·노랑·아이보리","파랑·하늘":"남색·하늘색·흰색","분홍·보라":"분홍·연보라·미색"};
+   const P=(v.points||"").split("\n").map(x=>x.trim()).filter(Boolean);
+   const g=[...Array(mid)].map((_,i)=>P.slice(Math.floor(i*P.length/mid),Math.floor((i+1)*P.length/mid)));
+   const slides=[`1장(표지): 큰 제목 "${F(v,"title","표지 제목")}"`+(v.sub&&v.sub.trim()?` / 작은 글 "${v.sub.trim()}"`:"")+` – 내용을 보여주는 그림을 크게`,
+     ...g.map((x,i)=>`${i+2}장: ${x.length?x.map(y=>`"${y}"`).join(" / "):"[내용]"} – 글에 맞는 장면을 단순한 그림으로, 위쪽에 ${i+2}/${n} 쪽 번호`),
+     `${n}장(마무리): "${(v.closing||"").trim()||"함께해 주셔서 고맙습니다"}"`+(v.org&&v.org.trim()?` / 아래에 "${v.org.trim()}"`:"")];
+   return `장애인 공동생활가정의 ${v.topic} 카드뉴스 이미지를 ${n}장 만들어줘.\n먼저 1장만 만들고, 내가 "다음"이라고 하면 다음 장을 만들어줘.\n\n`+
+     `[비율] 모든 장 ${RATIO[v.where]}\n[공통 디자인] ${STY[v.style]}. 색은 ${COL[v.color]} 3가지만. 모든 장의 글꼴·색·테두리·여백을 똑같이 맞춰서 한 세트로 보이게 해줘.\n`+
+     `[말투] ${v.tone} (글은 내가 적은 문장을 그대로 쓰고, 한 장에 2줄을 넘지 않게)\n`+O(v,"extra","[추가] ","\n")+
+     `\n[장별 내용]\n${slides.join("\n")}\n\n[글자] 한글은 또박또박한 고딕체로 크게, 휴대폰에서 바로 읽히게.`+
+     RULES(["내가 적은 문장과 숫자만 넣고, 새 사실이나 숫자는 만들지 마.","한글 글자가 깨지거나 틀리지 않게 정확하게 써줘.","이용인 이름과 실제 얼굴은 넣지 말고, 사람은 실제 인물과 닮지 않은 단순한 그림으로.","장애를 불쌍하게 그리지 말고 함께하는 모습으로 표현해줘."]);
+ },
+ tip:"한 번에 여러 장을 부탁하면 디자인이 흐트러져요. 1장씩 '다음'으로 이어 가세요. 제미나이는 '이미지 만들기'(나노바나나)를 고른 뒤 붙여 넣으세요. 실제 이용인 사진은 AI에 올리지 마세요.",
+ next:["다음","방금 장에서 틀린 한글만 고쳐줘.","1장과 같은 디자인으로 다시 맞춰줘.","전체 글을 인스타그램 본문과 해시태그 5개로 써줘."]},
 
 /* 프로그램·생활 */
 {id:"leisure-program",cat:"life",plan:1,title:"여가 프로그램 계획",situation:"이용인분들과 함께할 프로그램을 계획해요",
@@ -1891,19 +1965,22 @@ const FORMS = [
    {k:"qs",label:"문항 (한 줄에 하나)",type:"area",def:"우리 집 식사가 맛있어요\n내 방이 편안해요\n선생님이 내 이야기를 잘 들어줘요\n하고 싶은 활동을 할 수 있어요\n나들이와 프로그램이 즐거워요\n우리 집에서 안전하다고 느껴요"},
    {k:"open",label:"자유 질문",def:"더 바라는 점이 있나요?",short:1},
    {k:"org",label:"기관명",short:1}]},
- {id:"saeop", em:"🗂️", name:"사업계획서", desc:"세부사업만 적으면 계획서가 바로 나오고 AI로 완성", kind:"aidoc", doc:"saeop",
+ {id:"saeop", em:"🗂️", name:"사업계획서", desc:"항목별로 짧게 적으면 계획서가 바로 나오고 AI로 완성", kind:"aidoc", doc:"saeop", items:1,
   fields:[
    {k:"title",label:"문서 제목",def:"2027년 사업계획서",short:1},
-   {k:"org",label:"기관명",short:1},
    {k:"period",label:"사업 기간",ph:"예: 2027. 1. 1. ~ 12. 31.",short:1},
-   {k:"target",label:"대상",ph:"예: 이용인 4명 (초중증 지적·발달장애)",short:1},
-   {k:"total",label:"총예산",ph:"예: 148,095천원 (모르면 비워요)",short:1},
-   {k:"staff",label:"직원 구성",ph:"예: 시설장 1, 생활재활교사 2",short:1},
-   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 예산 시기 담당)",type:"area",ph:"예:\n식사 및 영양관리 매일 4명 7653천원 연중 생활재활교사\n특별급식 월2회 4명 7650천원\n평생교육(미술·도예) 주1회 4명 12150천원\n생일축하 연4회 4명 1000천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n사례관리 평가 연2회 4명\n욕구 및 만족도 조사 연1회 4명"},
-   {k:"focus",label:"올해 중점·새로 하고 싶은 것",type:"area",opt:1,ph:"예: 그림 중심 안전교육 확대, 지역 카페 체험 늘리기, 생활재활교사 대체인력 확보"},
-   {k:"prev",label:"작년 결과·욕구조사에서 나온 점",type:"area",opt:1,ph:"예: 만족도 조사에서 외부 나들이 희망 많음, 도전적 행동으로 외부 행사 일부 불참"},
-   {k:"vision",label:"사명·비전·운영방침",type:"area",opt:1,ph:"예: 장애인의 평생 돌봄 / 사랑과 행복으로 살아가는 보금자리"},
-   {k:"long",label:"중장기 계획 메모",type:"area",opt:1,ph:"예: 노후 설비 교체, 후원 홍보 강화, 시설장 부재 대비 체계"}]},
+   {k:"target",label:"대상·인원",ph:"예: 이용인 4명 (지적·발달장애)",short:1},
+   {k:"total",label:"총예산",ph:"예: 148,095천원",short:1},
+   {k:"staff",label:"담당·직원 구성",ph:"예: 시설장 1, 생활재활교사 2",short:1},
+   {k:"org",label:"기관명",short:1,adv:1},
+   {k:"purpose",label:"사업 목적·필요성",type:"area",ph:"짧게 적어요. 예: 이용인 고령화로 건강관리 필요, 지역사회 참여 확대, 자립 능력 향상"},
+   {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 예산 시기)",type:"area",ph:"예:\n식사 및 영양관리 매일 4명 7653천원\n평생교육 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원"},
+   {k:"goal",label:"성과 목표 (비우면 세부사업으로 자동)",type:"area",opt:1,ph:"예: 만족도 80% 이상, 지역사회 체험 연 20회"},
+   {k:"focus",label:"올해 중점·새로 하는 것",type:"area",opt:1,ph:"예: 그림 중심 안전교육 확대, 카페 체험 늘리기"},
+   {k:"prev",label:"작년 결과·욕구조사 의견",type:"area",opt:1,ph:"예: 나들이 더 원함, 도전적 행동으로 외부 행사 일부 불참"},
+   {k:"schedule",label:"추진 일정 (비우면 자동)",type:"area",opt:1,ph:"예: 1월 계획 안내\n6월 상반기 평가\n9월 만족도 조사"},
+   {k:"effect",label:"기대효과 (비우면 자동)",type:"area",opt:1,ph:"예: 자립 능력 향상, 생활 만족도 향상"},
+   {k:"evalm",label:"평가 방법 (비우면 자동)",type:"area",opt:1,ph:"예: 출석부, 만족도 조사, 관찰일지"}]},
  {id:"unyeong", em:"🧾", name:"운영계획서", desc:"일반사업 운영계획서 AI 요청문", kind:"aidoc", doc:"unyeong",
   fields:[
    {k:"title",label:"문서 제목",def:"2027년 공동생활가정 일반사업 운영계획서",short:1},
@@ -1914,29 +1991,35 @@ const FORMS = [
    {k:"purpose",label:"사업 목적 (단어만)",type:"area",ph:"예: 안전한 주거, 일상생활 지원, 평생교육, 여가, 지역사회 적응, 자립 능력"},
    {k:"subs",label:"세부사업 (한 줄에 하나: 사업명 횟수 인원 내용)",type:"area",ph:"예:\n일상생활 지원 매일 4명 식사·위생·건강·안전관리\n평생교육 주1회 4명 인지학습·미술·도예·인권교육\n여가생활 지원 월2회 4명 생일·영화·계절 나들이\n지역사회적응훈련 월2회 4명 대중교통·카페·식당 체험"},
    {k:"memo",label:"더 넣고 싶은 내용",type:"area",opt:1,ph:"예: 자원봉사자 연계, 장애 특성상 소규모 외부활동 위주"}]},
- {id:"yesan", em:"💰", name:"예산집행보고서", desc:"예산·집행액만 적으면 집행률 보고서 → AI로 완성", kind:"aidoc", doc:"yesan",
+ {id:"yesan", em:"💰", name:"예산집행보고서", desc:"항목별로 짧게 적으면 집행 보고서가 바로 나오고 AI로 완성", kind:"aidoc", doc:"yesan", items:1,
   fields:[
    {k:"title",label:"문서 제목",def:"2026년 예산 집행 보고서",short:1},
-   {k:"org",label:"기관명",short:1},
    {k:"period",label:"집행 기간",ph:"예: 2026. 1. 1. ~ 12. 31.",short:1},
-   {k:"target",label:"대상",ph:"예: 이용인 4명",short:1},
-   {k:"total",label:"총예산 / 총집행액",ph:"예: 148,095천원 / 140,200천원",short:1},
+   {k:"target",label:"대상·인원",ph:"예: 이용인 4명",short:1},
    {k:"fund",label:"재원 구분",ph:"예: 보조금, 후원금, 자부담",short:1},
-   {k:"rows",label:"사업별 예산·집행 (한 줄에 하나: 사업명 예산 집행액 주요 내역)",type:"area",ph:"예:\n식생활 자립지원 7653천원 7480천원 1일 3식·간식 식재료\n특별급식 7650천원 7650천원 월2회 특별식, 명절 4회\n평생교육 12150천원 11300천원 도예·미술 재료, 강사비\n지역사회적응훈련 13172천원 12900천원 나들이 교통비·입장료"},
-   {k:"why",label:"미집행·변경 사유",type:"area",opt:1,ph:"예: 평생교육 강사 일정 취소 2회로 850천원 미집행 → 차년도 재료비로 이월 예정"},
-   {k:"memo",label:"성과·특이사항",type:"area",opt:1,ph:"예: 후원금 사용 내역 밴드에 매월 공개, 공공요금 인상으로 운영비 증가"}]},
- {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"실적 숫자·있었던 일 → 결과보고서 → AI로 완성", kind:"aidoc", doc:"gyeolgwa",
+   {k:"org",label:"기관명",short:1,adv:1},
+   {k:"rows",label:"사업별 예산·집행액 (한 줄에 하나: 사업명 예산 집행액 내용)",type:"area",ph:"예:\n식생활 자립지원 7653천원 7482천원 식재료·간식\n평생교육 12150천원 11300천원 강사비·재료비\n지역사회적응훈련 13172천원 12905천원 교통비·체험비"},
+   {k:"why",label:"미집행·변경 사유",type:"area",opt:1,ph:"예:\n평생교육 강사 2회 취소\n지역사회적응훈련 8월 폭염 1회 취소"},
+   {k:"donate",label:"후원금 사용·공개",type:"area",opt:1,ph:"예: 지정후원금 100만원 생일행사에 사용, 밴드에 매월 공개"},
+   {k:"memo",label:"특이사항·성과",type:"area",opt:1,ph:"예: 공공요금 인상으로 운영비 증가"},
+   {k:"next",label:"차년도 반영 방향 (비우면 자동)",type:"area",opt:1,ph:"예: 평생교육 대체 강사 확보"}]},
+ {id:"gyeolgwa", em:"📊", name:"결과보고서", desc:"항목별로 짧게 적으면 결과보고서가 바로 나오고 AI로 완성", kind:"aidoc", doc:"gyeolgwa", items:1,
   fields:[
-   {k:"title",label:"사업명",ph:"예: 2026년 지역사회적응훈련 / 가을 단풍 나들이",short:1},
-   {k:"org",label:"기관명",short:1},
+   {k:"title",label:"사업명",ph:"예: 2026년 지역사회적응훈련",short:1},
    {k:"period",label:"사업 기간",ph:"예: 2026. 3. ~ 12.",short:1},
-   {k:"target",label:"대상",ph:"예: 이용인 4명",short:1},
+   {k:"target",label:"대상·인원",ph:"예: 이용인 4명",short:1},
    {k:"writer",label:"작성자",ph:"예: 사회재활교사 ○○○",short:1},
-   {k:"subs",label:"계획 대비 실적 (한 줄에 하나: 사업명 계획 / 실적)",type:"area",ph:"예:\n지역사회적응훈련 계획 월2회 4명 / 실적 20회 연인원 76명\n평생교육 계획 주1회 / 실적 45회\n생일축하 계획 연4회 / 실적 4회"},
-   {k:"budget",label:"예산·집행 (한 줄에 하나)",type:"area",opt:1,ph:"예: 지역사회적응훈련 예산 13172천원 집행 12900천원"},
-   {k:"change",label:"이용인 변화·있었던 일 (단어만)",type:"area",ph:"예: ○○님 처음 혼자 카페 주문, 버스 카드 스스로 찍음, 사진 보며 웃음, 도전적 행동으로 2회 중단"},
-   {k:"sat",label:"만족도 조사 결과",type:"area",opt:1,ph:"예: 4명 중 3명 '좋아요' 이상, 나들이 더 가고 싶다는 의견"},
-   {k:"next",label:"아쉬운 점·내년 계획",type:"area",opt:1,ph:"예: 겨울철 실내 대체 활동 필요, 봉사자 연계 확대"}]},
+   {k:"org",label:"기관명",short:1,adv:1},
+   {k:"purpose",label:"사업 목적",type:"area",ph:"짧게 적어요. 예: 지역사회 이용 경험 확대, 자립 능력 향상"},
+   {k:"goal",label:"사업 목표",type:"area",opt:1,ph:"예: 월 2회 지역사회 체험, 이용인 4명 모두 참여"},
+   {k:"content",label:"추진 내용 (한 줄에 하나)",type:"area",ph:"예:\n3~4월 버스 타기 연습\n5~6월 카페·식당 체험\n10월 단풍 나들이"},
+   {k:"subs",label:"계획 대비 실적 (사업명 계획 / 실적)",type:"area",ph:"예: 지역사회적응훈련 계획 20회 / 실적 19회, 4명"},
+   {k:"qual",label:"이용인 변화 (있었던 일)",type:"area",ph:"예:\n○○님 처음 혼자 키오스크 주문\n○○님 버스 카드 스스로 찍음"},
+   {k:"budget",label:"예산 집행 (항목 예산 집행액)",type:"area",opt:1,ph:"예:\n교통비 3600천원 3480천원\n입장료·체험비 4972천원 4825천원"},
+   {k:"sat",label:"만족도·소감",type:"area",opt:1,ph:"예: 4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견"},
+   {k:"prob",label:"아쉬운 점·문제점",type:"area",opt:1,ph:"예:\n8월 폭염으로 1회 취소\n○○님 낯선 곳에서 불안해함"},
+   {k:"next",label:"향후 계획 (비우면 자동)",type:"area",opt:1,ph:"예: 겨울철 실내 체험 추가"},
+   {k:"attach",label:"첨부",opt:1,short:1,ph:"예: 활동 사진 12매, 프로그램 일지"}]},
  {id:"sarye", em:"🗃️", name:"사례관리·욕구조사 계획서", desc:"사례관리 평가와 욕구·만족도 조사 계획 AI 요청문 (C2·C4)", kind:"aidoc", doc:"sarye",
   fields:[
    {k:"title",label:"문서 제목",def:"2027년 사례관리 및 서비스과정 평가사업 계획서",short:1},
@@ -1966,7 +2049,16 @@ const PFORM={id:"progplan",my:1,name:"프로그램 계획서",desc:"여가·나�
   {k:"people",label:"참여 인원",short:1},{k:"budget",label:"예산",short:1},{k:"writer",label:"작성자",short:1},
   {k:"goal",label:"목적",type:"area"},{k:"roles",label:"역할 분담",type:"area"},{k:"items",label:"준비물",type:"area"},
   {k:"budgetd",label:"예산 내역",type:"area"},{k:"steps",label:"진행 순서",type:"area"},{k:"care",label:"개별 지원·고려할 점",type:"area"},
-  {k:"safety",label:"안전 유의사항",type:"area"},{k:"org",label:"기관명",short:1}]};
+  {k:"safety",label:"안전 유의사항",type:"area"},{k:"evalm",label:"평가 방법",type:"area"},{k:"org",label:"기관명",short:1}]};
+const PLAN_ITEMS=[
+ {k:"pGoal",label:"[항목] 목적 (비우면 자동)",opt:true,area:true,ph:"예: 계절 변화 느끼기, 지역사회 경험 넓히기"},
+ {k:"pSteps",label:"[항목] 진행 순서 (한 줄에 하나)",opt:true,area:true,ph:"예:\n10시 출발\n11시 공원 산책\n12시 점심\n2시 귀가"},
+ {k:"pRoles",label:"[항목] 역할 분담 (한 줄에 하나)",opt:true,area:true,ph:"예:\n시설장 총괄·안전\n○○ 선생님 차량·준비물\n봉사자 이동 보조"},
+ {k:"pItems",label:"[항목] 준비물",opt:true,area:true,ph:"예: 돗자리, 물, 구급함, 모자"},
+ {k:"pBud",label:"[항목] 예산 내역 (한 줄에 하나: 항목 금액)",opt:true,area:true,ph:"예:\n간식비 30000\n유류비 20000"},
+ {k:"pSafe",label:"[항목] 안전 유의사항",opt:true,area:true,ph:"예: 물가 1:1 동행, 인원 수시 확인"},
+ {k:"pEval",label:"[항목] 평가 방법 (비우면 자동)",opt:true,area:true,ph:"예: 사진 기록, 끝난 뒤 그림 카드로 만족도 묻기"}];
+TASKS.filter(t=>t.plan).forEach(t=>{ PLAN_ITEMS.forEach(x=>{ if(!t.inputs.some(y=>y.k===x.k)) t.inputs.push({...x}); }); });
 FBY.progplan=PFORM;
 const PK={
  "만들기":{goal:"손으로 직접 만들며 성취감을 느끼고, 서로의 작품을 나누며 대화를 늘린다.",items:["재료(종이·풀·가위 등)","앞치마·물티슈","작품 말릴 자리","완성 작품 사진 찍을 휴대폰"],bud:["재료비","간식비"],steps:["인사와 오늘 할 일 소개 (10분)","만드는 법 함께 보기 (10분)","각자 만들기, 필요하면 직원·봉사자 도움 (40분)","작품 소개하고 칭찬 나누기 (15분)","정리·손 씻기 (10분)"],safe:["가위·글루건은 직원이 곁에서 함께 사용","작은 재료를 입에 넣지 않도록 살피기"]},
@@ -2003,7 +2095,18 @@ function planVals(t){
   const care = [(v.need||"").trim(), "이동·식사·화장실 이용에 도움이 필요한 분 미리 확인", "이용인이 직접 고르고 결정할 수 있는 부분 남겨 두기"].filter(Boolean).map(s=>"■ "+s.replace(/\n+/g,"\n■ ")).join("\n");
   const steps = t.id==="event-prep" ? ["■ 2주 전: 일정·장소 확정, 예산 확인, 역할 나누기","■ 1주 전: 초대·안내 문자 보내기, 준비물 구입","■ 3일 전: 인원 최종 확인, 개별 지원 계획 점검","■ 당일 순서:",...P.steps.map((x,i)=>`   ${i+1}. ${x}`),"■ 끝난 뒤: 사진 정리, 결과 기록"].join("\n") : P.steps.map((x,i)=>`${i+1}. ${x}`).join("\n");
   const safety = [...P.safe, t.id==="outing"?"휴관일·운영 시간·편의시설은 전화로 확인":"", "비상 연락망과 구급함 챙기기"].filter(Boolean).map(s=>"■ "+s).join("\n");
-  return {title, date:(v.date||"").trim(), where, people, budget, writer:"", goal:goal2, roles, items:P.items.map(s=>"■ "+s).join("\n"), budgetd, steps, care, safety};
+  const U=k=>String(v[k]||"").split(/\n|,\s*|·(?=\S)/).map(x=>x.trim()).filter(Boolean);
+  const own=k=>U(k).map(x=>"■ "+x.replace(/[.。]$/,"")).join("\n");
+  let budgetd2=budgetd, budget2=budget;
+  if(U("pBud").length){ const R=String(v.pBud).split("\n").map(x=>x.trim()).filter(Boolean).map(l=>{ const m=l.replace(/(\d),(\d{3})/g,"$1$2").match(/^(.*?)\s*(\d+(?:\.\d+)?)\s*(만\s*원|만|천\s*원|천|원)?\s*$/); if(!m) return [l,0]; let n=+m[2]; if(/만/.test(m[3]||"")) n*=10000; else if(/천/.test(m[3]||"")) n*=1000; return [m[1].trim()||"항목",n]; });
+    const T=R.reduce((a,r)=>a+r[1],0); budgetd2=R.map(r=>`■ ${r[0]}: ${r[1]?won(r[1]):"[    ]원"}`).join("\n")+`\n■ 합계: ${T?won(T):"[    ]원"}`; if(T) budget2=`${won(T)}${tot?` (1인당 약 ${won(Math.round(T/tot/100)*100)})`:""}`; }
+  const goal3 = U("pGoal").length ? U("pGoal").map(x=>{ x=x.replace(/[.。]$/,""); return /(다|함)$/.test(x)?x+".":`${x}${hasJong(x)?"을":"를"} 목적으로 한다.`; }).join("\n")+(nw?`\n(관련 소식: ${nw})`:"") : goal2;
+  const steps2 = U("pSteps").length ? String(v.pSteps).split("\n").map(x=>x.trim()).filter(Boolean).map((x,i)=>`${i+1}. ${x}`).join("\n") : steps;
+  const roles2 = U("pRoles").length ? String(v.pRoles).split("\n").map(x=>x.trim()).filter(Boolean).map(x=>{ const m=x.match(/^(\S+(?:\s선생님|\s교사|\s님)?)\s+(.+)$/); return m?`■ ${m[1]}: ${m[2]}`:"■ "+x; }).join("\n")+(help?`\n※ ${help} — 1:1 지원이 필요한 분이 있으면 인력을 더 요청하세요.`:"") : roles;
+  const items2 = U("pItems").length ? own("pItems") : P.items.map(s=>"■ "+s).join("\n");
+  const safety2 = U("pSafe").length ? [own("pSafe"),"■ 비상 연락망과 구급함 챙기기"].join("\n") : safety;
+  const evalm = U("pEval").length ? own("pEval") : ["■ 활동 사진·프로그램 일지로 진행 내용과 참여 인원 기록","■ 끝난 뒤 이용인 소감 듣기 (말로 어려운 분은 그림 카드·표정 카드 활용)","■ 좋았던 점·아쉬운 점을 정리해 다음 계획에 반영"].join("\n");
+  return {title, date:(v.date||"").trim(), where, people, budget:budget2, writer:"", goal:goal3, roles:roles2, items:items2, budgetd:budgetd2, steps:steps2, care, safety:safety2, evalm};
 }
 document.addEventListener("change",e=>{
   if(e.target.id!=="plan-att" || !e.target.files[0] || !current || !current.plan) return;
@@ -3034,13 +3137,17 @@ const AIDOC = {
    "욕구조사와 만족도조사를 '지침 마련 → 연 1회 실시 → 문항별 분석 → 운영 반영'의 흐름으로 써.",
    "지적장애 이용인은 그림 도구, 의사소통이 어려운 이용인은 보호자 조사·관찰 기록 등 대체 방법을 구체적으로 써."]}
 };
+const FIELD_EX={
+ saeop:{period:"2027. 1. 1. ~ 12. 31.",target:"이용인 4명 (지적·발달장애)",total:"148,095천원",staff:"시설장 1, 생활재활교사 2",purpose:"이용인 고령화로 건강관리 필요, 지역사회 참여 확대, 자립 능력 향상",subs:"식사 및 영양관리 매일 4명 7653천원\n특별급식 월2회 4명 7650천원\n평생교육 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원",focus:"그림 중심 안전교육 확대, 카페 체험 늘리기",prev:"만족도 조사에서 나들이 더 원함"},
+ gyeolgwa:{title:"2026년 지역사회적응훈련",period:"2026. 3. ~ 12.",target:"이용인 4명",purpose:"지역사회 이용 경험 확대, 자립 능력 향상",goal:"월 2회 지역사회 체험, 이용인 4명 모두 참여",content:"3~4월 버스 타기 연습\n5~6월 카페·식당 체험\n10월 단풍 나들이",subs:"지역사회적응훈련 계획 20회 / 실적 19회, 4명",qual:"○○님 처음 혼자 키오스크 주문\n○○님 버스 카드 스스로 찍음\n사진 보며 웃으며 이야기함",budget:"교통비 3600천원 3480천원\n입장료·체험비 4972천원 4825천원\n식당·카페 이용비 3600천원 3600천원",sat:"4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견",prob:"8월 폭염으로 1회 취소\n○○님 낯선 곳에서 불안해함",attach:"활동 사진 12매, 프로그램 일지"},
+ yesan:{period:"2026. 1. 1. ~ 12. 31.",target:"이용인 4명",fund:"보조금, 후원금, 자부담",rows:"식생활 자립지원 7653천원 7482천원 식재료·간식\n특별급식 7650천원 7650천원 월2회 특별식\n평생교육 12150천원 11300천원 강사비·재료비\n지역사회적응훈련 13172천원 12905천원 교통비·체험비",why:"평생교육 강사 2회 취소\n지역사회적응훈련 8월 폭염 1회 취소",donate:"지정후원금 100만원 생일행사에 사용, 밴드에 매월 공개",memo:"공공요금 인상으로 운영비 증가"}};
 const NOTE_EX={
  saeop:"식사 및 영양관리 매일 4명 7653천원\n특별급식 월2회 4명 7650천원\n평생교육 미술·도예 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원\n올해 중점: 그림 안전교육, 카페 체험 늘리기\n작년 만족도 조사: 나들이 더 원함",
  unyeong:"일상생활 지원 매일 4명 (식사·위생·건강·안전)\n평생교육 주1회 4명 (미술·도예·인권교육)\n여가생활 월2회 4명 (생일·영화·계절 나들이)\n지역사회적응훈련 월2회 4명 (버스·카페·식당 체험)\n총예산 148,095천원, 자원봉사자 연계",
  yesan:"식생활 자립지원 7653천원 7482천원 식재료·간식\n특별급식 7650천원 7650천원 월2회 특별식\n평생교육 12150천원 11300천원 강사 2회 취소\n지역사회적응훈련 13172천원 12905천원 8월 폭염 1회 취소\n후원금 사용 내역 밴드에 매월 공개",
  gyeolgwa:"지역사회적응훈련 계획 20회 / 실적 19회, 4명\n평생교육 계획 48회 / 실적 45회, 4명\n예산 13172천원 집행 12905천원\n○○님 처음 혼자 카페 키오스크 주문\n○○님 버스 카드 스스로 찍음\n8월 폭염으로 1회 취소\n만족도 4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견",
  sarye:"사례관리 평가 연2회 (6월·12월), 4명\n욕구·만족도 조사 9월, 그림 카드 3단계, 보호자 설문 같이\n결과는 내년 개별지원계획에 반영"};
-Object.values(FBY).filter(f=>f.kind==="aidoc").forEach(f=>{ if(!f.fields.some(x=>x.k==="note")) f.fields.unshift({k:"note",label:"생각나는 대로 적어요",type:"area",main:1,ph:"한 줄에 하나씩, 단어와 숫자만 적어도 돼요.\n예:\n"+NOTE_EX[f.doc]}); f.fields.forEach(x=>{ if(!["note","title","period"].includes(x.k)) x.adv=1; }); });
+Object.values(FBY).filter(f=>f.kind==="aidoc"&&!f.items).forEach(f=>{ if(!f.fields.some(x=>x.k==="note")) f.fields.unshift({k:"note",label:"생각나는 대로 적어요",type:"area",main:1,ph:"한 줄에 하나씩, 단어와 숫자만 적어도 돼요.\n예:\n"+NOTE_EX[f.doc]}); f.fields.forEach(x=>{ if(!["note","title","period"].includes(x.k)) x.adv=1; }); });
 function adData(f,v){
   const lab=k=>(f.fields.find(x=>x.k===k)||{}).label||k;
   return f.fields.filter(x=>(v[x.k]||"").trim() && x.k!=="title").map(x=>`- ${lab(x.k).replace(/\s*\(.*\)$/,"")}: ${x.type==="area"?"\n"+v[x.k].trim().split("\n").map(l=>"    "+l.trim()).filter(l=>l.trim()).join("\n"):v[x.k].trim()}`).join("\n");
@@ -3113,8 +3220,9 @@ function renderAiDoc(f){
       <section class="fin" id="fin" aria-label="입력">
         <h3 class="ad-h"><b>1</b>무엇을 쓸까요?</h3>
         <div class="fgrid">${f.fields.filter(x=>x.short&&!x.adv).map(x=>fieldHTML(f,v,x)).join("")}</div>
-        <h3 class="ad-h"><b>2</b>생각나는 대로 적어요 <small>(한 줄에 하나, 단어·숫자만)</small></h3>
-        ${fieldHTML(f,v,f.fields.find(x=>x.k==="note")).replace('rows="','data-big="1" rows="')}
+        ${f.items?`<h3 class="ad-h"><b>2</b>항목별로 짧게 적어요 <small>(단어·숫자만 · 적은 항목이 보고서의 같은 항목에 들어가요)</small></h3>
+        ${f.fields.filter(x=>!x.short&&!x.adv).map(x=>fieldHTML(f,v,x)).join("")}`:`<h3 class="ad-h"><b>2</b>생각나는 대로 적어요 <small>(한 줄에 하나, 단어·숫자만)</small></h3>
+        ${fieldHTML(f,v,f.fields.find(x=>x.k==="note")).replace('rows="','data-big="1" rows="')}`}
         <div class="ad-mini"><button type="button" class="pill b3d" id="ad-ex">예시 넣어 보기</button><span>숫자가 있으면 앱이 연인원·집행률을 계산해서 같이 보내요.</span></div>
         <h3 class="ad-h"><b>3</b>기록 사진 <small>(있으면 · 회계 프로그램 화면, 지출 장부, 영수증)</small></h3>
         <div class="ad-form ad-pics">
@@ -3192,7 +3300,7 @@ const SUBK=[
 function subK(name){ const n=String(name||""); for(const [r,k] of SUBK) if(r.test(n)) return k;
   return {a:n,aim:`${josa(n,"을","를")} 통해 이용인의 참여 경험을 넓힘`,act:`${josa(n,"을","를")} 계획에 따라 운영함`,eff:`${n} 참여로 생활 만족도가 높아짐`,nx:`참여자 의견을 반영하여 ${josa(n,"을","를")} 보완함`}; }
 const QMAP=[[/줄\s*(을\s*)?서|차례|기다/,"지역사회 이용 규칙(차례 지키기)을 익힌"],[/주문|계산|결제|키오스크/,"지역사회 시설을 스스로 이용하는 능력이 향상된"],[/버스|교통|카드/,"대중교통 이용의 자립도가 높아진"],[/스스로|혼자|직접/,"자립 생활 기술이 향상된"],[/웃|즐거|좋아|신나|재밌/,"정서적 안정과 만족감이 높아진"],[/인사|대화|말을|이야기|소개/,"의사소통과 대인관계가 넓어진"],[/도와|나눠|양보|챙/,"서로 배려하는 관계가 형성된"],[/끝까지|집중|완성|작품/,"집중력과 성취감이 높아진"],[/처음|첫/,"새로운 경험에 도전하는 자신감이 생긴"]];
-const PMAP=[[/멀미/,"이동 중 멀미 증상을 보인 이용인이 있었음","출발 전 컨디션을 확인하고 앞좌석 배치와 중간 휴식을 계획에 반영함"],[/비\b|비가|비 때문|날씨|폭염|추위|미세먼지|태풍/,"날씨 영향으로 일정 일부가 취소·조정됨","날씨에 대비한 실내 대체 활동을 미리 준비함"],[/넘어|다침|다쳐|부상|사고/,"활동 중 안전사고가 있었음","이동 동선과 위험 요소를 사전에 점검하고 지원 인력을 보강함"],[/도전적|행동|거부|싫어|힘들어|어려워|짜증/,"일부 이용인이 활동에 어려움을 보임","사전에 그림 카드로 일정을 안내하고 1:1 지원 인력을 배치함"],[/강사|취소/,"강사 사정 등으로 일부 회차가 취소됨","대체 강사를 미리 확보하고 취소 회차는 보강 일정을 잡음"],[/늦|지각|지연|막혀/,"이동·일정 지연으로 활동 시간이 줄어듦","이동 시간을 여유 있게 계획함"],[/부족|모자/,"준비물·인력 등 일부 자원이 부족하였음","사전 점검표로 준비하고 후원·자원봉사 연계를 넓힘"],[/불참|결석|아파|컨디션/,"컨디션 등의 이유로 참여하지 못한 이용인이 있었음","불참 이용인을 위한 개별 활동 기회를 따로 마련함"]];
+const PMAP=[[/불안|낯선|낯설|무서|긴장/,"낯선 환경에서 불안을 보인 이용인이 있었음","사전에 사진·영상으로 장소를 미리 안내하고 익숙한 직원이 1:1로 동행함"],[/멀미/,"이동 중 멀미 증상을 보인 이용인이 있었음","출발 전 컨디션을 확인하고 앞좌석 배치와 중간 휴식을 계획에 반영함"],[/비\b|비가|비 때문|날씨|폭염|추위|미세먼지|태풍/,"날씨 영향으로 일정 일부가 취소·조정됨","날씨에 대비한 실내 대체 활동을 미리 준비함"],[/넘어|다침|다쳐|부상|사고/,"활동 중 안전사고가 있었음","이동 동선과 위험 요소를 사전에 점검하고 지원 인력을 보강함"],[/도전적|행동|거부|싫어|힘들어|어려워|짜증/,"일부 이용인이 활동에 어려움을 보임","사전에 그림 카드로 일정을 안내하고 1:1 지원 인력을 배치함"],[/강사|취소/,"강사 사정 등으로 일부 회차가 취소됨","대체 강사를 미리 확보하고 취소 회차는 보강 일정을 잡음"],[/늦|지각|지연|막혀/,"이동·일정 지연으로 활동 시간이 줄어듦","이동 시간을 여유 있게 계획함"],[/부족|모자/,"준비물·인력 등 일부 자원이 부족하였음","사전 점검표로 준비하고 후원·자원봉사 연계를 넓힘"],[/불참|결석|아파|컨디션/,"컨디션 등의 이유로 참여하지 못한 이용인이 있었음","불참 이용인을 위한 개별 활동 기회를 따로 마련함"]];
 function sentOf(l){ let x=String(l||"").trim().replace(/[.。]$/,""); if(!x) return "";
   if(/(함|음|됨|임)$/.test(x)) return x;
   if(/(다|요)$/.test(x)) return toGaejo(x).replace(/^○\s*/,"");
@@ -3201,7 +3309,86 @@ function sentOf(l){ let x=String(l||"").trim().replace(/[.。]$/,""); if(!x) ret
 function qualOf(l){ const x=l.replace(/[.。]$/,"").trim(); const m=QMAP.find(([r])=>r.test(x)); const base=/(함|음|됨|임|다|요)$/.test(x)?sentOf(x):x+"하는 모습을 보임"; return `${base} → ${m?m[1]:"긍정적인 변화가 나타난"} 것으로 평가됨`; }
 function probOf(l){ const p=PMAP.find(([r])=>r.test(l)); return p?[`${p[1]} (${l.replace(/[.。]$/,"")})`,p[2]]:[sentOf(l),"원인을 확인하여 다음 운영에 보완함"]; }
 function adLines(v){ return (v.note||"").split("\n").map(s=>s.trim()).filter(Boolean); }
+/* ===== 항목별 입력 → 같은 항목의 보고서 문장 ===== */
+const linesOf=t=>String(t||"").split(/\n|,\s*(?=[가-힣○])/).map(x=>x.trim()).filter(Boolean);
+function purposeOf(t){ const L=linesOf(t).map(x=>x.replace(/[.。]$/,"")); if(!L.length) return [];
+  return L.map(x=>/(함|임|됨|음|다)$/.test(x)?sentOf(x):/필요$/.test(x)?`${x}함`:`${x}${hasJong(x)?"을":"를"} 위하여 추진함`); }
+function goalOf(t){ return linesOf(t).map(x=>{ x=x.replace(/[.。]$/,""); return /(함|임|됨|음|다)$/.test(x)?sentOf(x):`${x}${/(\d+\s*(회|명|%))$/.test(x)?" 달성":""}을 목표로 함`.replace(/(\S)을 목표/,(m,c)=>c+(hasJong(c)?"을":"를")+" 목표"); }); }
+function actOf(t){ return linesOf(t).map(x=>{ x=x.replace(/[.。]$/,""); if(/(함|음|됨|임)$/.test(x)) return x; if(/(다|요)$/.test(x)) return sentOf(x);
+  const m=x.match(/^((?:\d{1,2}\s*[~\-]\s*)?\d{1,2}\s*월|상반기|하반기|[1-4]\s*분기|매주|매월)\s*(.*)$/); if(m) return `${m[1]}: ${m[2]}${/(연습|체험|나들이|교육|활동|훈련|행사|견학|탐방|조사|회의|점검)$/.test(m[2])?"을 실시함":"을 진행함"}`.replace(/(\S)을 (실시|진행)/,(z,c,w)=>c+(hasJong(c)?"을":"를")+" "+w);
+  return `${x}${/(연습|체험|나들이|교육|활동|훈련|행사|견학|탐방|조사|회의|점검)$/.test(x)?"을 실시함":"을 진행함"}`.replace(/(\S)을 (실시|진행)/,(z,c,w)=>c+(hasJong(c)?"을":"를")+" "+w); }); }
+function adDraftItems(f,v){
+  const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
+  const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
+  B.push({t:"title",text:g("title")||D.name});
+  const sec=t=>B.push({t:"gap"},{t:"p",text:t,bold:1});
+  const sub=t=>B.push({t:"p",text:t,bold:1,indent:1});
+  const box=lines=>{ const L2=lines.filter(Boolean); B.push({t:"table",rows:[[{text:(L2.length?L2:["○ "+CK]).map(x=>/^(○ |\s|\[|-)/.test(x)?x:"○ "+x).join("\n")}]]}); };
+  const tbl=(head,rows)=>B.push({t:"table",rows:[head.map(h=>({text:h,label:1})),...rows.map(r=>r.map(x=>({text:String(x)})))]});
+  const kv=(rows)=>B.push({t:"table",rows});
+  const L=(k)=>linesOf(g(k));
+  if(f.doc==="gyeolgwa"){
+    kv([[{text:"기관명",label:1},{text:org},{text:"사업명",label:1},{text:g("title")||CK}],[{text:"사업 기간",label:1},{text:g("period")||CK},{text:"대상",label:1},{text:g("target")||CK}],[{text:"작성자",label:1},{text:g("writer")||CK,span:3}]]);
+    const S=g("subs").split("\n").map(s=>s.trim()).filter(Boolean).map(l=>{ let p=l.split(/\s*\/\s*/); if(p.length<2) p=l.split(/\s*실적\s*/); const P=parseSub(p[0]||""), Rr=String(p[1]||"").replace(/(\d),(\d{3})/g,"$1$2"); const done=+((Rr.match(/(\d+)\s*회/)||[])[1]||0); const ppl=(P&&P.ppl)||+((Rr.replace(/연\s*인원\s*\d+\s*명/,"").match(/(\d+)\s*명/)||[])[1]||0); const yeon=+((Rr.match(/연\s*인원\s*(\d+)/)||[])[1]||0)||(ppl&&done?ppl*done:0); return {name:P?P.name:l,per:P?P.per:0,done,ppl,yeon,rate:P&&P.per&&done?r1p(done,P.per):0}; });
+    const nm=g("title")||(S[0]&&S[0].name)||"";
+    sec("Ⅰ. 사업 목적 및 목표");
+    sub("1. 사업 목적"); box([...purposeOf(g("purpose")),subK(nm).aim]);
+    sub("2. 사업 목표"); box(g("goal")?goalOf(g("goal")):S.map(x=>`${x.name} 연 ${x.per||"[  ]"}회 실시, 실인원 ${x.ppl||"[  ]"}명 참여`));
+    sec("Ⅱ. 추진 내용"); box([...actOf(g("content")),...(g("content")?[]:[subK(nm).act])]);
+    sec("Ⅲ. 추진 성과");
+    sub("1. 정량적 성과 (계획 대비 실적)");
+    tbl(["구분","계획","실적","달성률","연인원"],S.length?S.map(x=>[x.name,x.per?x.per+"회":CK,x.done?x.done+"회":CK,x.rate?x.rate+"%":"-",x.yeon?x.yeon+"명":"-"]):[[CK,"","","",""]]);
+    box(S.map(x=>x.rate>=100?`${x.name}: 계획한 ${x.per}회를 모두 실시하여 목표를 달성함`:x.rate>=90?`${x.name}: 계획 대비 ${x.rate}%를 실시하여 대체로 계획대로 운영함`:x.rate?`${x.name}: 계획 대비 ${x.rate}%로 실적이 낮아 원인 분석과 보완이 필요함`:""));
+    sub("2. 정성적 성과 (이용인 변화)"); box(L("qual").length?L("qual").map(qualOf):[subK(nm).eff]);
+    sec("Ⅳ. 예산 집행");
+    const bud=g("budget").split("\n").map(parseExec).filter(x=>x&&x.bud); const tb=bud.reduce((a,b)=>a+b.bud,0), tu=bud.reduce((a,b)=>a+b.used,0);
+    tbl(["항목","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],bud.length?[...bud.map(b=>[b.name||"항목",chun(b.bud),b.used?chun(b.used):CK,b.rate?b.rate+"%":"-",b.used?chun(b.rest):"-"]),...(bud.length>1?[["합계",chun(tb),chun(tu),r1p(tu,tb)+"%",chun(tb-tu)]]:[])]:[[CK,"","","",""]]);
+    if(tb&&tu) box([`예산 ${chun(tb)}천원 중 ${chun(tu)}천원을 집행함 (집행률 ${r1p(tu,tb)}%${tb-tu?`, 잔액 ${chun(tb-tu)}천원은 반납 또는 이월 ${CK}`:""})`]);
+    sec("Ⅴ. 만족도 및 소감"); box(L("sat").map(l=>{ const m=l.match(/(\d+)\s*명\s*중\s*(\d+)\s*명/); return m?`참여자 ${m[1]}명 중 ${m[2]}명(${r1p(+m[2],+m[1])}%)이 만족한다고 응답함`:/의견/.test(l)?`${l.replace(/[.。]$/,"")}이 있었음`.replace(/의견이 있었음$/,"의견이 있었음"):sentOf(l); }));
+    sec("Ⅵ. 평가");
+    const probs=L("prob").map(probOf);
+    const good=[...(S.some(x=>x.rate>=90)?["계획한 활동을 대부분 실시하여 사업을 안정적으로 운영함"]:[]),...(L("qual").length?["이용인이 스스로 해내는 경험이 늘어 자립 능력 향상에 의미 있는 변화가 나타남"]:[]),...(L("sat").length?["참여 이용인의 만족도가 높게 나타남"]:[])];
+    tbl(["잘된 점","문제점","개선 방안"],[[(good.length?good:[CK]).map(x=>"○ "+x).join("\n"),(probs.length?probs.map(p=>"○ "+p[0]):["○ 특별한 문제 없이 진행됨"]).join("\n"),(probs.length?probs.map(p=>"○ "+p[1]):["○ 현재 운영 방식을 유지함"]).join("\n")]]);
+    sec("Ⅶ. 향후 계획"); box([...new Set(g("next")?actOf(g("next")).map(x=>x.replace(/을 진행함$|를 진행함$/,"을 추진할 예정임")):[...probs.map(p=>p[1].replace(/함$/,"할 예정임")),subK(nm).nx.replace(/함$/,"할 예정임"),"만족도 조사 의견을 차년도 사업계획에 반영할 예정임"])]);
+    if(g("attach")){ sec("Ⅷ. 첨부"); box(linesOf(g("attach")).map((x,i)=>`${i+1}. ${x}`)); }
+  } else if(f.doc==="yesan"){
+    const R=g("rows").split("\n").map(parseExec).filter(x=>x&&x.bud);
+    const tb=R.reduce((a,r)=>a+r.bud,0), tu=R.reduce((a,r)=>a+(r.used||0),0), rate=r1p(tu,tb);
+    kv([[{text:"기관명",label:1},{text:org},{text:"대상",label:1},{text:g("target")||CK}],[{text:"집행 기간",label:1},{text:g("period")||CK},{text:"재원",label:1},{text:g("fund")||CK}],[{text:"총예산(천원)",label:1},{text:tb?chun(tb):CK},{text:"총집행액(천원)",label:1},{text:tu?chun(tu):CK}],[{text:"집행률",label:1},{text:tb&&tu?rate+"%":CK},{text:"잔액(천원)",label:1},{text:tb&&tu?chun(tb-tu):CK}]]);
+    sec("Ⅰ. 사업별 집행 총괄표");
+    tbl(["사업","예산액(천원)","집행액(천원)","집행률","잔액(천원)"],R.length?[...R.map(r=>[r.name||"사업",chun(r.bud),r.used?chun(r.used):CK,r.used?r.rate+"%":"-",r.used?chun(r.rest):"-"]),["합계",chun(tb),chun(tu),rate+"%",chun(tb-tu)]]:[[CK,"","","",""]]);
+    sec("Ⅱ. 사업별 집행 내역 및 성과");
+    box(R.flatMap(r=>{ const K=subK(r.name), note=r.note&&/[가-힣]/.test(r.note)?r.note:""; return [`${r.name||"사업"}: ${note?note+" 등에 ":""}${r.used?chun(r.used)+"천원을 집행함 (예산 대비 "+r.rate+"%)":"집행액 "+CK}`,`  - 내용: ${K.act}`,`  - 성과: ${K.eff}`]; }));
+    sec("Ⅲ. 미집행·변경 사유 및 조치");
+    const W=L("why"); const low=R.filter(r=>r.rest>0);
+    box([...low.map(r=>{ const w=W.find(x=>x.includes((r.name||"").slice(0,3)))||""; const reason=w?w.replace(r.name,"").replace(/^\s+/,"").replace(/[.。]$/,""):""; return `${r.name}: ${chun(r.rest)}천원 미집행 – ${reason?`${reason}(으)로 집행이 줄어듦`.replace(/(\S)\(으\)로/,(m,c)=>c+(hasJong(c)&&!/ㄹ$/.test(c)?"으로":"로")):"계획 대비 지출 절감"} / 조치: 보조금 잔액은 반납, 후원금·자부담 잔액은 차년도 이월 예정`; }),...W.filter(w=>!R.some(r=>w.includes((r.name||"").slice(0,3)))).map(sentOf),...(low.length||W.length?[]:["모든 사업을 예산 범위 안에서 계획대로 집행함"])]);
+    sec("Ⅳ. 후원금 사용 및 공개"); box(L("donate").length?L("donate").map(sentOf):["후원금은 지정 용도에 맞게 사용하고 사용 내역을 후원자에게 안내함 "+CK]);
+    if(g("memo")){ sec("Ⅴ. 특이사항"); box(L("memo").map(sentOf)); }
+    sec(g("memo")?"Ⅵ. 종합 평가 및 차년도 반영 방향":"Ⅴ. 종합 평가 및 차년도 반영 방향");
+    box(tb?[`총예산 ${chun(tb)}천원 중 ${chun(tu)}천원을 집행하여 집행률 ${rate}%를 기록함`,rate>=95?"예산을 계획에 맞게 안정적으로 집행함":rate>=85?"대체로 계획에 맞게 집행하였으나 일부 사업에서 미집행이 발생함":"미집행 비율이 높아 사업 운영 방식과 예산 편성을 점검할 필요가 있음",...R.filter(r=>r.used&&r.rate<90).map(r=>`${r.name} 집행률(${r.rate}%)이 낮아 차년도에는 실제 운영 횟수에 맞게 예산을 조정함`),...(g("next")?L("next").map(x=>sentOf(x).replace(/함$/,"할 예정임")):["미집행이 반복되지 않도록 대체 강사·실내 대체 활동 등 운영 대책을 미리 마련할 예정임","공공요금·물가 상승을 반영하여 차년도 예산을 편성할 예정임"])]:[]);
+  } else {
+    const S=g("subs").split("\n").map(parseSub).filter(Boolean); const tb=S.reduce((a,x)=>a+x.bud,0);
+    kv([[{text:"기관명",label:1},{text:org},{text:"대상",label:1},{text:g("target")||CK}],[{text:"사업 기간",label:1},{text:g("period")||CK},{text:"총예산",label:1},{text:g("total")||(tb?chun(tb)+"천원":CK)}],[{text:"담당",label:1},{text:g("staff")||CK,span:3}]]);
+    const areas=[...new Set(S.map(x=>subK(x.name).a))];
+    sec("Ⅰ. 사업 목적 및 필요성"); box([...purposeOf(g("purpose")).map(x=>x.replace("본 사업을 추진함","본 사업이 필요함")),areas.length?`이용인의 ${areas.slice(0,4).join("·")}${hasJong(areas.slice(0,4).join("·"))?"을":"를"} 체계적으로 지원하여 지역사회 안에서 안전하고 행복한 삶과 자립생활 능력 향상을 도모함`:""]);
+    sec("Ⅱ. 성과 목표"); box(g("goal")?goalOf(g("goal")):[...S.map(x=>`${x.name}: 연 ${x.per}회 운영, 연인원 ${x.yeon.toLocaleString("ko-KR")}명 참여 (${x.ppl}명 × ${x.per}회)`),...(S.length?[`세부사업 ${S.length}개, 연인원 합계 ${S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")}명`]:[]),"이용인 만족도 ‘좋아요’ 이상 응답 [  ]% 이상"]);
+    sec("Ⅲ. 세부사업 계획");
+    tbl(["세부사업","연간 횟수(산출)","실인원","연인원(산출식)","예산(천원)","시기"],S.length?[...S.map(x=>[x.name,x.per?`${x.per}회(${x.basis})`:CK,x.ppl?x.ppl+"명":CK,x.yeon?`${x.yeon.toLocaleString("ko-KR")}명(${x.ppl}×${x.per})`:CK,x.bud?chun(x.bud):"-",x.time||"연중"]),["합계","-","-",S.reduce((a,x)=>a+x.yeon,0).toLocaleString("ko-KR")+"명",tb?chun(tb):"-","-"]]:[[CK,"","","","",""]]);
+    box(S.map(x=>`${x.name}: ${subK(x.name).act}`));
+    if(g("focus")||g("prev")){ sec("Ⅳ. 중점 추진 사항"); box([...L("focus").map(x=>actOf(x)[0].replace(/(을|를) 진행함$/,"$1 중점적으로 추진함")),...L("prev").map(x=>`작년 결과 반영: ${x.replace(/[.。]$/,"")}`)]); }
+    const n=(g("focus")||g("prev"))?["Ⅴ","Ⅵ","Ⅶ"]:["Ⅳ","Ⅴ","Ⅵ"];
+    sec(`${n[0]}. 추진 일정`);
+    tbl(["시기","주요 내용"],g("schedule")?L("schedule").map(x=>{ const m=x.match(/^((?:\d{1,2}\s*[~\-]\s*)?\d{1,2}\s*월|상반기|하반기|[1-4]\s*분기)\s*(.*)$/); return m?[m[1],m[2]]:["",x]; }):[["1분기","연간 계획 수립·안내, 개별지원계획 점검"],["2분기","세부사업 운영, 상반기 사례관리 평가"],["3분기","세부사업 운영, 욕구·만족도 조사 실시"],["4분기","하반기 사례관리 평가, 결과 분석 및 차년도 계획 반영"]]);
+    sec(`${n[1]}. 기대효과`); box(g("effect")?L("effect").map(x=>/(함|됨|임)$/.test(x)?x:x+"에 기여함"):[...new Set(S.map(x=>subK(x.name).eff))]);
+    sec(`${n[2]}. 평가 방법`); box(g("evalm")?L("evalm").map(x=>`${x.replace(/[.。]$/,"")}${/(함|됨)$/.test(x)?"":"(으)로 실적과 변화를 확인함"}`.replace(/(\S)\(으\)로/,(m,c)=>c+(hasJong(c)&&!/ㄹ$/.test(c)?"으로":"로"))):["프로그램 일지·출석부로 회차별 실적(실인원·연인원)을 확인함","연 1회 욕구·만족도 조사(그림 카드 등 장애 특성에 맞는 도구)로 만족도를 확인함 (평가지표 C4)","개별지원계획 점검(12개월 이내)과 연계하여 이용인 변화를 평가함 (평가지표 C2)"]);
+  }
+  if(c.sign) B.push({t:"gap"},{t:"sign",date:"        년      월      일",name:g("writer")||""});
+  B.push({t:"gap"},{t:"center",text:org,bold:1,size:28});
+  return B;
+}
+
 function adDraft(f,v){
+  if(f.items) return adDraftItems(f,v);
   const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[기관명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
   const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
   B.push({t:"title",text:g("title")||D.name});
@@ -3303,7 +3490,7 @@ document.addEventListener("click",e=>{
   const pd=e.target.closest("[data-adpicdel]"); if(pd){ (v._pics||[]).splice(+pd.dataset.adpicdel,1); const box=document.getElementById("ad-thumbs"); if(box) box.innerHTML=adThumbs(v); adRefresh(f); return; }
   if(e.target.closest("#ad-down")){ saveFile(formFileName(f,v), zipStore(Object.entries(docxFiles(blocksDocx(adDraft(f,v))))), document.getElementById("ad-status")); return; }
   if(e.target.closest("#ad-dcopy")){ copyText(blocksText(adDraft(f,v)),null,()=>{ if(st){ st.classList.remove("warn"); st.textContent="보고서 초안을 복사했어요."; } },()=>{ if(st){ st.classList.add("warn"); st.textContent="자동 복사가 막혀 있어요."; } }); return; }
-  if(e.target.closest("#ad-ex")){ v.note=NOTE_EX[f.doc]; const el=document.getElementById(`ff-${f.id}-note`); if(el){ el.value=v.note; el.rows=9; } adRefresh(f); return; }
+  if(e.target.closest("#ad-ex")){ if(f.items){ Object.entries(FIELD_EX[f.doc]||{}).forEach(([k,x])=>{ v[k]=x; const el=document.getElementById(`ff-${f.id}-${k}`); if(el){ el.value=x; if(el.tagName==="TEXTAREA") el.rows=Math.min(9,Math.max(3,x.split("\n").length)); } }); } else { v.note=NOTE_EX[f.doc]; const el=document.getElementById(`ff-${f.id}-note`); if(el){ el.value=v.note; el.rows=9; } } adRefresh(f); return; }
   if(e.target.closest("#ad-reset")){ v._pEdited=false; adRefresh(f); if(st) st.textContent="입력 내용으로 요청문을 다시 만들었어요."; return; }
 });
 document.addEventListener("change",async e=>{
@@ -5026,4 +5213,5 @@ window.addEventListener("popstate",route);
 route();
 })();
 </script>
+
 </body></html>
