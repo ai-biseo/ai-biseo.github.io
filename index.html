@@ -977,6 +977,10 @@ details.plan-more .aibar{border-style:dashed}
 .wiz-more{border:1px solid var(--soft-line);border-radius:10px;padding:8px 12px;margin-bottom:10px}
 .wiz-more summary{cursor:pointer;font-weight:800;color:#22604C;padding:6px 0}
 .wiz-more-in{display:flex;flex-direction:column;gap:12px;margin-top:10px}
+.ex-hint{display:flex;align-items:flex-start;gap:8px;margin:6px 0 2px;padding:6px 8px 6px 10px;border-left:3px solid #D32F2F;background:rgba(211,47,47,.06);border-radius:6px;color:#C62828;font-size:.9em;line-height:1.5}
+.ex-hint span{flex:1;min-width:0;word-break:keep-all;overflow-wrap:anywhere}
+.ex-x{flex:none;border:1px solid rgba(198,40,40,.35);background:transparent;color:#C62828;border-radius:999px;width:26px;height:26px;font-size:13px;line-height:1;cursor:pointer}
+.ex-x:hover{background:rgba(211,47,47,.12)}
 </style>
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap">
@@ -1017,7 +1021,7 @@ details.plan-more .aibar{border-style:dashed}
 /* ---------- 도우미 함수 ---------- */
 const F = (v,k,label) => (v[k]||"").trim() || "["+label+"]";
 const O = (v,k,before,after) => { const t=(v[k]||"").trim(); return t ? (before||"")+t+(after||"") : ""; };
-const ICONS=[[/나들이|버스|이동|외출|여행|공원|체험/,"버스·나무"],[/요리|식사|간식|김장|급식|밥/,"냄비·숟가락"],[/만족|좋아|웃/,"웃는 얼굴"],[/후원|감사|나눔|기부/,"하트·선물상자"],[/교육|수업|배움|평생/,"책·연필"],[/안전|화재|대피|사고/,"방패·소화기"],[/건강|병원|운동|산책|체력/,"하트 맥박·운동화"],[/예산|원|집행|비용/,"동전"],[/회|횟수|번/,"달력"],[/명|이용인|참여|인원/,"사람 아이콘"],[/생일|행사|파티|송년/,"케이크·풍선"],[/원예|텃밭|꽃|식물/,"새싹 화분"],[/음악|노래/,"음표"],[/미술|만들기|작품|공예/,"붓·팔레트"]];
+const ICONS=[[/나들이|버스|이동|외출|여행|공원|체험/,"버스·나무"],[/요리|식사|간식|김장|급식|밥/,"냄비·숟가락"],[/만족|좋아|웃/,"웃는 얼굴"],[/후원|감사|나눔|기부/,"하트·선물상자"],[/교육|수업|배움|평생/,"책·연필"],[/안전|화재|대피|사고/,"방패·소화기"],[/건강|병원|운동|산책|체력/,"하트 맥박·운동화"],[/예산|원|집행|비용/,"동전"],[/회|횟수|번/,"달력"],[/명|이용인|참여|인원/,"나란히 자라는 새싹들"],[/생일|행사|파티|송년/,"케이크·풍선"],[/원예|텃밭|꽃|식물/,"새싹 화분"],[/음악|노래/,"음표"],[/미술|만들기|작품|공예/,"붓·팔레트"]];
 const iconOf=x=>{ const m=ICONS.find(([r])=>r.test(x)); return m?m[1]:"주제에 맞는 단순한 아이콘"; };
 const RULES = (list) => "\n\n지켜줄 것\n" + list.map(s=>"- "+s).join("\n");
 const NOFAKE = "내가 알려주지 않은 사실, 숫자, 날짜는 만들지 마.";
@@ -1266,7 +1270,7 @@ const TASKS = [
         {k:"season",label:"어느 계절인가요?",opts:["봄","여름","가을","겨울"],def:seasonIdx},
         {k:"style",label:"어떤 화풍인가요?",opts:["따뜻한 수채화","깔끔한 일러스트","부드러운 파스텔","색연필 동화풍","3D 클레이"]},
         {k:"mood",label:"어떤 분위기인가요?",opts:["포근하고 따뜻하게","밝고 신나게","차분하고 평화롭게"]},
-        {k:"people",label:"사람은 어떻게 넣을까요?",opts:["함께 걷는 뒷모습","둘러앉아 웃는 모습","풍경만"]},
+        {k:"people",label:"무엇으로 표현할까요?",opts:["새싹·나무·꽃 상징","함께 걷는 뒷모습","풍경만"]},
         {k:"space",label:"제목 넣을 자리는요?",opts:["위쪽 비우기","아래쪽 비우기","비우지 않기"]},
         {k:"ratio",label:"그림 비율은요?",opts:["세로(4:5)","정사각형(1:1)","가로(16:9)","세로 포스터(3:4)"]}],
  inputs:[{k:"scene",label:"담고 싶은 장면",ph:"예: 공원에서 함께 산책하는 모습"},
@@ -1287,7 +1291,7 @@ const TASKS = [
      "3D 클레이":"점토로 빚은 듯한 귀여운 3D 미니어처 느낌으로, 둥근 형태와 부드러운 조명으로 표현해줘."};
    const MOOD={"포근하고 따뜻하게":"늦은 오후의 황금빛 햇살이 비스듬히 비치는 포근하고 따뜻한 분위기",
      "밝고 신나게":"환한 한낮 햇살 아래 활기차고 경쾌한 분위기","차분하고 평화롭게":"부드럽게 퍼지는 아침 햇살 속 고요하고 평화로운 분위기"};
-   const PEOPLE={"풍경만":"사람은 그리지 말고 풍경만 담아줘.",
+   const PEOPLE={"새싹·나무·꽃 상징":"사람 대신 나란히 돋아난 새싹과 작은 나무, 꽃들이 서로 어울려 함께 자라는 모습으로 장면을 상징적으로 표현해줘.","풍경만":"사람은 그리지 말고 풍경만 담아줘.",
      "함께 걷는 뒷모습":"다양한 사람들이 서로 어울려 나란히 걷는 뒷모습을 작게 넣어줘. 얼굴은 보이지 않게 해줘.",
      "둘러앉아 웃는 모습":"여러 사람이 둘러앉아 함께 웃는 모습을 넣어줘. 얼굴은 단순하고 귀엽게 표현해서 실제 인물과 닮지 않게 해줘."};
    const SPACE={"위쪽 비우기":"그림 위쪽 1/3은 하늘이나 단색 배경으로 비워서 제목을 넣을 자리를 만들어줘.",
@@ -1298,10 +1302,10 @@ const TASKS = [
      `[분위기·빛] ${MOOD[v.mood]}.\n`+
      `[화풍] ${STYLE[v.style]}\n`+
      `[색감] ${color} 색을 중심으로 하되, 전체 색이 서로 어울리게 조화롭게 맞춰줘.\n`+
-     `[사람] ${PEOPLE[v.people]}\n`+
+     `[표현] ${PEOPLE[v.people]}\n`+
      `[구도] ${SPACE[v.space]||"화면 전체를 고르게 채워줘."} 가까운 곳, 중간, 먼 곳이 자연스럽게 겹쳐 깊이감이 느껴지게 해줘.\n`+
      `[비율] ${v.ratio}`+
-     RULES(["그림 안에 글자, 숫자, 로고는 넣지 마.","실제 인물과 닮지 않게 그려줘.","누구도 불쌍하거나 소외되어 보이지 않게, 모두가 존중받는 따뜻한 분위기로 그려줘.","요소를 너무 많이 넣지 말고 주인공 장면 하나에 집중해줘."]);
+     RULES(["그림 안에 글자, 숫자, 로고는 넣지 마.","실제 인물과 닮지 않게 그려줘.","모두가 함께 어울리는 밝고 따뜻한 분위기로 그려줘.","요소를 너무 많이 넣지 말고 주인공 장면 하나에 집중해줘."]);
  },
  tip:"챗GPT나 제미나이(나노바나나)에 넣으면 바로 그림이 나와요. 그림 속 한글은 깨질 때가 많으니 글자는 미리캔버스나 캔바에서 올리세요. 실제 이용인 사진은 AI에 올리지 마세요.",
  next:["같은 장면을 색감만 바꿔서 한 장 더 그려줘.","사람을 빼고 풍경만 다시 그려줘.","위쪽 여백을 더 넓게 해서 다시 그려줘."]},
@@ -1340,7 +1344,7 @@ const TASKS = [
      O(v,"msg","[맨 아래 문구] \"","\"\n")+O(v,"org","[센터 이름] \"","\" – 오른쪽 아래 작게\n")+
      `[디자인] ${STY[v.style]}\n[색] ${COL[v.color]}. 색은 3가지 안에서만 써줘.\n`+O(v,"extra","[추가] ","\n")+
      `[글자] 한글은 또박또박한 고딕체로, 휴대폰에서도 읽히게 크게. 한 항목은 한 줄로 짧게.`+
-     RULES(["내가 적은 글자와 숫자만 넣고, 적지 않은 숫자·통계는 만들지 마.","한글 맞춤법이 틀리거나 글자가 깨지지 않게 정확하게 써줘.","실제 사람 얼굴 사진은 넣지 말고, 사람은 단순한 아이콘으로만 표현해줘.","장애를 불쌍하게 그리지 말고 함께하는 모습으로 표현해줘."]);
+     RULES(["내가 적은 글자와 숫자만 넣고, 적지 않은 숫자·통계는 만들지 마.","한글 맞춤법이 틀리거나 글자가 깨지지 않게 정확하게 써줘.","사람 모습 대신 새싹·작은 나무·꽃·햇살·하트 같은 상징 이미지로, 서로 어울려 함께 자라는 따뜻한 느낌을 표현해줘."]);
  },
  tip:"챗GPT는 '챗GPT' 버튼을 누르면 요청문이 채워진 채로 열려요. 제미나이는 붙여 넣은 뒤 아래 도구에서 '이미지 만들기'(나노바나나)를 고르세요. 글자가 틀리면 '틀린 글자만 고쳐줘'라고 하세요.",
  next:["틀린 한글 글자만 정확하게 고쳐서 다시 만들어줘.","글자는 빼고 아이콘과 배치만 있는 배경으로 다시 만들어줘.","같은 디자인으로 색만 파랑으로 바꿔줘."]},
@@ -1366,14 +1370,14 @@ const TASKS = [
    const COL={"초록·연두":"짙은 초록·연두·크림색","주황·노랑":"주황·노랑·아이보리","파랑·하늘":"남색·하늘색·흰색","분홍·보라":"분홍·연보라·미색"};
    const P=(v.points||"").split("\n").map(x=>x.trim()).filter(Boolean);
    const g=[...Array(mid)].map((_,i)=>P.slice(Math.floor(i*P.length/mid),Math.floor((i+1)*P.length/mid)));
-   const slides=[`1장(표지): 큰 제목 "${F(v,"title","표지 제목")}"`+(v.sub&&v.sub.trim()?` / 작은 글 "${v.sub.trim()}"`:"")+` – 내용을 보여주는 그림을 크게`,
-     ...g.map((x,i)=>`${i+2}장: ${x.length?x.map(y=>`"${y}"`).join(" / "):"[내용]"} – 글에 맞는 장면을 단순한 그림으로, 위쪽에 ${i+2}/${n} 쪽 번호`),
+   const slides=[`1장(표지): 큰 제목 "${F(v,"title","표지 제목")}"`+(v.sub&&v.sub.trim()?` / 작은 글 "${v.sub.trim()}"`:"")+` – 새싹·나무 같은 상징 그림을 크게`,
+     ...g.map((x,i)=>`${i+2}장: ${x.length?x.map(y=>`"${y}"`).join(" / "):"[내용]"} – 글에 어울리는 상징 그림(새싹·나무·꽃·햇살 등)으로, 위쪽에 ${i+2}/${n} 쪽 번호`),
      `${n}장(마무리): "${(v.closing||"").trim()||"함께해 주셔서 고맙습니다"}"`+(v.org&&v.org.trim()?` / 아래에 "${v.org.trim()}"`:"")];
    return `장애인 공동생활가정의 ${v.topic} 카드뉴스 이미지를 ${n}장 만들어줘.\n먼저 1장만 만들고, 내가 "다음"이라고 하면 다음 장을 만들어줘.\n\n`+
      `[비율] 모든 장 ${RATIO[v.where]}\n[공통 디자인] ${STY[v.style]}. 색은 ${COL[v.color]} 3가지만. 모든 장의 글꼴·색·테두리·여백을 똑같이 맞춰서 한 세트로 보이게 해줘.\n`+
      `[말투] ${v.tone} (글은 내가 적은 문장을 그대로 쓰고, 한 장에 2줄을 넘지 않게)\n`+O(v,"extra","[추가] ","\n")+
      `\n[장별 내용]\n${slides.join("\n")}\n\n[글자] 한글은 또박또박한 고딕체로 크게, 휴대폰에서 바로 읽히게.`+
-     RULES(["내가 적은 문장과 숫자만 넣고, 새 사실이나 숫자는 만들지 마.","한글 글자가 깨지거나 틀리지 않게 정확하게 써줘.","이용인 이름과 실제 얼굴은 넣지 말고, 사람은 실제 인물과 닮지 않은 단순한 그림으로.","장애를 불쌍하게 그리지 말고 함께하는 모습으로 표현해줘."]);
+     RULES(["내가 적은 문장과 숫자만 넣고, 새 사실이나 숫자는 만들지 마.","한글 글자가 깨지거나 틀리지 않게 정확하게 써줘.","이름이나 실제 얼굴은 넣지 마.","사람 모습 대신 새싹·작은 나무·꽃·햇살·하트 같은 상징 이미지로, 서로 어울려 함께 자라는 따뜻한 느낌을 표현해줘."]);
  },
  tip:"한 번에 여러 장을 부탁하면 디자인이 흐트러져요. 1장씩 '다음'으로 이어 가세요. 제미나이는 '이미지 만들기'(나노바나나)를 고른 뒤 붙여 넣으세요. 실제 이용인 사진은 AI에 올리지 마세요.",
  next:["다음","방금 장에서 틀린 한글만 고쳐줘.","1장과 같은 디자인으로 다시 맞춰줘.","전체 글을 인스타그램 본문과 해시태그 5개로 써줘."]},
@@ -2855,12 +2859,19 @@ function renderForms(){
     </div>
   </div>`;
 }
+/* 입력칸 예시: 입력해도 사라지지 않는 빨간 글씨 (✕로 본인이 지움) */
+let EXHIDE={}; try{ EXHIDE=JSON.parse(localStorage.getItem("aibox-exhide")||"{}"); }catch(e){}
+const isEx=ph=>/(^|\s|\()예\s*:/.test(String(ph||""));
+const exPart=ph=>{ const t=String(ph||""); const i=t.search(/예\s*:/); return t.slice(i).replace(/^예\s*:\s*\n?/,"예: "); };
+function exHint(id,ph){ if(!isEx(ph)||EXHIDE[id]) return ""; return `<div class="ex-hint" data-exid="${esc(id)}"><span>${esc(exPart(ph)).replace(/\n/g,"<br>")}</span><button type="button" class="ex-x" data-exx="${esc(id)}" aria-label="이 예시 지우기" title="예시 지우기">✕</button></div>`; }
+const phOf=(id,ph)=>isEx(ph)&&!EXHIDE[id]?String(ph).slice(0,String(ph).search(/예\s*:/)).replace(/[\s(]+$/,"").trim():(ph||"");
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-exx]"); if(!b) return; const id=b.dataset.exx; EXHIDE[id]=1; try{ localStorage.setItem("aibox-exhide",JSON.stringify(EXHIDE)); }catch(_){} const h=b.closest(".ex-hint"); const inp=document.getElementById(id); if(h) h.remove(); });
 function fieldHTML(f,v,x){
   const id=`ff-${f.id}-${x.k}`, mic=hasMic?`<button type="button" class="mic b3d" data-mic="${x.k}" aria-label="${esc(x.label)} 말로 입력">${ico("mic")}</button>`:"";
-  const ctl = x.type==="area" ? `<textarea id="${id}" data-fk="${x.k}" rows="${Math.min(9,Math.max(3,(v[x.k]||"").split("\n").length))}" placeholder="${esc(x.ph||"")}">${esc(v[x.k]||"")}</textarea>`
+  const ctl = x.type==="area" ? `<textarea id="${id}" data-fk="${x.k}" rows="${Math.min(9,Math.max(3,(v[x.k]||"").split("\n").length))}" placeholder="${esc(phOf(id,x.ph))}">${esc(v[x.k]||"")}</textarea>`
     : x.type==="date" ? `<input id="${id}" type="date" data-fk="${x.k}" value="${esc(v[x.k]||"")}">`
-    : `<input id="${id}" type="text" data-fk="${x.k}" placeholder="${esc(x.ph||"")}" value="${esc(v[x.k]||"")}">`;
-  return `<div class="field"><label for="${id}">${esc(x.label)} ${x.opt?"<small>(선택)</small>":""}</label><div class="with-mic">${ctl}${x.type==="date"?"":mic}</div></div>`;
+    : `<input id="${id}" type="text" data-fk="${x.k}" placeholder="${esc(phOf(id,x.ph))}" value="${esc(v[x.k]||"")}">`;
+  return `<div class="field"><label for="${id}">${esc(x.label)} ${x.opt?"<small>(선택)</small>":""}</label><div class="with-mic">${ctl}${x.type==="date"?"":mic}</div>${exHint(id,x.ph)}</div>`;
 }
 /* ================= 쉬운 입력 (질문에 답하면 서식이 자동 완성) ================= */
 const TOPIC_CHIPS=["입소 후 적응","수면(잠)","식사","동료 관계","가족·귀가","기분·정서","건강","약 복용","배변","치아","보행(넘어짐)","위생","용돈","직장","프로그램 참여","휴대폰 사용","외출","일상생활 기술","불편·건의(고충)"];
@@ -2966,8 +2977,8 @@ const WIZ={
 function wizHTML(f){
   const W=WIZ[f.id]; if(!W) return ""; const v=getF(f), a=v._wz||(v._wz={});
   const step=(s,i)=>{ let ctl="";
-    if(s.type==="area") ctl=`<textarea class="wz-in wz-area" rows="${s.rows||5}" data-wzt="${s.k}" placeholder="${esc(s.ph||"")}">${esc(a[s.k]||"")}</textarea>`;
-    if(s.type==="text") ctl=`<input type="text" class="wz-in" data-wzt="${s.k}" value="${esc(a[s.k]||"")}" placeholder="${esc(s.ph||"")}">${s.quick?`<div class="chips wz-quick">${s.quick.map(o=>`<button type="button" class="chip-b" data-wzq="${s.k}" data-val="${esc(o)}">${esc(o)}</button>`).join("")}</div>`:""}`;
+    if(s.type==="area") ctl=`<textarea class="wz-in wz-area" rows="${s.rows||5}" data-wzt="${s.k}" placeholder="${esc(phOf("wz-"+f.id+"-"+s.k,s.ph))}">${esc(a[s.k]||"")}</textarea>`+exHint("wz-"+f.id+"-"+s.k,s.ph);
+    if(s.type==="text") ctl=`<input type="text" class="wz-in" data-wzt="${s.k}" value="${esc(a[s.k]||"")}" placeholder="${esc(phOf("wz-"+f.id+"-"+s.k,s.ph))}">${exHint("wz-"+f.id+"-"+s.k,s.ph)}${s.quick?`<div class="chips wz-quick">${s.quick.map(o=>`<button type="button" class="chip-b" data-wzq="${s.k}" data-val="${esc(o)}">${esc(o)}</button>`).join("")}</div>`:""}`;
     if(s.type==="chips"||s.type==="multi") ctl=`<div class="chips">${s.opts.map(o=>{ const on=s.type==="multi"?(a[s.k]||[]).includes(o):a[s.k]===o; return `<label class="chip"><input type="${s.type==="multi"?"checkbox":"radio"}" name="wz-${s.k}" value="${esc(o)}" data-wzc="${s.k}" data-multi="${s.type==="multi"?1:0}" ${on?"checked":""}><span>${esc(o)}</span></label>`; }).join("")}</div>`;
     if(s.type==="nums") ctl=`<div class="wz-nums">${s.items.map(([k,l,u])=>`<label>${esc(l)} <input type="number" min="0" inputmode="numeric" data-wzt="${k}" value="${esc(a[k]||"")}"> ${u}</label>`).join("")}</div>`;
     return `<div class="wz-step"><p class="wz-q"><b>${i+1}</b>${esc(s.q)}</p>${ctl}</div>`; };
@@ -4893,9 +4904,9 @@ function renderTask(t){
   const inputsHTML = (t.inputs||[]).map(i=>{
     const id = `f-${t.id}-${i.k}`;
     const lab = `<label for="${id}">${esc(i.label)} ${i.opt?"<small>(선택)</small>":""}</label>`;
-    const ctl = i.area ? `<textarea id="${id}" data-input="${i.k}" placeholder="${esc(i.ph)}">${esc(st.v[i.k])}</textarea>`
-                       : `<input id="${id}" type="text" data-input="${i.k}" placeholder="${esc(i.ph)}" value="${esc(st.v[i.k])}">`;
-    return `<div class="field">${lab}${ctl}</div>`;
+    const ctl = i.area ? `<textarea id="${id}" data-input="${i.k}" placeholder="${esc(phOf(id,i.ph))}">${esc(st.v[i.k])}</textarea>`
+                       : `<input id="${id}" type="text" data-input="${i.k}" placeholder="${esc(phOf(id,i.ph))}" value="${esc(st.v[i.k])}">`;
+    return `<div class="field">${lab}${ctl}${exHint(id,i.ph)}</div>`;
   }).join("");
   const related = TASKS.filter(x=>x.cat===t.cat && x.id!==t.id);
 
