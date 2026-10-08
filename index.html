@@ -989,6 +989,10 @@ details.plan-more .aibar{border-style:dashed}
 .myf-paper .dp-v{color:#1556B5;font-weight:600;background:#EEF4FF;border-radius:3px;padding:0 2px}
 .myf-note{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1.5px dashed var(--cc,#2E7D64);border-radius:12px;margin-bottom:12px;background:var(--cc-soft,#EEF6F1)}
 .myf-note span{font-size:.88em;color:var(--muted)}
+.myf-extra{margin-top:18px;padding:14px;border:1.5px solid var(--cc,#2E7D64);border-radius:14px;background:var(--cc-soft,#EEF6F1)}
+.myf-extra .wiz-head{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+.myf-extra .wiz-head span{font-size:.88em;color:var(--muted)}
+.myf-map{margin:0;padding-left:18px;font-size:.9em;line-height:1.7}
 .myf-ai .open-ai{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 @media (max-width:560px){.myf-ai .open-ai{grid-template-columns:1fr}}
 </style>
@@ -2608,7 +2612,8 @@ function gyBuild(v){
   return {v:{goal,content,react,link,next,title:(v.title||"").trim()||K.n}, end};
 }
 
-function docBlocks(f,v){
+function docBlocks(f,v){ const R=docVals(f,v); return docBlocksR(f,R.v,R.X); }
+function docVals(f,v){ v={...v};
   if(f.id==="sangdam"){ const grp=/[“"']|(보호자|어머니|아버지).*(말|하셨|하심)/.test(v.content||""); const S=sdBuild(v); v={...v, ...S, ...(grp?{content:reportFmt(v.content,true)}:{})}; }
   if(f.id==="gwanchal" && (v.fact||v.think||v.next||"").trim()){ v={...v, ...gwBuild(v)}; }
   if(f.id==="program"){ v={...v, ...pgBuild(v)}; }
@@ -2620,6 +2625,8 @@ function docBlocks(f,v){
   if(f.id==="sago"){ X=sgBuild(v); v={...v,...X.v}; }
   if(f.id==="gaebyeol"){ X=gbBuild(v); v={...v,...X.v}; }
   if(f.id==="gyoyuk"){ X=gyBuild(v); v={...v,...X.v}; }
+  return {v,X}; }
+function docBlocksR(f,v,X){
   const B=docBlocks0(f,v), c=signCfg(f);
   if(X){
     if(X.title && B[0] && B[0].t==="title") B[0]={...B[0],text:X.title};
@@ -3010,8 +3017,9 @@ document.addEventListener("click",e=>{
   const v=getF(curForm); (v._wz||(v._wz={}))[q.dataset.wzq]=q.dataset.val; const inp=document.querySelector(`[data-wzt="${q.dataset.wzq}"]`); if(inp) inp.value=q.dataset.val; wizApply(curForm);
 });
 function renderForm(f){
-  if(ATT[f.id] && ATT[f.id].fields && ATT[f.id].fields.length){ renderMyForm(f); return; }
-  try{ if(localStorage.getItem(MYF_KEY(f.id))) myfRestore(f); }catch(e){}
+  const MY=ATT[f.id] && ATT[f.id].fields && ATT[f.id].fields.length ? ATT[f.id] : null;
+  if(MY && f.kind==="aidoc"){ renderMyForm(f); return; }
+  if(!MY){ try{ if(localStorage.getItem(MYF_KEY(f.id))) myfRestore(f); }catch(e){} }
   if(f.kind==="aidoc"){ renderAiDoc(f); return; }
   applyCustom(f);
   const v=getF(f);
@@ -3019,18 +3027,18 @@ function renderForm(f){
   app.innerHTML=`<div class="fpage fade" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <div class="fbar">
       <button class="back b3d" type="button" data-goto="forms">← 서식함</button>
-      <h2>${f.em} ${f.name}</h2>
+      <h2>${f.em} ${f.name}${MY?` <small class="ad-badge">내 서식</small>`:""}</h2>
       <div class="fbar-btns">
         ${FILLX[f.id]?`<button type="button" class="pill b3d" id="fex" title="사업명·제목에 맞는 예시 문장을 빈칸에 넣어요">예시 채우기</button>`:""}
         <button type="button" class="pill b3d" id="fpolish" title="문장 끝을 ~함/~임으로 맞추고 띄어쓰기를 고쳐요">✏️ 문장 정리</button>
         <button type="button" class="pill b3d ai" id="fai-open">✨ AI로 다듬기</button>
-        <label class="pill b3d" for="fattach" title="우리 시설에서 쓰는 워드·한글 서식을 첨부하면 그 서식에 채워 드려요">내 서식 첨부</label><input type="file" id="fattach" class="sr-file" accept=".docx,.hwpx,.hwp,.pdf">
-        <button type="button" class="pill b3d main" id="fdown">${ATT[f.id]?"내 서식으로 받기":"워드 받기"}</button>
-        <button type="button" class="pill b3d" id="fcopy">복사</button>
+        <label class="pill b3d" for="fattach" title="우리 시설에서 쓰는 워드·한글 서식을 첨부하면 그 서식에 채워 드려요">${MY?"다른 서식 첨부":"내 서식 첨부"}</label><input type="file" id="fattach" class="sr-file" accept=".docx,.hwpx,.hwp,.pdf">
+        ${MY?`<button type="button" class="pill b3d main" id="myf-down">내 서식으로 받기</button><button type="button" class="pill b3d" id="myf-copy">복사</button><button type="button" class="pill b3d" id="myf-off">앱 기본 서식으로 돌아가기</button>`:`<button type="button" class="pill b3d main" id="fdown">${ATT[f.id]?"내 서식으로 받기":"워드 받기"}</button>
+        <button type="button" class="pill b3d" id="fcopy">복사</button>`}
       </div>
     </div>
-    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">✍️ 입력</button><button type="button" role="tab" data-ftab="pv">📄 미리보기</button></div>
-    <p class="status fstat" id="fstatus" role="status" aria-live="polite">${f.note?`꼭 지켜요 · ${esc(f.note)}`:(hasMic?"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 마이크 버튼으로 말해도 돼요. 이름·진단명은 말하지 마세요.":"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 이름·진단명은 말하지 마세요.")}</p>
+    <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">✍️ 입력</button><button type="button" role="tab" data-ftab="pv">📄 ${MY?"내 서식 미리보기":"미리보기"}</button></div>
+    <p class="status fstat" id="fstatus" role="status" aria-live="polite">${MY?myfStatusText(f,MY):f.note?`꼭 지켜요 · ${esc(f.note)}`:(hasMic?"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 마이크 버튼으로 말해도 돼요. 이름·진단명은 말하지 마세요.":"사업명(제목)을 적으면 예시가 노란 칸에 자동으로 들어가요. 이름·진단명은 말하지 마세요.")}</p>
     <div class="fsplit">
       <section class="fin" id="fin" aria-label="입력">
         ${["hoeui","sangdam","gwanchal","program"].includes(f.id)?`<div class="fmemo-box"><div><b>📷 ${f.id==="hoeui"?"회의":f.id==="sangdam"?"상담":"기록"} 메모 사진으로 채우기</b><span>손글씨 메모·화이트보드 사진을 올리면, AI가 사진을 읽어 아래 칸을 채우도록 도와드려요.${(v._imgs||[]).length?` (지금 ${(v._imgs||[]).length}장 올림)`:""}</span></div><label class="pill b3d main" for="fmemo-top-img">메모 사진 올리기</label><input type="file" id="fmemo-top-img" class="sr-file" accept="image/*" multiple></div>`:""}
@@ -3039,10 +3047,9 @@ function renderForm(f){
         <div class="fgrid">${shortF.map(x=>fieldHTML(f,v,x)).join("")}</div>
         ${longF.map(x=>fieldHTML(f,v,x)).join("")}
         ${WIZ[f.id]?`</div></details>`:""}
-        ${customHTML(f)}
-        ${signHTML(f)}
+        ${MY?myfExtraHTML(f,MY):customHTML(f)+signHTML(f)}
       </section>
-      <section class="fpv" id="fpv" aria-label="미리보기">${attBoxHTML(f)}<div class="paper" id="fpreview">${blocksHTML(docBlocks(f,v))}</div></section>
+      ${MY?`<section class="fpv" id="fpv" aria-label="내 서식 미리보기"><div class="myf-note"><b>📎 ${esc(MY.name)}</b><span>왼쪽 질문에 답하고 예시를 고르면, 연결된 칸에 자동으로 채워져요 (파란 글씨).</span></div><div class="paper myf-paper" id="myf-pv">${myfPreview(MY)}</div></section>`:`<section class="fpv" id="fpv" aria-label="미리보기">${attBoxHTML(f)}<div class="paper" id="fpreview">${blocksHTML(docBlocks(f,v))}</div></section>`}
     </div>
     <div class="modal" id="fai" hidden><div class="modal-box" role="dialog" aria-labelledby="fai-t">
       <div class="modal-head"><h3 id="fai-t">✨ AI로 보고서 문장 다듬기</h3><button type="button" class="pill b3d" id="fai-close">닫기</button></div>
@@ -3055,11 +3062,11 @@ function renderForm(f){
       <p class="status" id="fsplit-status" role="status" aria-live="polite"></p>
     </div></div>
   </div>`;
-  updateFormLink(f); markAuto(f);
+  updateFormLink(f); markAuto(f); if(MY) myfAutoSync(f,true);
   if(openAIOnRender){ setTimeout(()=>{openAIOnRender=false;},400); document.getElementById("fai").hidden=false; const ms=document.getElementById("fsplit-status"); if(ms) ms.textContent=`메모 사진 ${(v._imgs||[]).length}장을 붙여 두었어요. ① 챗GPT로 열기 → 열린 창에서 + 버튼으로 같은 사진을 붙이고 보내세요.`; }
 }
 function updateFormLink(f){ const a=document.getElementById("fgpt"); if(a) a.href="https://chatgpt.com/?q="+encodeURIComponent(formPrompt(f,getF(f)).slice(0,1800)); }
-function refreshPreview(f){ if(f.kind==="aidoc"){ adRefresh(f); return; } { const w=adFlag(getF(f)), st=document.getElementById("fstatus"); if(st&&w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. 개인정보는 지워 주세요 (평가지표 B1 비밀보장).`; } } const p=document.getElementById("fpreview"); if(p) p.innerHTML=blocksHTML(docBlocks(f,getF(f))); updateFormLink(f); if(ATT[f.id]) document.querySelectorAll(".atttbl [data-amap]").forEach(sel=>{ const sm=sel.nextElementSibling; if(sm) sm.textContent=(attValue(f,sel.value)||"").slice(0,40)||"(빈칸)"; }); }
+function refreshPreview(f){ if(f.kind==="aidoc"){ adRefresh(f); return; } { const w=adFlag(getF(f)), st=document.getElementById("fstatus"); if(st&&w.length){ st.classList.add("warn"); st.textContent=`${w.join(", ")}처럼 보이는 내용이 있어요. 개인정보는 지워 주세요 (평가지표 B1 비밀보장).`; } } const p=document.getElementById("fpreview"); if(p) p.innerHTML=blocksHTML(docBlocks(f,getF(f))); updateFormLink(f); if(ATT[f.id]&&ATT[f.id].fields&&ATT[f.id].fields.length&&document.getElementById("myf-pv")) myfAutoSync(f); if(ATT[f.id]) document.querySelectorAll(".atttbl [data-amap]").forEach(sel=>{ const sm=sel.nextElementSibling; if(sm) sm.textContent=(attValue(f,sel.value)||"").slice(0,40)||"(빈칸)"; }); }
 function blocksText(B){ return B.map(b=>b.t==="approval"?"결재: "+b.labels.join(" / "):b.t==="sign"?`${b.date}\n작성자 ${b.name||""} (서명)`:b.t==="table"?b.rows.map(r=>r.map(c=>c.text||"").join(" | ")).join("\n"):b.t==="gap"||b.t==="line"?"":b.text).join("\n"); }
 function blankBlocks(f){ applyCustom(f); const v={}, keep=f.kind==="survey"?["qs","intro","open","title"]:f.kind==="ledger"?["title","blank","rows"]:[]; f.fields.forEach(x=>v[x.k]= keep.includes(x.k)?(x.def||""):""); return docBlocks(f,v); }
 
@@ -4123,8 +4130,9 @@ function findFields(doc, T){
         fields.push(emp.length===1?{label:lab, cell:emp[0], value:"", hint:cols[0]}:{label:lab, grid:[emp], cols, value:""}); emp.forEach(c=>used.add(c)); });
       R.flat().forEach(c=>used.add(c));
     }
-    /* ③ '항목 칸 + 빈 칸' 짝 */
+    /* ③ '항목 칸 + 빈 칸' 짝 (□ 고르기 칸 포함) */
     R.forEach((r,i)=>{ for(let j=0;j<r.length-1;j++){ const a=X[i][j], b=X[i][j+1];
+      if(isLabel(a) && /[□☐]/.test(b) && !used.has(r[j+1])){ const opts=myfOpts(b); if(opts.length>=2){ fields.push({label:cleanLabel(a), cell:r[j+1], labelCell:r[j], value:"", check:1, opts}); used.add(r[j+1]); j++; continue; } }
       if(isLabel(a) && !b && !used.has(r[j+1])){ fields.push({label:cleanLabel(a), cell:r[j+1], labelCell:r[j], value:""}); used.add(r[j+1]); j++; } } });
     /* ④ 한 칸짜리 빈 상자 → 위 제목을 칸 이름으로 */
     R.forEach((r,i)=>{ if(r.length===1 && !X[i][0] && !used.has(r[0]) && !r[0].getElementsByTagName(T.tbl).length){
@@ -4154,6 +4162,7 @@ function myfFill(clone,map,f,ext){
   const put=(cell,val)=>{ if(!val) return; const c=map.get(cell); if(!c) return; if(ext==="docx") fillDocxCell(clone,c,val); else fillHwpx(clone,{cell:c,value:val}); };
   if(f.grid){ const G=myfGridVals(f); f.grid.forEach((row,ri)=>row.forEach((c,ci)=>put(c,G[ri][ci]))); return; }
   if(!(f.value||"").trim()) return;
+  if(f.check){ const c=map.get(f.cell); if(c) myfCheck(c,f,ext==="docx"?DOCX_T:HWPX_T); return; }
   if(ext==="docx"){ if(f.cell) fillDocxCell(clone,map.get(f.cell),f.value); else if(f.para) fillDocxPara(clone,map.get(f.para),f.value); }
   else fillHwpx(clone,{...f,cell:f.cell&&map.get(f.cell),labelCell:f.labelCell&&map.get(f.labelCell),para:f.para&&map.get(f.para)});
 }
@@ -4170,7 +4179,7 @@ async function buildFilled(){
 /* ---- 내 서식 미리보기 (원본 모양 + 입력 값을 파란 글씨로) ---- */
 function myfValueMaps(a){ const vm=new Map(), pm=new Map();
   a.fields.forEach(f=>{ if(f.grid){ const G=myfGridVals(f); f.grid.forEach((row,ri)=>row.forEach((c,ci)=>{ if(G[ri][ci]) vm.set(c,G[ri][ci]); })); }
-    else if(f.cell && (f.value||"").trim()) vm.set(f.cell,f.value); else if(f.para && (f.value||"").trim()) pm.set(f.para,f.value); });
+    else if(f.check) return; else if(f.cell && (f.value||"").trim()) vm.set(f.cell,f.value); else if(f.para && (f.value||"").trim()) pm.set(f.para,f.value); });
   return {vm,pm}; }
 const myfV=v=>`<span class="dp-v">${esc(v).replace(/\n/g,"<br>")}</span>`;
 function myfDocxHTML(doc,vm,pm){
@@ -4210,8 +4219,10 @@ function myfHwpxHTML(doc,vm,pm){
   return h; }
 function myfPreview(a){
   try{
-    if(a.mode==="same" && a.docs){ const {vm,pm}=myfValueMaps(a); let h="";
-      for(const part of Object.keys(a.docs)) h+= a.ext==="docx" ? myfDocxHTML(a.docs[part],vm,pm) : myfHwpxHTML(a.docs[part],vm,pm);
+    if(a.mode==="same" && a.docs){ const {vm,pm}=myfValueMaps(a); let h=""; const undo=[];
+      a.fields.forEach(x=>{ if(x.check && x.cell && (x.value||"").trim()) undo.push(...myfCheck(x.cell,x,a.ext==="docx"?DOCX_T:HWPX_T,true)); });
+      try{ for(const part of Object.keys(a.docs)) h+= a.ext==="docx" ? myfDocxHTML(a.docs[part],vm,pm) : myfHwpxHTML(a.docs[part],vm,pm); }
+      finally{ undo.forEach(([n,t])=>{ n.textContent=t; }); }
       return h || `<p class="hint">미리보기를 만들 수 없는 서식이에요. ‘내 서식으로 받기’로 확인해 주세요.</p>`; }
     return `<h3 style="text-align:center">${esc(a.name.replace(/\.[^.]+$/,""))}</h3><table class="dp-t">${a.fields.map(f=>`<tr><th>${esc(f.label)}</th><td>${f.value?myfV(f.value):""}</td></tr>`).join("")}</table><p class="hint">PDF는 모양 그대로 쓸 수 없어 같은 항목 순서의 새 워드 서식으로 받아요.</p>`;
   }catch(e){ return `<p class="hint">미리보기를 만드는 중 문제가 생겼어요. ‘내 서식으로 받기’는 그대로 쓸 수 있어요.</p>`; }
@@ -4223,15 +4234,47 @@ function myfPrompt(f,a){
   const L=[`너는 장애인공동생활가정(그룹홈) 행정 문서를 오래 써 온 사회복지 전문가야. 사회복지시설평가 현장평가위원이 읽어도 근거가 분명한 수준으로 써줘.`,
    `\n[작성할 문서] ${org}의 「${f.name}」 — 우리 시설 서식(${a.name})의 칸을 채워줘.`,
    `\n[서식 칸] 아래 칸 이름을 【 】 그대로 쓰고, 그 아래에 들어갈 내용을 써줘. 표 칸은 한 줄에 한 행씩 쓰고 칸 사이는 / 로 나눠줘.`,
-   a.fields.map(x=>`【${x.label}】${x.grid?` (표: ${x.cols.join(" / ")}, ${x.grid.length}행)`:""}`).join("\n")];
+   a.fields.map(x=>`【${x.label}】${x.grid?` (표: ${x.cols.join(" / ")}, ${x.grid.length}행)`:x.check?` (고르기: ${x.opts.join(" / ")} 중에서 골라 그 이름만 써줘)`:""}`).join("\n")];
   if(done.length) L.push(`\n[이미 적은 내용] (이 사실과 숫자만 사용)\n${done.map(x=>`- ${x.label}: ${x.value.replace(/\n/g," / ")}`).join("\n")}`);
   L.push(`\n[메모]\n${memo||"[메모를 적어 주세요]"}`);
   if(D) L.push(`\n[2026년 장애인공동생활가정 평가지표 반영]\n${D.ind.map(k=>"- "+IND[k]).join("\n")}`);
   L.push(`\n[작성 원칙]\n1. 내가 준 자료에 없는 숫자, 날짜, 횟수, 금액, 성과는 만들지 말고 [확인 필요]로 써.\n2. 개조식(○, -)으로 쓰고 문장 끝은 '~함, ~임, ~됨'으로 맞춰.\n3. 이용자 이름은 ○○님, 직원은 직위로 쓰고 주민등록번호·연락처·진단명은 넣지 마.\n4. 금액은 천원 단위, 연인원 = 실인원 × 횟수로 계산하고 검산해.\n5. 서식에 없는 칸을 새로 만들지 마.`);
   L.push(`\n[진행 순서] 바로 완성본을 쓰지 말고, 아래 순서대로 나와 대화하며 진행해줘.\n1단계(1차 기획안): 칸별로 들어갈 핵심 내용 1~2줄과 [확인 필요] 목록을 먼저 보여줘.\n2단계(확인 질문): "수정할 부분이 있으면 알려 주세요. 이대로 괜찮으면 '초안 작성'이라고 말씀해 주시면 바로 ${f.name} 초안을 작성할게요."라고 물어봐줘.\n3단계(수정): 내가 고칠 내용을 말하면 그 부분만 고친 기획안을 다시 보여주고 "수정한 내용이 맞나요? 맞으면 '초안 작성'이라고 말씀해 주시면 바로 작성할게요."라고 물어봐줘.\n4단계(작성): 내가 '초안 작성' 또는 '네', '좋아요', '그대로 해 주세요', '작성해 주세요', '진행해 주세요', 'OK'처럼 동의하는 말을 하면 더 묻지 말고, 위 【칸 이름】 형식 그대로 모든 칸을 채워 써줘. (앱에 그대로 붙여 넣을 수 있게)`);
   return L.join("\n"); }
-function myfFieldHTML(x,i){ const rows=x.grid?Math.max(2,Math.min(10,x.grid.length+1)):x.box?4:x.para?1:2;
+function myfFieldHTML(x,i){ if(x.check) return myfCheckHTML(x,i); const rows=x.grid?Math.max(2,Math.min(10,x.grid.length+1)):x.box?4:x.para?1:2;
   return `<div class="field"><label for="myf-${i}">${esc(x.label)}${x.grid?(x.grid.length>1?` <small>(표 ${x.grid.length}행 · 한 줄에 한 행 · 칸은 / 로 구분)</small>`:` <small>(${esc(x.cols.join(" / "))} · / 로 구분)</small>`):x.hint?` <small>(${esc(x.hint)})</small>`:""}</label><div class="with-mic"><textarea id="myf-${i}" data-myf="${i}" rows="${rows}" placeholder="${x.grid?esc(x.cols.join(" / ")):""}">${esc(x.value||"")}</textarea>${hasMic?`<button type="button" class="mic b3d" data-myfmic="${i}" aria-label="${esc(x.label)} 말로 입력">${ico("mic")}</button>`:""}</div>${x.grid?`<div class="ex-hint"><span>예: ${esc(x.cols.map((c,k)=>k?"○○":"내용").join(" / "))} (한 줄에 한 행)</span></div>`:""}</div>`; }
+/* ---- 고르기 칸(□ 대면 □ 전화 …) ---- */
+function myfOpts(t){ return String(t||"").split(/[□☐■☑]/).slice(1).map(s=>s.replace(/[(:：]\s*$/,"").trim()).filter(s=>s && s.length<=20); }
+function myfPicked(x){ const v=String(x.value||"").replace(/\s/g,""); if(!v) return []; const toks=String(x.value).split(/[,，、·\/\n]+/).map(s=>s.replace(/\s/g,"")).filter(Boolean);
+  let on=x.opts.filter(o=>{ const n=o.replace(/\s/g,""); return toks.includes(n) || (n.length>=2 && v.includes(n)) || toks.some(t=>t.length>=2 && n.includes(t)); });
+  if(!on.length){ const etc=x.opts.find(o=>/^기타/.test(o.replace(/\s/g,""))); if(etc) on=[etc]; }
+  return on; }
+function myfCheck(cell,x,T,keep){ /* 고른 항목의 □를 ■로 (글자 하나만 바꿔 모양 유지) */
+  const nodes=Array.from(cell.getElementsByTagName(T.t)); let full="", pos=[]; nodes.forEach(n=>{ pos.push(full.length); full+=n.textContent; });
+  const on=new Set(myfPicked(x).map(o=>o.replace(/\s/g,""))), undo=[], hit=[];
+  const re=/[□☐]/g; let m; const marks=[]; while((m=re.exec(full))) marks.push(m.index);
+  marks.forEach((at,k)=>{ const nx=k+1<marks.length?marks[k+1]:full.length; const opt=full.slice(at+1,nx).replace(/[(:：]\s*$/,"").replace(/\s/g,""); if(on.has(opt)) hit.push(at); });
+  hit.forEach(at=>{ let ni=0; while(ni+1<nodes.length && pos[ni+1]<=at) ni++; const n=nodes[ni], off=at-pos[ni], t=n.textContent; if(keep && !undo.some(u=>u[0]===n)) undo.push([n,t]); n.textContent=t.slice(0,off)+"■"+t.slice(off+1); });
+  return undo; }
+function myfCheckHTML(x,i){ const on=myfPicked(x); return `<div class="field"><label>${esc(x.label)} <small>(고르기)</small></label><div class="chips">${x.opts.map(o=>`<label class="chip"><input type="checkbox" data-myfchk="${i}" value="${esc(o)}" ${on.includes(o)?"checked":""}><span>${esc(o)}</span></label>`).join("")}</div></div>`; }
+document.addEventListener("change",e=>{ const el=e.target.closest("[data-myfchk]"); if(!el || !curForm || !ATT[curForm.id]) return; const a=ATT[curForm.id], i=+el.dataset.myfchk, x=a.fields[i]; if(!x) return;
+  x.value=Array.from(document.querySelectorAll(`[data-myfchk="${i}"]`)).filter(c=>c.checked).map(c=>c.value).join(", "); x.man=1; myfRefresh(curForm); });
+/* ---- 내 서식 + 기존 입력 방식(질문·예시·자동 문장) 연결 ---- */
+function myfLinkable(x){ return !!x.key && !(x.grid && x.grid.length===1 && (x.cols||[]).length>1); }
+function myfStatusText(f,a){ const L=a.fields.filter(myfLinkable), rest=a.fields.length-L.length;
+  return `‘${esc(a.name)}’ 서식으로 바뀌었어요. 칸 ${a.fields.length}개 중 ${L.length}개는 질문·예시로 자동 채워지고${rest?`, ${rest}개는 맨 아래 ‘내 서식에만 있는 칸’에 적어요`:""}.`; }
+function myfExtraHTML(f,a){ const L=a.fields.filter(myfLinkable), only=a.fields.map((x,i)=>[x,i]).filter(([x])=>!myfLinkable(x)||x.grid);
+  return `<div class="myf-extra"><div class="wiz-head"><b>내 서식에만 있는 칸</b><span>앱 질문과 연결되지 않은 칸이에요. 여기 적으면 내 서식에 그대로 들어가요.</span></div>
+    ${only.length?only.map(([x,i])=>myfFieldHTML(x,i)).join(""):`<p class="hint">모든 칸이 위 입력과 연결됐어요.</p>`}
+    ${L.length?`<details class="more"><summary>자동으로 연결된 칸 보기 (${L.length}개)</summary><div class="inner"><ul class="myf-map">${L.map(x=>`<li><b>${esc(x.label)}</b> ← ${esc((f.fields.find(y=>y.k===x.key)||{}).label||x.key)}</li>`).join("")}</ul></div></details>`:""}</div>`; }
+function myfAutoSync(f,now){ const a=ATT[f.id]; if(!a) return; let R; try{ R=docVals(f,getF(f)); }catch(e){ return; }
+  let ch=false; const V0=getF(f), raw=[...f.fields.map(y=>V0[y.k]||""), ...Object.values(V0._wz||{}).flat()].join(" ");
+  a.fields.forEach(x=>{ if(x.check && !x.key && !x.man){ const t=raw.replace(/\s/g,""); const on=x.opts.filter(o=>{ const n=o.replace(/\s/g,""); return n.length>=2 && !/^기타/.test(n) && t.includes(n); }); const val=on.join(", "); if(val!==(x.value||"")){ x.value=val; ch=true; } return; } });
+  a.fields.forEach(x=>{ if(!myfLinkable(x) || (x.grid && x.man)) return; let val=""; try{ val=fv(f,R.v,x.key)||""; }catch(e){}
+    if(x.grid) val=val.split("\n").map(s=>s.replace(/^[○\-•]\s*/,"").trim()).filter(Boolean).join("\n");
+    if(val){ if(x.value!==val){ x.value=val; ch=true; } x.auto=1; } else if(x.auto && x.value){ x.value=""; ch=true; } });
+  if(now){ const el=document.getElementById("myf-pv"); if(el) el.innerHTML=myfPreview(a); myfSaveVals(f); }
+  else myfRefresh(f); }
 function renderMyForm(f){
   const a=ATT[f.id], n=a.fields.length, m=a.fields.filter(x=>(x.value||"").trim()).length;
   app.innerHTML=`<div class="fpage fade myf" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
@@ -4257,21 +4300,22 @@ function renderMyForm(f){
 const MYF_KEY=id=>"aibox-myform-"+id;
 async function myfSave(f,file){ try{ if(file.size>1500000) return; const buf=new Uint8Array(await file.arrayBuffer()); let bin=""; for(let i=0;i<buf.length;i+=0x8000) bin+=String.fromCharCode.apply(null,buf.subarray(i,i+0x8000));
   localStorage.setItem(MYF_KEY(f.id),JSON.stringify({name:file.name,type:file.type||"",b64:btoa(bin)})); }catch(e){} }
-function myfSaveVals(f){ try{ const a=ATT[f.id]; if(!a) return; const raw=localStorage.getItem(MYF_KEY(f.id)); if(!raw) return; const o=JSON.parse(raw); o.vals=a.fields.map(x=>x.value||""); o.memo=a.memo||""; localStorage.setItem(MYF_KEY(f.id),JSON.stringify(o)); }catch(e){} }
+function myfSaveVals(f){ try{ const a=ATT[f.id]; if(!a) return; const raw=localStorage.getItem(MYF_KEY(f.id)); if(!raw) return; const o=JSON.parse(raw); o.vals=a.fields.map(x=>x.value||""); o.man=a.fields.map(x=>x.man?1:0); o.memo=a.memo||""; if(fvals[f.id]){ const c={}; Object.keys(fvals[f.id]).forEach(k=>{ if(k!=="_imgs") c[k]=fvals[f.id][k]; }); o.fv=c; } localStorage.setItem(MYF_KEY(f.id),JSON.stringify(o)); }catch(e){} }
 function myfForget(f){ try{ localStorage.removeItem(MYF_KEY(f.id)); }catch(e){} }
 const MYF_LOADING={};
 async function myfRestore(f){ if(MYF_LOADING[f.id]) return; let o=null; try{ o=JSON.parse(localStorage.getItem(MYF_KEY(f.id))||"null"); }catch(e){} if(!o||!o.b64) return;
   MYF_LOADING[f.id]=1;
   try{ const bin=atob(o.b64), u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i);
     const file=new File([u],o.name,{type:o.type}); const a=await parseTemplate(file); if(!a.fields||!a.fields.length) return;
-    (o.vals||[]).forEach((v,i)=>{ if(a.fields[i] && v) a.fields[i].value=v; }); a.memo=o.memo||"";
+    (o.vals||[]).forEach((v,i)=>{ if(a.fields[i] && v) a.fields[i].value=v; }); (o.man||[]).forEach((m,i)=>{ if(a.fields[i] && m) a.fields[i].man=1; }); a.memo=o.memo||"";
+    if(o.fv && f.kind!=="aidoc"){ const v=getF(f); Object.keys(o.fv).forEach(k=>{ v[k]=o.fv[k]; }); }
     ATT[f.id]=a; if(curForm===f) renderForm(f);
   }catch(e){} finally{ delete MYF_LOADING[f.id]; } }
 let myfTimer=null;
 function myfRefresh(f){ clearTimeout(myfTimer); myfTimer=setTimeout(()=>{ const a=ATT[f.id], el=document.getElementById("myf-pv"); if(a&&el) el.innerHTML=myfPreview(a); myfSaveVals(f); },150); }
 document.addEventListener("input",e=>{
   if(!curForm || !ATT[curForm.id]) return; const a=ATT[curForm.id];
-  if(e.target.matches("[data-myf]")){ const x=a.fields[+e.target.dataset.myf]; if(x){ x.value=e.target.value; myfRefresh(curForm); } return; }
+  if(e.target.matches("[data-myf]")){ const x=a.fields[+e.target.dataset.myf]; if(x){ x.value=e.target.value; x.man=1; myfRefresh(curForm); } return; }
   if(e.target.id==="myf-memo"){ a.memo=e.target.value; myfSaveVals(curForm); return; }
 });
 document.addEventListener("click",e=>{
