@@ -702,7 +702,7 @@ body:has(.tpage) .gfoot, body:has(.fpage) .gfoot{display:none}
 .grec:hover{background:#FFEFD9}
 .rec-guide{background:#EEF6FF;border:2px solid #7AA7E0;border-radius:12px;padding:12px 16px;margin:10px 0;line-height:1.7}
 .rec-guide ol{margin:6px 0;padding-left:22px}
-.rec-galaxy{color:#C0392B;line-height:1.7;padding:4px 4px 8px}
+.rec-galaxy{color:#C0392B;line-height:1.7;padding:12px 16px;background:#FFF6F4;border:1px solid #F3C9C2;border-radius:12px}
 .rec-galaxy b{font-size:1.02rem}
 .rec-galaxy ol{margin:6px 0 4px;padding-left:22px}
 .rec-galaxy small{color:#C0392B;opacity:.85}
@@ -1799,7 +1799,7 @@ function fridgeResults(){
 function renderFridge(){
   app.innerHTML = `<div class="fade cat-life" style="display:flex;flex-direction:column;gap:18px">
     <button class="back b3d" type="button" data-home>← 처음으로</button>
-    <div class="page-head" style="--cc-soft:var(--c-fridge);--cc-deep:var(--c-fridge-deep)"><div class="fridge-hero"><svg class="fridge-img" viewBox="0 0 80 110" aria-hidden="true"><rect x="8" y="6" width="64" height="98" rx="16" fill="#BDE6FF" stroke="#4A3F5C" stroke-width="3"/><line x1="8" y1="44" x2="72" y2="44" stroke="#4A3F5C" stroke-width="3"/><rect x="58" y="16" width="5" height="18" rx="2.5" fill="#4A3F5C"/><rect x="58" y="54" width="5" height="24" rx="2.5" fill="#4A3F5C"/><circle cx="27" cy="66" r="4.2" fill="#4A3F5C"/><circle cx="45" cy="66" r="4.2" fill="#4A3F5C"/><circle cx="28.4" cy="64.6" r="1.4" fill="#fff"/><circle cx="46.4" cy="64.6" r="1.4" fill="#fff"/><ellipse cx="20" cy="75" rx="5" ry="3" fill="#FFB3C1"/><ellipse cx="52" cy="75" rx="5" ry="3" fill="#FFB3C1"/><path d="M31 75 q5 5 10 0" fill="none" stroke="#4A3F5C" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="24" r="6" fill="#FFD95A" stroke="#4A3F5C" stroke-width="2"/><rect x="33" y="18" width="11" height="11" rx="3" fill="#FFB3C1" stroke="#4A3F5C" stroke-width="2"/><rect x="18" y="104" width="8" height="5" rx="2" fill="#4A3F5C"/><rect x="54" y="104" width="8" height="5" rx="2" fill="#4A3F5C"/></svg><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><p class="label">식단·간식</p><h2>냉장고 요리 도우미</h2></div></div>
+    <div class="page-head" style="--cc-soft:var(--c-fridge);--cc-deep:var(--c-fridge-deep)"><div class="fridge-hero"><svg class="fridge-img" viewBox="0 0 80 110" aria-hidden="true"><rect x="8" y="6" width="64" height="98" rx="16" fill="#BDE6FF" stroke="#4A3F5C" stroke-width="3"/><line x1="8" y1="44" x2="72" y2="44" stroke="#4A3F5C" stroke-width="3"/><rect x="58" y="16" width="5" height="18" rx="2.5" fill="#4A3F5C"/><rect x="58" y="54" width="5" height="24" rx="2.5" fill="#4A3F5C"/><circle cx="27" cy="66" r="4.2" fill="#4A3F5C"/><circle cx="45" cy="66" r="4.2" fill="#4A3F5C"/><circle cx="28.4" cy="64.6" r="1.4" fill="#fff"/><circle cx="46.4" cy="64.6" r="1.4" fill="#fff"/><ellipse cx="20" cy="75" rx="5" ry="3" fill="#FFB3C1"/><ellipse cx="52" cy="75" rx="5" ry="3" fill="#FFB3C1"/><path d="M31 75 q5 5 10 0" fill="none" stroke="#4A3F5C" stroke-width="2.6" stroke-linecap="round"/><circle cx="22" cy="24" r="6" fill="#FFD95A" stroke="#4A3F5C" stroke-width="2"/><rect x="33" y="18" width="11" height="11" rx="3" fill="#FFB3C1" stroke="#4A3F5C" stroke-width="2"/><rect x="18" y="104" width="8" height="5" rx="2" fill="#4A3F5C"/><rect x="54" y="104" width="8" height="5" rx="2" fill="#4A3F5C"/></svg><div style="display:flex;flex-direction:column;gap:6px;min-width:0"><p class="label">식단·간식</p><h2>냉장고 요리 도우미 <button type="button" class="man-link" data-man="fridge">📘 사용법</button></h2></div></div>
       <p>냉장고에 있는 재료를 고르면 만들 수 있는 메뉴와 레시피가 바로 나와요.</p></div>
     <section class="card">
       <h3 class="step-title"><b>1</b>무엇을 만들까요?</h3>
@@ -1839,7 +1839,7 @@ function applyProf(str){ if(!str) return str; let x=String(str);
   return x; }
 function profModalHTML(first){
   return `<div class="modal" id="prof"><div class="modal-box" role="dialog" aria-labelledby="prof-t">
-    <div class="modal-head"><h3 id="prof-t">🏡 우리 시설 정보</h3>${first?"":`<button type="button" class="pill b3d" id="prof-close">닫기</button>`}</div>
+    <div class="modal-head"><h3 id="prof-t">🏡 우리 시설 정보 <button type="button" class="man-link" data-man="prof">📘 사용법</button></h3>${first?"":`<button type="button" class="pill b3d" id="prof-close">닫기</button>`}</div>
     <p class="hint">한 번만 저장하면 모든 공문·보고서·안내문·조사지에 시설명·발신명의·주소·전화가 자동으로 들어가요.${first?" 나중에 넣어도 돼요.":""}</p>
     <div class="fgrid">
       <div class="field"><label for="p-name">시설명</label><input id="p-name" type="text" placeholder="예: 햇살공동생활가정" value="${esc(PROF.name||"")}"></div>
@@ -3865,6 +3865,9 @@ function renderRec(){
     <button class="back b3d" type="button" data-goto="">← 처음으로</button>
     <div class="page-head"><p class="label">회의 녹음</p><h2>🎙️ 회의 녹음 서식 만들기 <button type="button" class="man-link" data-man="rec">📘 사용법</button></h2>
       <p>회의·상담 녹음을 글로 바꾸고, 원하는 서식을 누르면 AI가 그 서식에 맞춰 초안을 써 줘요. 회의록 · 프로그램 계획서 · 제안서 · 공문 등 어떤 서식이든 돼요.</p></div>
+    <div class="rec-galaxy"><b>★ 중요 · 삼성 갤럭시폰은 녹음하면서 바로 글(텍스트)로 바꿀 수 있어요</b>
+      <ol><li>갤럭시 <b>음성 녹음</b> 앱으로 회의를 녹음해요.</li><li>녹음 파일을 열고 <b>텍스트 변환</b>(글자 모양 버튼)을 눌러요. 언어는 한국어를 골라요.</li><li>바뀐 글을 <b>복사</b>해서 아래 ①의 ‘녹음을 글로 이미 바꿨다면’ 칸에 붙여 넣어요.</li></ol>
+      <small>※ 갤럭시 AI를 지원하는 기종에서 돼요. 메뉴 이름은 기종·버전마다 조금 다를 수 있어요.</small></div>
     <section class="card"><h3 class="step-title"><b>1</b>녹음 파일 올리기</h3>
       <div class="rec-live"><label class="pill b3d main rec-big" for="rec-file">🎙️ 녹음 파일 고르기</label><input type="file" id="rec-file" class="sr-file" accept="audio/*,.m4a,.mp3,.wav,.webm,.aac,.amr,.3gp,.ogg">
         <span id="rec-fname" class="hint">${REC.file?esc(REC.file.name)+` (${(REC.file.size/1048576).toFixed(1)}MB)`:"휴대폰·녹음기 파일 (m4a, mp3 등)"}</span></div>
@@ -3892,9 +3895,6 @@ function renderRec(){
       <div class="actions"><button type="button" class="btn b3d" id="rec-fill">서식 칸에 나눠 넣고 열기</button><button type="button" class="pill b3d" id="rec-clear">새로 시작 (글 지우기)</button></div>
       <p class="hint">서식 화면이 열리면 오른쪽 미리보기를 확인하고 ‘워드 받기’로 내려받아요. [확인 필요] 부분은 꼭 직접 채워 주세요.</p>
       <p class="status" id="rstatus" role="status" aria-live="polite"></p></section>
-    <div class="rec-galaxy"><b>★ 중요 · 삼성 갤럭시폰은 녹음하면서 바로 글(텍스트)로 바꿀 수 있어요</b>
-      <ol><li>갤럭시 <b>음성 녹음</b> 앱으로 회의를 녹음해요.</li><li>녹음 파일을 열고 <b>텍스트 변환</b>(글자 모양 버튼)을 눌러요. 언어는 한국어를 골라요.</li><li>바뀐 글을 <b>복사</b>해서 ① ‘녹음을 글로 이미 바꿨다면’ 칸에 붙여 넣어요.</li></ol>
-      <small>※ 갤럭시 AI를 지원하는 기종에서 돼요. 메뉴 이름은 기종·버전마다 조금 다를 수 있어요.</small></div>
   </div>`;
 }
 function recBoxHTML(f){ REC.fid=f.id; const open=REC.on||(REC.text||"").trim()||(REC.ans||"").trim();
@@ -4814,7 +4814,7 @@ function renderDonate(){
   const fm=dnList().map(d=>`<li><button type="button" class="bd-t" data-form="${d.id}">${esc(d.name)}<small>${esc(d.desc)}</small></button><span class="bd-act"><button type="button" class="bd-btn pri" data-form="${d.id}">${ico("pen")}작성</button><button type="button" class="bd-btn dn-x" data-dnx="${d.id}" title="목록에서 빼기">빼기</button></span></li>`).join("");
   const msgs=[["donor-thanks","후원 감사 문자","후원을 받았을 때"],["donor-use","후원금 사용 안내 문자","어디에 썼는지 알릴 때"],["donor-news","후원자 안부·소식 문자","오랜만에 안부 전할 때"],["holiday-greeting","명절·연말 인사","명절·연말에"],["donor-ask","후원 홍보·모집 문자","새 후원자님을 모실 때"],["sns-post","SNS·블로그 홍보 글","시설 활동을 알릴 때"]];
   app.innerHTML=`<div class="ghome dn fade">
-    <div class="dn-head"><h2>후원 관리</h2><p>후원을 받고 → 감사드리고 → 쓰고 → 알려드리는 흐름을 한곳에서 해요.</p></div>
+    <div class="dn-head"><h2>후원 관리 <button type="button" class="man-link" data-man="donate">📘 사용법</button></h2><p>후원을 받고 → 감사드리고 → 쓰고 → 알려드리는 흐름을 한곳에서 해요.</p></div>
     <div class="gcols">
       <section class="gbox gboard"><div class="gbox-h"><h2>후원 서식</h2><span><button type="button" class="more-link mk-link" data-dnadd>+ 후원 서식 추가</button>${hidN?`<button type="button" class="more-link" data-dnrestore>뺀 서식 ${hidN}개 되돌리기</button>`:""}</span></div>
         <ul class="bd">${fm}</ul>
@@ -4922,7 +4922,7 @@ const KAWID = [
 function renderHome(){
   const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}</button>
       <span class="bd-act">${MAN[f.id]?`<button type="button" class="bd-btn bd-man" data-man="${f.id}">사용법</button>`:""}<button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
-  const q=(attrs,ic,t,d,mk)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span>${mk&&MAN[mk]?`<i class="man-badge" data-man="${mk}" role="button" aria-label="${t} 사용법">사용법</i>`:""}</button>`;
+  const q=(attrs,ic,t,d,mk)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
   app.innerHTML = `<div class="ghome fade">
     <section class="gvis">
       <div class="gvis-txt">
@@ -4951,7 +4951,7 @@ function renderHome(){
           ${q('data-catopen="life"',"life","프로그램·생활","여가·나들이·행사","cat-life")}
           ${q('data-goto="month"',"cal","이달의 추천",`${month}월 챙길 일`,"month")}
         </div>
-        <button type="button" class="gprof${PROF.name?" set":""}" data-prof>${ico("home")}<span>${PROF.name?`<b>${esc(PROF.name)}</b><small>모든 서식에 자동 입력 중</small>`:`<b>우리 시설 정보 등록</b><small>한 번 넣으면 모든 서식에 자동 입력</small>`}</span><span class="gp-act"><em>${PROF.name?"바꾸기":"등록하기"}</em><i class="man-badge" data-man="prof" role="button" aria-label="시설 정보 사용법">사용법</i></span></button>
+        <button type="button" class="gprof${PROF.name?" set":""}" data-prof>${ico("home")}<span>${PROF.name?`<b>${esc(PROF.name)}</b><small>모든 서식에 자동 입력 중</small>`:`<b>우리 시설 정보 등록</b><small>한 번 넣으면 모든 서식에 자동 입력</small>`}</span><em>${PROF.name?"바꾸기":"등록하기"}</em></button>
         <button type="button" class="grec" data-goto="rec"><span class="grec-ic" aria-hidden="true">🎙️</span><span><b>회의 녹음 서식 만들기</b><small>녹음 → 글 → 회의록·계획서·공문 초안</small></span><em>시작</em></button>
       </section>
       <section class="gbox">
@@ -5060,7 +5060,7 @@ document.addEventListener("click",async e=>{
 function renderMonth(){
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px">
     <button class="back b3d" type="button" data-home>← 처음으로</button>
-    <div class="page-head"><p class="label">이달의 추천</p><h2>📅 이달에 챙기면 좋은 일</h2><p>달을 바꿔 다른 달의 추천도 볼 수 있어요.</p></div>
+    <div class="page-head"><p class="label">이달의 추천</p><h2>📅 이달에 챙기면 좋은 일 <button type="button" class="man-link" data-man="month">📘 사용법</button></h2><p>달을 바꿔 다른 달의 추천도 볼 수 있어요.</p></div>
     <div id="home-body" style="display:flex;flex-direction:column;gap:14px">${monthBody()}</div></div>`;
 }
 function renderHelp(){
@@ -5094,7 +5094,7 @@ function renderCat(c){
   const list = TASKS.filter(t=>t.cat===c);
   app.innerHTML = `<div class="fade cat-${c}" style="display:flex;flex-direction:column;gap:18px">
     <button class="back b3d" type="button" data-home>← 처음으로</button>
-    <div class="page-head"><p class="label">${list.length}가지 업무</p><h2>${CAT_EM[c]} ${CATS[c].name}</h2><p>지금 상황과 가장 가까운 것을 눌러주세요.</p></div>
+    <div class="page-head"><p class="label">${list.length}가지 업무</p><h2>${CAT_EM[c]} ${CATS[c].name}${MAN["cat-"+c]?` <button type="button" class="man-link" data-man="cat-${c}">📘 사용법</button>`:""}</h2><p>지금 상황과 가장 가까운 것을 눌러주세요.</p></div>
     <div class="list">${list.map(t=>rowHTML(t)).join("")}${c==="promo"?`<button class="row b3d cat-promo" type="button" data-goto="photo"><span class="dot" aria-hidden="true"></span><span class="em" aria-hidden="true">📷</span><span class="tx"><span class="t">활동 사진을 홈페이지·블로그에 올리고 싶어요</span><span class="s">활동 사진 올리기</span></span><span class="go" aria-hidden="true">→</span></button>`:""}</div></div>`;
 }
 
