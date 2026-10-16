@@ -566,6 +566,17 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .qm .ic{width:28px;height:28px;color:var(--navy)}
 .qm b{font-size:.88rem;font-weight:800}
 .qm span{font-size:.72rem;color:var(--muted)}
+.bd-btn.bd-man{background:#fff;color:var(--teal,#2E7D64);border-color:#BFDCCF;margin-right:4px}
+.bd-btn.bd-man:hover{background:#EEF8F3}
+.man-pop{position:fixed;inset:0;z-index:9999}
+.man-pop-bg{position:absolute;inset:0;background:rgba(20,30,25,.35)}
+.man-pop-box{position:absolute;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface,#fff);box-shadow:-8px 0 30px rgba(0,0,0,.18);overflow:auto;animation:manIn .2s ease-out}
+@keyframes manIn{from{transform:translateX(30px);opacity:0}to{transform:none;opacity:1}}
+.man-pop-h{position:sticky;top:0;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 18px;background:var(--surface,#fff);border-bottom:1px solid var(--soft-line);z-index:1}
+.man-pop-h b{font-size:1.05rem;color:var(--navy)}
+.man-pop .man-body{border-top:0;padding-top:4px}
+body.man-open{overflow:hidden}
+@media (max-width:640px){ .man-pop-box{top:auto;height:85vh;width:100%;border-radius:16px 16px 0 0;box-shadow:0 -8px 30px rgba(0,0,0,.18)} }
 .ghelp2{flex-direction:column;align-items:stretch;justify-content:center;gap:1px;cursor:default;padding-top:4px!important;padding-bottom:4px!important;overflow:hidden}
 .ghelp2 .ic{width:20px;height:20px;flex:none}
 .ghelp2 .gh-main{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--navy);text-align:left;font-size:.9rem;line-height:1.3}
@@ -573,7 +584,8 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .ghelp2 .gh-sub{font-size:.7rem;line-height:1.3;color:var(--muted);padding-left:30px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ghelp2 .gh-sub button{background:none;border:0;padding:0;font:inherit;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .ghelp2:hover{background:var(--surface-2)}
-.man-link{margin-left:8px;background:none;border:0;padding:0;font-size:.8rem;font-weight:600;color:var(--teal,#2E7D64);cursor:pointer;text-decoration:underline;text-underline-offset:3px;vertical-align:middle}
+.man-link{margin-left:10px;background:#EEF8F3;border:1px solid #BFDCCF;border-radius:999px;padding:4px 12px;font-size:.82rem;font-weight:700;color:var(--teal,#2E7D64);cursor:pointer;vertical-align:middle}
+.man-link:hover{background:#DDF1E7}
 .man-list{display:flex;flex-direction:column;gap:10px}
 .man-item{border:1px solid var(--soft-line);border-radius:12px;background:var(--surface,#fff);overflow:hidden}
 .man-item>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-size:1rem}
@@ -3097,7 +3109,7 @@ function renderForm(f){
   app.innerHTML=`<div class="fpage fade" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <div class="fbar">
       <button class="back b3d" type="button" data-goto="forms">← 서식함</button>
-      <h2>${f.em} ${f.name}${MY?` <small class="ad-badge">내 서식</small>`:""}${MAN[f.id]?` <button type="button" class="man-link" data-goto="manual-${f.id}">사용법 보기 ›</button>`:""}</h2>
+      <h2>${f.em} ${f.name}${MY?` <small class="ad-badge">내 서식</small>`:""}${MAN[f.id]?` <button type="button" class="man-link" data-man="${f.id}">📘 사용법</button>`:""}</h2>
       <div class="fbar-btns">
         ${FILLX[f.id]?`<button type="button" class="pill b3d" id="fex" title="사업명·제목에 맞는 예시 문장을 빈칸에 넣어요">예시 채우기</button>`:""}
         <button type="button" class="pill b3d" id="fpolish" title="문장 끝을 ~함/~임으로 맞추고 띄어쓰기를 고쳐요">✏️ 문장 정리</button>
@@ -3361,7 +3373,7 @@ function renderAiDoc(f){
   const v=getF(f), D=AIDOC[f.doc]; if(!v.org && PROF.name) v.org=PROF.name;
   const shortF=f.fields.filter(x=>x.short), longF=f.fields.filter(x=>!x.short);
   app.innerHTML=`<div class="fpage fade adpage" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
-    <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small>${MAN[f.id]?` <button type="button" class="man-link" data-goto="manual-${f.id}">사용법 보기 ›</button>`:""}</h2></div>
+    <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small>${MAN[f.id]?` <button type="button" class="man-link" data-man="${f.id}">📘 사용법</button>`:""}</h2></div>
     <p class="status fstat" id="fstatus" role="status" aria-live="polite">내용을 단어로만 적어도 돼요. 오른쪽(②)에 보고서가 바로 만들어지고, 그 아래 버튼으로 AI가 문장까지 완성해요.</p>
     <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② 보고서·AI</button></div>
     <div class="fsplit">
@@ -3765,14 +3777,14 @@ const MAN={
   tips:["□ 대면 □ 전화 같은 고르기 칸은 답을 고르면 ■로 바뀌어요.","올린 양식은 이 기기에 기억돼서 다음에 들어와도 그대로 있어요. 원래대로 하려면 <b>앱 기본 서식으로 돌아가기</b>"],
   faq:[["칸을 못 찾았다고 나와요","표 안에 ‘항목 칸 + 빈칸’이 있는 양식이어야 해요. 그림으로 된 표는 읽지 못해요."]]}
 };
-function manBody(id,m){ const f=FBY[id];
+function manBody(id,m,here){ const f=FBY[id];
   return `<div class="man-body">
     <h4>📌 이럴 때 써요</h4><p>${m.when}</p>
     <h4>✍️ 이렇게 써요</h4><ol>${m.steps.map(x=>`<li>${x}</li>`).join("")}</ol>
     <h4>⚠️ 꼭 지켜요</h4><div class="warn"><ul>${m.must.map(x=>`<li>${x}</li>`).join("")}</ul></div>
     <h4>💡 응용 팁</h4><div class="tip"><ul>${m.tips.map(x=>`<li>${x}</li>`).join("")}</ul></div>
     ${m.faq&&m.faq.length?`<h4>🙋 막힐 때</h4>${m.faq.map(([q,a])=>`<p class="q"><b>Q. ${q}</b><br>→ ${a}</p>`).join("")}`:""}
-    <div class="actions"><button type="button" class="btn b3d" ${id==="rec"?'data-goto="rec"':m.go?`data-goto="${m.go}"`:`data-form="${id}"`}>이 기능 바로 쓰기 →</button></div></div>`; }
+    <div class="actions">${here?`<button type="button" class="btn b3d" data-manclose>닫고 작성하기</button>`:`<button type="button" class="btn b3d" ${id==="rec"?'data-goto="rec"':m.go?`data-goto="${m.go}"`:`data-form="${id}"`}>${id==="rec"||m.go?"이 기능 바로 쓰기 →":"작성하러 가기 →"}</button>`}</div></div>`; }
 function renderManual(open){
   const list=[["rec",MAN.rec],...FORMS.map(f=>[f.id,MAN[f.id]]),...RECX.map(f=>[f.id,MAN[f.id]]),["myform",MAN.myform]];
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px">
@@ -3786,6 +3798,17 @@ function renderManual(open){
   if(open){ const el=document.getElementById("man-"+open); if(el) setTimeout(()=>el.scrollIntoView({block:"start",behavior:"smooth"}),60); }
 }
 document.addEventListener("click",e=>{ const s=e.target.closest(".man-item.soon>summary"); if(s){ e.preventDefault(); } });
+function manClose(){ const p=document.getElementById("man-pop"); if(p){ p.remove(); document.body.classList.remove("man-open"); } }
+function manOpen(id){ const m=MAN[id]; if(!m) return; manClose(); const f=FBY[id]||{}, em=m.em||f.em||"", nm=m.name||f.name||"";
+  const here=(curForm&&curForm.id===id) || (id==="rec"&&location.hash==="#rec") || (id==="myform"&&location.hash==="#upload");
+  const d=document.createElement("div"); d.id="man-pop"; d.className="man-pop"; d.setAttribute("role","dialog"); d.setAttribute("aria-label",nm+" 사용법");
+  d.innerHTML=`<div class="man-pop-bg" data-manclose></div><aside class="man-pop-box"><div class="man-pop-h"><b>${em} ${esc(nm)} 사용법</b><button type="button" class="pill b3d" data-manclose>닫기 ✕</button></div>${manBody(id,m,here)}</aside>`;
+  document.body.appendChild(d); document.body.classList.add("man-open"); const b=d.querySelector(".man-pop-box"); if(b){ b.scrollTop=0; b.focus&&b.focus(); } }
+document.addEventListener("click",e=>{ const o=e.target.closest("[data-man]"); if(o){ e.preventDefault(); e.stopPropagation(); manOpen(o.dataset.man); return; }
+  if(e.target.closest("[data-manclose]")){ manClose(); return; }
+  const t=document.getElementById("man-pop") && e.target.closest("#man-pop [data-form],#man-pop [data-goto]"); if(t){ e.preventDefault(); e.stopPropagation(); manClose(); go(t.dataset.form?"form-"+t.dataset.form:t.dataset.goto); } }, true);
+document.addEventListener("keydown",e=>{ if(e.key==="Escape") manClose(); });
+window.addEventListener("hashchange",manClose);
 
 /* ================= 녹음으로 서류 만들기 ================= */
 const REC={text:"",interim:"",on:false,sr:null,mr:null,stream:null,chunks:[],url:"",fname:"",t0:0,timer:null,fid:"hoeui",ans:"",file:null,consent:false};
@@ -3797,7 +3820,7 @@ function renderRec(){
   const F=recForms(), f=FBY[REC.fid]||F[0], hasT=!!(REC.text||"").trim();
   app.innerHTML=`<div class="fade rec-page" style="display:flex;flex-direction:column;gap:18px;--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <button class="back b3d" type="button" data-goto="">← 처음으로</button>
-    <div class="page-head"><p class="label">회의 녹음</p><h2>🎙️ 회의 녹음 서식 만들기 <button type="button" class="man-link" data-goto="manual-rec">사용법 보기 ›</button></h2>
+    <div class="page-head"><p class="label">회의 녹음</p><h2>🎙️ 회의 녹음 서식 만들기 <button type="button" class="man-link" data-man="rec">📘 사용법</button></h2>
       <p>회의·상담 녹음을 글로 바꾸고, 원하는 서식을 누르면 AI가 그 서식에 맞춰 초안을 써 줘요. 회의록 · 프로그램 계획서 · 제안서 · 공문 등 어떤 서식이든 돼요.</p></div>
     <section class="card"><h3 class="step-title"><b>1</b>녹음 파일 올리기</h3>
       <div class="rec-live"><label class="pill b3d main rec-big" for="rec-file">🎙️ 녹음 파일 고르기</label><input type="file" id="rec-file" class="sr-file" accept="audio/*,.m4a,.mp3,.wav,.webm,.aac,.amr,.3gp,.ogg">
@@ -3931,7 +3954,7 @@ let up=null; /* {name, ext, zip entries, xmlDocs, fields:[{label, node, value, k
 function renderUpload(){
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px;--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <button class="back b3d" type="button" data-goto="forms">← 서식함</button>
-    <div class="page-head"><p class="label">서식함</p><h2>📤 내 서식 올려서 채우기 <button type="button" class="man-link" data-goto="manual-myform">사용법 보기 ›</button></h2>
+    <div class="page-head"><p class="label">서식함</p><h2>📤 내 서식 올려서 채우기 <button type="button" class="man-link" data-man="myform">📘 사용법</button></h2>
       <p>서식 파일을 올리면 빈칸을 찾아 목록으로 보여드려요. 채운 뒤 같은 서식으로 내려받아요.</p></div>
     <section class="card"><h3 class="step-title"><b>1</b>서식 파일 또는 메모 사진 고르기</h3>
       <label class="filebtn b3d" for="up-file">서식 파일 · 메모 사진 고르기</label>
@@ -4855,7 +4878,7 @@ const KAWID = [
 ];
 function renderHome(){
   const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}</button>
-      <span class="bd-act"><button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
+      <span class="bd-act">${MAN[f.id]?`<button type="button" class="bd-btn bd-man" data-man="${f.id}">사용법</button>`:""}<button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
   const q=(attrs,ic,t,d)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
   app.innerHTML = `<div class="ghome fade">
     <section class="gvis">
