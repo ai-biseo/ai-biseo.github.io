@@ -566,8 +566,12 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .qm .ic{width:28px;height:28px;color:var(--navy)}
 .qm b{font-size:.88rem;font-weight:800}
 .qm span{font-size:.72rem;color:var(--muted)}
-.bd-btn.bd-man{background:#fff;color:var(--teal,#2E7D64);border-color:#BFDCCF;margin-right:4px}
-.bd-btn.bd-man:hover{background:#EEF8F3}
+.bd-btn.bd-man{background:#FCE4EC;color:#C2185B;border-color:#F48FB1;margin-right:4px}
+.bd-btn.bd-man:hover{background:#F8BBD0;border-color:#EC407A}
+.qm,.gprof{position:relative}
+.man-badge{font-style:normal;display:block!important;position:absolute;top:5px;right:5px;background:#FCE4EC;color:#C2185B;border:1px solid #F48FB1;font-size:.66rem;font-weight:800;line-height:1;padding:3px 6px;border-radius:999px;cursor:pointer;z-index:2}
+.man-badge:hover{background:#F8BBD0}
+.gprof .man-badge{top:-8px;right:10px}
 .man-pop{position:fixed;inset:0;z-index:9999}
 .man-pop-bg{position:absolute;inset:0;background:rgba(20,30,25,.35)}
 .man-pop-box{position:absolute;top:0;right:0;bottom:0;width:min(520px,100%);background:var(--surface,#fff);box-shadow:-8px 0 30px rgba(0,0,0,.18);overflow:auto;animation:manIn .2s ease-out}
@@ -584,8 +588,8 @@ body.man-open{overflow:hidden}
 .ghelp2 .gh-sub{font-size:.7rem;line-height:1.3;color:var(--muted);padding-left:30px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ghelp2 .gh-sub button{background:none;border:0;padding:0;font:inherit;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 .ghelp2:hover{background:var(--surface-2)}
-.man-link{margin-left:10px;background:#EEF8F3;border:1px solid #BFDCCF;border-radius:999px;padding:4px 12px;font-size:.82rem;font-weight:700;color:var(--teal,#2E7D64);cursor:pointer;vertical-align:middle}
-.man-link:hover{background:#DDF1E7}
+.man-link{margin-left:10px;background:#FCE4EC;border:1px solid #F48FB1;border-radius:999px;padding:5px 14px;font-size:.85rem;font-weight:800;color:#C2185B;cursor:pointer;vertical-align:middle}
+.man-link:hover{background:#F8BBD0}
 .man-list{display:flex;flex-direction:column;gap:10px}
 .man-item{border:1px solid var(--soft-line);border-radius:12px;background:var(--surface,#fff);overflow:hidden}
 .man-item>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-size:1rem}
@@ -3298,7 +3302,7 @@ const AIDOC = {
 };
 const FIELD_EX={
  saeop:{period:"2027. 1. 1. ~ 12. 31.",target:"이용자 4명 (지적·발달장애)",total:"148,095천원",staff:"시설장 1, 생활지도원 2",purpose:"이용자 고령화로 건강관리 필요, 지역사회 참여 확대, 자립 능력 향상",subs:"식사 및 영양관리 매일 4명 7653천원\n특별급식 월2회 4명 7650천원\n평생교육 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원",focus:"그림 중심 안전교육 확대, 카페 체험 늘리기",prev:"만족도 조사에서 나들이 더 원함"},
- gyeolgwa:{title:"2026년 지역사회적응훈련",period:"2026. 3. ~ 12.",target:"이용자 4명",purpose:"지역사회 이용 경험 확대, 자립 능력 향상",goal:"월 2회 지역사회 체험, 이용자 4명 모두 참여",content:"3~4월 버스 타기 연습\n5~6월 카페·식당 체험\n10월 단풍 나들이",subs:"지역사회적응훈련 계획 20회 / 실적 19회, 4명",qual:"○○님 처음 혼자 키오스크 주문\n○○님 버스 카드 스스로 찍음\n사진 보며 웃으며 이야기함",budget:"교통비 3600천원 3480천원\n입장료·체험비 4972천원 4825천원\n식당·카페 이용비 3600천원 3600천원",sat:"4명 중 3명 좋아요, 나들이 더 가고 싶다는 의견",prob:"8월 폭염으로 1회 취소\n○○님 낯선 곳에서 불안해함",attach:"활동 사진 12매, 프로그램 일지"},
+ gyeolgwa:{title:"2026년 공동생활가정 운영 사업",period:"2026. 1. 1. ~ 12. 31.",target:"이용자 4명 (지적·발달장애)",writer:"생활지도원 ○○○",purpose:"이용자 고령화로 건강관리 필요, 지역사회 참여 확대, 자립 능력 향상",goal:"세부사업 5개 계획 대비 90% 이상 실시, 만족도 75% 이상",content:"식사 및 영양관리: 매일 균형 잡힌 식단 제공과 월 1회 체중 확인\n특별급식: 월 2회 이용자가 고른 메뉴로 특식\n평생교육: 주 1회 미술·도예·인권교육\n지역사회적응훈련: 3~12월 월 2회 버스·카페·식당 체험\n생일축하: 분기별 합동 생일잔치",subs:"식사 및 영양관리 매일 4명 / 실적 365회, 4명\n특별급식 월2회 4명 / 실적 24회, 4명\n평생교육 주1회 4명 / 실적 45회, 4명\n지역사회적응훈련 월2회 4명 3~12월 / 실적 19회, 4명\n생일축하 연4회 4명 / 실적 4회, 4명",qual:"○○님 처음 혼자 카페 키오스크로 주문함\n○○님 버스 카드를 스스로 찍고 하차함\n○○님 도예 작품을 지역 전시회에 출품함\n특별급식 메뉴를 정할 때 이용자가 의견을 스스로 말하기 시작함",budget:"식사 및 영양관리 7653천원 7482천원\n특별급식 7650천원 7650천원\n평생교육 12150천원 11300천원\n지역사회적응훈련 13172천원 12905천원\n생일축하 1000천원 960천원",sat:"이용자 4명 중 3명 좋아요(그림 카드), 보호자 4명 모두 만족, 나들이를 더 가고 싶다는 의견",prob:"평생교육 외부 강사 사정으로 2회 취소\n8월 폭염으로 지역사회적응훈련 1회 취소\n○○님 낯선 곳에서 불안해함",attach:"활동 사진 48매, 프로그램 일지·출석부, 만족도 조사 결과, 지출 증빙"},
  yesan:{period:"2026. 1. 1. ~ 12. 31.",target:"이용자 4명",fund:"보조금, 후원금, 자부담",rows:"식생활 자립지원 7653천원 7482천원 식재료·간식\n특별급식 7650천원 7650천원 월2회 특별식\n평생교육 12150천원 11300천원 강사비·재료비\n지역사회적응훈련 13172천원 12905천원 교통비·체험비",why:"평생교육 강사 2회 취소\n지역사회적응훈련 8월 폭염 1회 취소",donate:"지정후원금 100만원 생일행사에 사용, 밴드에 매월 공개",memo:"공공요금 인상으로 운영비 증가"}};
 const NOTE_EX={
  saeop:"식사 및 영양관리 매일 4명 7653천원\n특별급식 월2회 4명 7650천원\n평생교육 미술·도예 주1회 4명 12150천원\n지역사회적응훈련 월2회 4명 13172천원 3~12월\n생일축하 연4회 4명 1000천원\n올해 중점: 그림 안전교육, 카페 체험 늘리기\n작년 만족도 조사: 나들이 더 원함",
@@ -3495,7 +3499,7 @@ function adDraftItems(f,v){ setCtx(v);
   { const t=moneyChun(v.total); if(t) v.total=t; }
   const D=AIDOC[f.doc], org=(v.org||PROF.name||"").trim()||"[시설명]", g=k=>(v[k]||"").trim(), CK="[확인 필요]";
   const B=[]; const c=signCfg(f); if(c.n>0) B.push({t:"approval",labels:c.labels});
-  B.push({t:"title",text:g("title")||D.name});
+  B.push({t:"title",text:(f.doc==="gyeolgwa"&&g("title")&&!/보고서/.test(g("title"))?g("title")+" 결과보고서":g("title"))||D.name});
   const sec=t=>B.push({t:"gap"},{t:"p",text:t,bold:1});
   const sub=t=>B.push({t:"p",text:t,bold:1,indent:1});
   const box=lines=>{ const L2=lines.filter(Boolean); B.push({t:"table",rows:[[{text:(L2.length?L2:["○ "+CK]).map(x=>/^(○ |\s|\[|-)/.test(x)?x:"○ "+x).join("\n")}]]}); };
@@ -3771,6 +3775,41 @@ const MAN={
   must:["예산과 기대효과는 근거가 있는 숫자만 써요."],
   tips:["회의에서 나온 의견을 녹음했다면 <b>회의 녹음 서식 만들기</b>에서 ‘제안서’를 골라 초안을 만들어요.","재단 공모 양식이 따로 있으면 <b>내 서식 첨부</b>로 그 양식에 채워요."],
   faq:[]},
+ "cat-msg":{em:"✉️",name:"문자·소통",desc:"후원자·보호자에게 보내는 문자",go:"c-msg",when:"후원 감사, 보호자 안내, 근황 전하기, 명절 인사, 어려운 이야기를 문자로 보낼 때",
+  steps:["홈의 <b>문자·소통</b>을 누르고, 보낼 상황(후원 감사 문자, 보호자 안내 문자 등)을 골라요.","질문마다 알맞은 답을 골라요. (누가, 무엇을, 어떤 말투로)","빈칸에 날짜·물품 등 꼭 들어갈 내용을 짧게 적어요.","<b>‘실명·진단명·연락처 안 넣었어요’</b>에 체크한 뒤 <b>챗GPT</b>나 <b>제미나이</b>를 눌러요. (요청문만 필요하면 <b>복사</b>)","AI가 만든 문장 중 마음에 드는 것을 골라 우리 시설 말투로 조금 고쳐서 보내요."],
+  must:["이용자 실명·진단명·연락처는 넣지 않아요.","보내기 전에 날짜·금액·장소가 맞는지 한 번 더 확인해요."],
+  tips:["<b>어려운 이야기 부드럽게 전하기</b>는 비용 안내, 행동 문제 알림처럼 말하기 곤란한 내용을 정중하게 바꿔 줘요.","명절·절기 인사 문자는 명절 1주 전에 미리 만들어 두면 편해요.","자주 쓰는 문자는 즐겨찾기(★)해 두면 홈에서 바로 찾을 수 있어요."],
+  faq:[["AI 버튼이 안 눌려요","‘실명·진단명·연락처 안 넣었어요’에 먼저 체크해야 버튼이 켜져요."]]},
+ "cat-promo":{em:"📣",name:"홍보·안내",desc:"SNS 글·카드뉴스·인포그래픽",go:"c-promo",when:"소식지·SNS·블로그 글이나 카드뉴스, 인포그래픽을 만들 때",
+  steps:["홈의 <b>홍보·안내</b>를 누르고 만들 것(SNS·블로그 글, 카드뉴스, 인포그래픽)을 골라요.","주제·대상·분위기를 고르고, 꼭 넣을 내용(행사명, 날짜, 장소)을 적어요.","<b>챗GPT</b>나 <b>제미나이</b>를 눌러 글이나 이미지 요청문을 보내요.","카드뉴스·인포그래픽은 AI가 만든 그림을 확인하고 글자 오타를 꼭 고쳐요."],
+  must:["이용자 얼굴이 나온 사진은 동의를 받은 것만 써요.","장애를 불쌍하게 표현하지 않아요. 요청문에는 사람 대신 새싹·나무·꽃 같은 이미지를 쓰도록 들어가 있어요."],
+  tips:["행사가 끝난 뒤 프로그램 일지 내용을 붙여 넣으면 후기 SNS 글이 바로 나와요.","카드뉴스 요청문은 한 장에 한 메시지로 나눠 주니 그대로 써도 돼요.","AI 이미지 속 한글은 틀리기 쉬워요. 글자는 캔바 같은 편집 도구에서 다시 넣는 게 좋아요."],
+  faq:[["그림 속 글자가 이상해요","AI 이미지는 한글이 깨질 수 있어요. 글자 없이 그림만 만들고, 글자는 따로 넣으세요."]]},
+ donate:{em:"💝",name:"후원 관리",desc:"후원 서식·감사 문자 한곳에서",go:"donate",when:"후원을 받고 → 감사드리고 → 쓰고 →알려드리는 일을 한곳에서 할 때",
+  steps:["홈의 <b>후원 관리</b>를 눌러요.","왼쪽 <b>후원 서식</b>에서 후원금·후원품 대장, 물품 접수·사용 대장, 기부금 영수증 발급 대장, 후원자 관리 카드, 후원금 사용 결과 보고를 골라 작성해요.","오른쪽 <b>후원 문자·글</b>에서 감사 문자, 사용 안내 문자, 안부 문자를 만들어요.","서식은 워드로 받아 보관하고, 문자는 복사해서 보내요."],
+  must:["후원자 개인정보(주민번호, 계좌번호)는 앱에 적지 않아요.","지정 후원금은 정해진 곳에만 쓰고 사용 내역을 알려요."],
+  tips:["시·군·구에 내는 정해진 양식이 있으면 서식 화면의 <b>내 서식 첨부</b>로 그 양식에 채워요.","후원금을 쓴 뒤 <b>후원금 사용 안내 문자</b>를 보내면 다음 후원으로 이어지기 쉬워요.","필요 없는 서식은 빼고, 필요한 서식은 <b>+ 후원 서식 추가</b>로 더할 수 있어요."],
+  faq:[]},
+ fridge:{em:"🍳",name:"식단·요리",desc:"냉장고 재료로 메뉴·레시피",go:"fridge",when:"냉장고에 있는 재료로 오늘 식사나 간식 메뉴를 정할 때",
+  steps:["홈의 <b>식단·요리</b>를 눌러요.","무엇을 만들지(식사, 간식, 둘 다) 골라요.","냉장고에 있는 재료를 골라요.","만들 수 있는 메뉴와 레시피를 확인하고 골라요."],
+  must:["이용자별 알레르기·식이 제한은 직접 확인해요.","씹기·삼키기가 어려운 분은 크기와 질감을 조절해요."],
+  tips:["이용자와 함께 메뉴를 고르면 자기결정 경험이 돼요. 요리 과정은 <b>프로그램 일지</b>로 남길 수 있어요.","일주일 식단과 장보기 목록은 <b>프로그램·생활 → 일주일 식단·장보기</b>에서 만들어요."],
+  faq:[]},
+ "cat-life":{em:"🌿",name:"프로그램·생활",desc:"여가·나들이·행사·쉬운 말 안내문",go:"c-life",when:"여가 프로그램, 나들이, 시설 행사를 계획하거나 일주일 식단, 쉬운 말 안내문을 만들 때",
+  steps:["홈의 <b>프로그램·생활</b>을 누르고 할 일(여가 프로그램 계획, 나들이 계획, 시설 행사 계획, 일주일 식단·장보기, 쉬운 말 안내문)을 골라요.","질문에 답을 고르고, 인원·날짜·예산 등을 적어요.","<b>챗GPT</b>나 <b>제미나이</b>로 계획을 받아요.","계획이 정해지면 서식함의 <b>프로그램 일지</b>, <b>사업계획서</b>로 기록을 이어 가요."],
+  must:["나들이·행사는 이동 수단, 안전 점검, 비상 연락 체계를 꼭 함께 정해요.","이용자 의견(욕구조사 결과)을 반영해요."],
+  tips:["<b>쉬운 말 안내문</b>은 이용자가 직접 읽기 쉬운 짧은 문장과 그림 설명으로 바꿔 줘요.","나들이 계획을 세운 뒤 <b>공문</b>으로 차량·장소 협조 요청을 바로 만들 수 있어요."],
+  faq:[]},
+ month:{em:"📅",name:"이달의 추천",desc:"이번 달에 챙길 일",go:"month",when:"이번 달에 해야 할 평가 준비, 교육, 행사, 절기 일을 한눈에 볼 때",
+  steps:["홈의 <b>이달의 추천</b>을 눌러요.","이번 달에 챙기면 좋은 일 목록을 확인해요.","필요한 항목을 누르면 관련 서식이나 문자로 바로 이동해요.","달을 바꿔 다음 달 일도 미리 볼 수 있어요."],
+  must:["추천은 일반적인 일정이에요. 우리 시설의 실제 일정과 지침에 맞게 확인해요."],
+  tips:["월초에 한 번 열어 보고 직원회의 안건으로 정하면 놓치는 일이 줄어요."],
+  faq:[]},
+ prof:{em:"🏠",name:"우리 시설 정보",desc:"한 번 넣으면 모든 서식에 자동",act:"data-prof",when:"처음 쓸 때, 또는 시설명·주소·연락처가 바뀌었을 때",
+  steps:["홈의 <b>우리 시설 정보</b> 상자에서 <b>등록하기</b>(또는 <b>바꾸기</b>)를 눌러요.","시설명, 시설장, 주소, 전화 등을 적고 저장해요.","이제 공문·회의록 등 모든 서식의 시설명·발신명의·주소 칸이 자동으로 채워져요."],
+  must:["정보는 이 기기(브라우저)에만 저장돼요. 다른 PC에서는 다시 등록해요.","개인 휴대폰 번호 대신 시설 대표 번호를 넣는 걸 추천해요."],
+  tips:["직원이 함께 쓰는 PC라면 한 번만 등록해 두면 모두 편하게 써요."],
+  faq:[["서식에 시설명이 안 들어가요","시설 정보를 저장했는지 확인하고, 서식 화면을 새로고침해 보세요."]]},
  myform:{em:"📎",name:"내 서식 첨부해서 쓰기",desc:"우리 시설 양식에 그대로 채우기",go:"upload",when:"우리 시설·기관에서 정해 준 워드·한글 양식에 내용을 채우고 싶을 때",
   steps:["쓰려는 서식 화면에서 <b>내 서식 첨부</b>를 눌러 워드(.docx)나 한글(.hwpx) 파일을 골라요.","오른쪽 미리보기가 <b>우리 시설 양식</b>으로 바뀌어요.","왼쪽에서 평소처럼 질문에 답하고 예시를 보며 적으면, 연결된 칸에 파란 글씨로 채워져요.","연결되지 않은 칸은 맨 아래 <b>내 서식에만 있는 칸</b>에 적어요.","<b>내 서식으로 받기</b>를 누르면 우리 양식 그대로 내려받아요."],
   must:["예전 한글(.hwp)은 바로 바뀌지 않아요. 한글에서 ‘다른 이름으로 저장 → HWPX 또는 Word’로 저장해 올려요.","실제 이용자 정보가 들어 있는 양식은 빈 양식으로 바꿔서 올려요."],
@@ -3784,9 +3823,9 @@ function manBody(id,m,here){ const f=FBY[id];
     <h4>⚠️ 꼭 지켜요</h4><div class="warn"><ul>${m.must.map(x=>`<li>${x}</li>`).join("")}</ul></div>
     <h4>💡 응용 팁</h4><div class="tip"><ul>${m.tips.map(x=>`<li>${x}</li>`).join("")}</ul></div>
     ${m.faq&&m.faq.length?`<h4>🙋 막힐 때</h4>${m.faq.map(([q,a])=>`<p class="q"><b>Q. ${q}</b><br>→ ${a}</p>`).join("")}`:""}
-    <div class="actions">${here?`<button type="button" class="btn b3d" data-manclose>닫고 작성하기</button>`:`<button type="button" class="btn b3d" ${id==="rec"?'data-goto="rec"':m.go?`data-goto="${m.go}"`:`data-form="${id}"`}>${id==="rec"||m.go?"이 기능 바로 쓰기 →":"작성하러 가기 →"}</button>`}</div></div>`; }
+    <div class="actions">${here?`<button type="button" class="btn b3d" data-manclose>닫고 작성하기</button>`:`<button type="button" class="btn b3d" ${m.act?m.act:id==="rec"?'data-goto="rec"':m.go?`data-goto="${m.go}"`:`data-form="${id}"`}>${id==="rec"||m.go||m.act?"이 기능 바로 쓰기 →":"작성하러 가기 →"}</button>`}</div></div>`; }
 function renderManual(open){
-  const list=[["rec",MAN.rec],...FORMS.map(f=>[f.id,MAN[f.id]]),...RECX.map(f=>[f.id,MAN[f.id]]),["myform",MAN.myform]];
+  const list=[["rec",MAN.rec],...FORMS.map(f=>[f.id,MAN[f.id]]),...RECX.map(f=>[f.id,MAN[f.id]]),["myform",MAN.myform],...["prof","cat-msg","cat-promo","donate","fridge","cat-life","month"].map(k=>[k,MAN[k]])];
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px">
     <button class="back b3d" type="button" data-home>← 처음으로</button>
     <div class="page-head"><p class="label">이용 매뉴얼</p><h2>📘 비서함 이용 매뉴얼</h2><p>서식 이름을 누르면 그 서식의 사용법과 응용 팁이 펼쳐져요.</p></div>
@@ -3806,6 +3845,7 @@ function manOpen(id){ const m=MAN[id]; if(!m) return; manClose(); const f=FBY[id
   document.body.appendChild(d); document.body.classList.add("man-open"); const b=d.querySelector(".man-pop-box"); if(b){ b.scrollTop=0; b.focus&&b.focus(); } }
 document.addEventListener("click",e=>{ const o=e.target.closest("[data-man]"); if(o){ e.preventDefault(); e.stopPropagation(); manOpen(o.dataset.man); return; }
   if(e.target.closest("[data-manclose]")){ manClose(); return; }
+  if(document.getElementById("man-pop") && e.target.closest("#man-pop [data-prof]")){ manClose(); return; }
   const t=document.getElementById("man-pop") && e.target.closest("#man-pop [data-form],#man-pop [data-goto]"); if(t){ e.preventDefault(); e.stopPropagation(); manClose(); go(t.dataset.form?"form-"+t.dataset.form:t.dataset.goto); } }, true);
 document.addEventListener("keydown",e=>{ if(e.key==="Escape") manClose(); });
 window.addEventListener("hashchange",manClose);
@@ -4879,7 +4919,7 @@ const KAWID = [
 function renderHome(){
   const forms = [...FORMS,...myForms()].map((f,i)=>`<li><span class="no">${i+1}</span><button type="button" class="bd-t" data-form="${f.id}">${f.name}</button>
       <span class="bd-act">${MAN[f.id]?`<button type="button" class="bd-btn bd-man" data-man="${f.id}">사용법</button>`:""}<button type="button" class="bd-btn pri" data-form="${f.id}">${ico("pen")}작성</button></span></li>`).join("");
-  const q=(attrs,ic,t,d)=>`<button type="button" class="qm" ${attrs}>${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
+  const q=(attrs,ic,t,d,mk)=>`<button type="button" class="qm" ${attrs}>${mk&&MAN[mk]?`<i class="man-badge" data-man="${mk}" role="button" aria-label="${t} 사용법">사용법</i>`:""}${ico(ic)}<b>${t}</b><span>${d}</span></button>`;
   app.innerHTML = `<div class="ghome fade">
     <section class="gvis">
       <div class="gvis-txt">
@@ -4901,14 +4941,14 @@ function renderHome(){
       <section class="gbox">
         <div class="gbox-h"><h2>업무 바로가기</h2></div>
         <div class="qgrid">
-          ${q('data-catopen="msg"',"mail","문자·소통","후원·보호자 문자")}
-          ${q('data-catopen="promo"',"mega","홍보·안내","소식지·SNS")}
-          ${q('data-goto="donate"',"life","후원 관리","서식·감사 문자")}
-          ${q('data-fridge',"food","식단·요리","냉장고 재료로")}
-          ${q('data-catopen="life"',"life","프로그램·생활","여가·나들이·행사")}
-          ${q('data-goto="month"',"cal","이달의 추천",`${month}월 챙길 일`)}
+          ${q('data-catopen="msg"',"mail","문자·소통","후원·보호자 문자","cat-msg")}
+          ${q('data-catopen="promo"',"mega","홍보·안내","소식지·SNS","cat-promo")}
+          ${q('data-goto="donate"',"life","후원 관리","서식·감사 문자","donate")}
+          ${q('data-fridge',"food","식단·요리","냉장고 재료로","fridge")}
+          ${q('data-catopen="life"',"life","프로그램·생활","여가·나들이·행사","cat-life")}
+          ${q('data-goto="month"',"cal","이달의 추천",`${month}월 챙길 일`,"month")}
         </div>
-        <button type="button" class="gprof${PROF.name?" set":""}" data-prof>${ico("home")}<span>${PROF.name?`<b>${esc(PROF.name)}</b><small>모든 서식에 자동 입력 중</small>`:`<b>우리 시설 정보 등록</b><small>한 번 넣으면 모든 서식에 자동 입력</small>`}</span><em>${PROF.name?"바꾸기":"등록하기"}</em></button>
+        <button type="button" class="gprof${PROF.name?" set":""}" data-prof><i class="man-badge" data-man="prof" role="button" aria-label="시설 정보 사용법">사용법</i>${ico("home")}<span>${PROF.name?`<b>${esc(PROF.name)}</b><small>모든 서식에 자동 입력 중</small>`:`<b>우리 시설 정보 등록</b><small>한 번 넣으면 모든 서식에 자동 입력</small>`}</span><em>${PROF.name?"바꾸기":"등록하기"}</em></button>
         <button type="button" class="grec" data-goto="rec"><span class="grec-ic" aria-hidden="true">🎙️</span><span><b>회의 녹음 서식 만들기</b><small>녹음 → 글 → 회의록·계획서·공문 초안</small></span><em>시작</em></button>
       </section>
       <section class="gbox">
