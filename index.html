@@ -566,6 +566,30 @@ body{background:var(--bg)!important;background-image:none!important;font-size:16
 .qm .ic{width:28px;height:28px;color:var(--navy)}
 .qm b{font-size:.88rem;font-weight:800}
 .qm span{font-size:.72rem;color:var(--muted)}
+.ghelp2{flex-direction:column;align-items:stretch;justify-content:center;gap:1px;cursor:default;padding-top:4px!important;padding-bottom:4px!important;overflow:hidden}
+.ghelp2 .ic{width:20px;height:20px;flex:none}
+.ghelp2 .gh-main{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;cursor:pointer;font:inherit;color:var(--navy);text-align:left;font-size:.9rem;line-height:1.3}
+.ghelp2 .gh-main b{flex:1} .ghelp2 .gh-main em{font-style:normal;color:var(--muted)}
+.ghelp2 .gh-sub{font-size:.7rem;line-height:1.3;color:var(--muted);padding-left:30px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ghelp2 .gh-sub button{background:none;border:0;padding:0;font:inherit;color:var(--muted);cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.ghelp2:hover{background:var(--surface-2)}
+.man-link{margin-left:8px;background:none;border:0;padding:0;font-size:.8rem;font-weight:600;color:var(--teal,#2E7D64);cursor:pointer;text-decoration:underline;text-underline-offset:3px;vertical-align:middle}
+.man-list{display:flex;flex-direction:column;gap:10px}
+.man-item{border:1px solid var(--soft-line);border-radius:12px;background:var(--surface,#fff);overflow:hidden}
+.man-item>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 16px;font-size:1rem}
+.man-item>summary::-webkit-details-marker{display:none}
+.man-item>summary .em{font-size:1.3rem}
+.man-item>summary b{color:var(--navy)} .man-item>summary span.d{color:var(--muted);font-size:.85rem;flex:1}
+.man-item>summary i{font-style:normal;color:var(--muted);transition:transform .2s} .man-item[open]>summary i{transform:rotate(90deg)}
+.man-item.soon>summary{opacity:.6;cursor:default}
+.man-body{padding:2px 18px 18px;border-top:1px dashed var(--soft-line);line-height:1.75}
+.man-body h4{margin:14px 0 4px;font-size:.95rem;color:var(--navy)}
+.man-body ol,.man-body ul{margin:4px 0;padding-left:22px}
+.man-body .tip{background:#FFF8E6;border-left:4px solid #E8A23A;border-radius:6px;padding:8px 12px;margin:6px 0}
+.man-body .warn{background:#FFF1EF;border-left:4px solid #D9534F;border-radius:6px;padding:8px 12px;margin:6px 0}
+.man-body .q b{color:var(--navy)}
+.man-foot{font-size:.82rem;color:var(--muted);text-align:center;padding:6px}
+.man-foot button{background:none;border:0;padding:0 2px;font:inherit;color:var(--muted);text-decoration:underline;cursor:pointer}
 .gprof,.ghelp{display:flex;align-items:center;gap:10px;border:1px solid var(--soft-line);background:var(--surface-2);border-radius:8px;padding:10px 12px;cursor:pointer;text-align:left;font-size:.85rem;color:var(--ink)}
 .gprof .ic,.ghelp .ic{color:var(--teal)} .gprof b,.ghelp b{color:var(--navy)}
 .glinks{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
@@ -3073,7 +3097,7 @@ function renderForm(f){
   app.innerHTML=`<div class="fpage fade" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <div class="fbar">
       <button class="back b3d" type="button" data-goto="forms">← 서식함</button>
-      <h2>${f.em} ${f.name}${MY?` <small class="ad-badge">내 서식</small>`:""}</h2>
+      <h2>${f.em} ${f.name}${MY?` <small class="ad-badge">내 서식</small>`:""}${MAN[f.id]?` <button type="button" class="man-link" data-goto="manual-${f.id}">사용법 보기 ›</button>`:""}</h2>
       <div class="fbar-btns">
         ${FILLX[f.id]?`<button type="button" class="pill b3d" id="fex" title="사업명·제목에 맞는 예시 문장을 빈칸에 넣어요">예시 채우기</button>`:""}
         <button type="button" class="pill b3d" id="fpolish" title="문장 끝을 ~함/~임으로 맞추고 띄어쓰기를 고쳐요">✏️ 문장 정리</button>
@@ -3337,7 +3361,7 @@ function renderAiDoc(f){
   const v=getF(f), D=AIDOC[f.doc]; if(!v.org && PROF.name) v.org=PROF.name;
   const shortF=f.fields.filter(x=>x.short), longF=f.fields.filter(x=>!x.short);
   app.innerHTML=`<div class="fpage fade adpage" style="--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
-    <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small></h2></div>
+    <div class="fbar"><button class="back b3d" type="button" data-goto="forms">← 서식함</button><h2>${f.em} ${esc(f.name)} <small class="ad-badge">AI 작성</small>${MAN[f.id]?` <button type="button" class="man-link" data-goto="manual-${f.id}">사용법 보기 ›</button>`:""}</h2></div>
     <p class="status fstat" id="fstatus" role="status" aria-live="polite">내용을 단어로만 적어도 돼요. 오른쪽(②)에 보고서가 바로 만들어지고, 그 아래 버튼으로 AI가 문장까지 완성해요.</p>
     <div class="ftabs" role="tablist"><button type="button" role="tab" class="on" data-ftab="in">① 내용 입력</button><button type="button" role="tab" data-ftab="pv">② 보고서·AI</button></div>
     <div class="fsplit">
@@ -3667,6 +3691,102 @@ function startMic(btn,target,onText){
 function alertMsg(m){ const s=document.getElementById("fstatus")||document.getElementById("ustatus"); if(s){ s.textContent=m; s.classList.add("warn"); } }
 
 
+
+/* ================= 비서함 이용 매뉴얼 ================= */
+const MAN={
+ hoeui:{when:"직원회의·사례회의·운영위원회·보호자 간담회 등 회의를 기록하고 결과를 남길 때",
+  steps:["<b>쉬운 입력</b>에서 회의 종류(직원회의, 사례회의 등)를 골라요.","<b>회의 메모</b> 칸에 적은 그대로 붙여 넣어요. 줄마다 하나씩, 단어만 적어도 돼요.","오른쪽 미리보기에서 <b>안건 · 논의 내용 · 결정 사항 · 할 일(담당·기한)</b>이 나뉘어 들어갔는지 확인해요.","빨간 예시 글은 우리 시설 내용으로 바꾸고, 필요 없으면 × 로 지워요.","<b>워드 받기</b>로 내려받아 결재를 올려요."],
+  must:["참석자 서명은 출력 후 직접 받아요.","이용자 이름은 ○○님으로, 주민번호·진단명은 적지 않아요. (평가지표 B1)"],
+  tips:["회의를 녹음했다면 홈의 <b>🎙️ 회의 녹음 서식 만들기</b>로 들어가 녹음만으로 회의록을 만들 수 있어요.","같은 회의 내용으로 <b>공문</b>을 만들면 ‘회의 결과 안내’ 공문도 바로 나와요.","결정 사항의 담당·기한은 다음 달 회의록에 ‘지난 회의 확인’으로 이어 쓰면 평가 증빙이 이어져요.","손글씨 메모나 화이트보드는 <b>메모 사진 올리기</b>로 AI에게 읽혀 칸을 채울 수 있어요."],
+  faq:[["결재란이 필요 없어요","입력칸 아래 <b>결재란·서명란</b>에서 ‘없음’을 고르면 돼요."],["우리 시설 회의록 양식이 따로 있어요","<b>내 서식 첨부</b>로 워드·한글(hwpx) 양식을 올리면 그 양식에 채워져요."]]},
+ sangdam:{when:"이용자·보호자와 상담한 내용을 기록할 때 (정기 상담, 보호자 요청, 생활 변화 등)",
+  steps:["<b>쉬운 입력</b>에서 누구와 · 어떻게 · 왜 상담했는지 골라요.","어떤 이야기를 했는지 주제를 골라요. (여러 개 가능)","요즘 상태(잘 지내요 / 어려움이 있어요)를 고르면 상담 내용·의견·향후 계획 문장이 자동으로 들어가요.","더 적고 싶은 말은 마지막 칸에 짧게 적어요. 예: 밤에 자주 깬다고 함","오른쪽 미리보기를 확인하고 <b>워드 받기</b>"],
+  must:["이름은 ○○님, 진단명·약 이름은 적지 않아요. (평가지표 B1 비밀보장)","보호자 말은 “ ” 따옴표로 적으면 그대로 살려서 정리돼요.","자동으로 들어간 문장은 초안이에요. 실제와 다르면 꼭 고쳐요."],
+  tips:["조치 사항·연계를 비워 두면 상담 주제에 맞는 문장(건강기록, 개별지원계획 반영 등)이 자동으로 들어가요.","<b>칸을 하나씩 직접 보고 고치기</b>를 열면 모든 칸을 직접 고칠 수 있어요.","같은 상담 내용으로 <b>관찰일지</b>나 <b>개별지원계획서</b>를 이어서 쓰면 기록이 서로 연결돼요.","우리 시설 상담일지 양식을 <b>내 서식 첨부</b>로 올리면, 질문에 답한 내용이 그 양식 칸에 그대로 채워져요. (□ 대면 □ 전화 같은 칸은 ■로 표시)"],
+  faq:[["상담자 칸이 비어 있어요","‘칸을 하나씩 직접 보고 고치기’를 열고 상담자에 ‘생활지도원 ○○○’처럼 적어요."],["휴대폰에서 워드가 안 받아져요","PC에서 여는 것을 추천해요. 처음 쓰는 법의 ‘PC로 보내기’를 참고하세요."]]},
+ rec:{em:"🎙️",name:"회의 녹음 서식 만들기",desc:"녹음 → 글 → 원하는 서식 초안",when:"회의·상담을 녹음했을 때, 녹음만으로 회의록·프로그램 계획서·제안서·공문 등을 만들고 싶을 때",
+  steps:["홈의 <b>🎙️ 회의 녹음 서식 만들기</b>를 눌러요.","<b>① 녹음 파일 고르기</b>로 휴대폰·녹음기 파일(m4a, mp3 등)을 골라요.","<b>② 만들 서식</b>을 골라요. (회의록, 프로그램 계획서, 제안서, 공문 등)","<b>③ AI로 작성하기</b>에서 버튼을 눌러요.<br>· <b>제미나이</b>(무료): 창이 열리면 입력칸 클릭 → <b>Ctrl + V</b> → <b>+ 버튼으로 녹음 파일 올리기</b> → 보내기<br>· <b>챗GPT</b>: 요청문이 자동으로 들어가요. 녹음 파일은 유료 플랜만 올릴 수 있어요.","AI가 1차 기획안을 보여 주면 확인하고 <b>‘초안 작성’</b>이라고 답해요.","최종 답을 통째로 복사해 <b>④ 칸</b>에 붙여 넣고 <b>서식 칸에 나눠 넣고 열기</b>"],
+  must:["녹음 전 참석자에게 알리고 동의를 받아요.","회의 중 이용자 실명·주민번호·진단명은 말하지 않아요. 녹음 내용이 AI(외부)로 전달돼요.","제미나이 창이 비어 있는 건 정상이에요. 홈페이지가 제미나이에 글을 넣어 줄 수 없어서 Ctrl + V를 한 번 해야 해요."],
+  tips:["<b>삼성 갤럭시폰</b>은 음성 녹음 앱에서 바로 텍스트로 바꿀 수 있어요. 바꾼 글을 ①의 ‘녹음을 글로 이미 바꿨다면’ 칸에 붙여 넣으면 챗GPT·클로드도 쓸 수 있어요.","같은 녹음으로 회의록을 만든 뒤, 서식만 ‘공문’으로 바꿔 한 번 더 하면 결과 안내 공문까지 완성돼요.","PC 크롬에서는 ‘PC 마이크로 바로 받아쓰기’로 회의하면서 바로 글로 받을 수도 있어요."],
+  faq:[["Ctrl + V를 눌러도 아무것도 안 들어가요","③ 아래 파란 안내 상자의 <b>요청문 다시 복사</b>를 누르고 다시 붙여 넣어요."],["칸에 안 들어가요","AI 답의 【칸 이름】 표시가 그대로 있어야 해요. 답을 처음부터 끝까지 통째로 복사해요."]]},
+ gongmun:{when:"시청·구청·협회 등 외부 기관에 협조 요청, 자료 제출, 행사 안내를 보낼 때",
+  steps:["<b>수신</b>(받는 기관)과 <b>제목</b>을 적어요. 예: ○○시장(○○과장) / 가을 나들이 차량 지원 협조 요청","<b>본문 내용</b>은 한 줄에 한 항목씩 적어요. 줄 앞에 <b>-</b> 를 붙이면 하위 항목(가., 나.)이 돼요.","보낼 서류가 있으면 <b>붙임</b>에 한 줄에 하나씩 적어요. ‘1부’와 ‘끝.’은 자동으로 붙어요.","발신명의·기안자·시행 일자를 확인해요. 시설 정보를 등록해 두면 자동으로 채워져요.","오른쪽 미리보기에서 공문 모양을 확인하고 <b>워드 받기</b>"],
+  must:["본문 끝 ‘끝.’ 표시와 붙임 순서는 앱이 맞춰 주니 직접 쓰지 않아도 돼요.","개인정보(이용자 실명·연락처)는 공문 본문에 넣지 않아요."],
+  tips:["회의를 녹음했다면 <b>회의 녹음 서식 만들기</b>에서 ‘공문’을 골라 ‘회의 결과 안내’ 공문을 바로 만들 수 있어요.","✨ <b>AI로 다듬기</b>를 누르면 공문서 말투로 문장을 정리해 줘요.","기관에서 정해 준 공문 양식이 있으면 <b>내 서식 첨부</b>로 그 양식에 그대로 채워요."],
+  faq:[["시행 번호는 꼭 써야 하나요?","시설에서 문서 번호를 쓰면 적고, 없으면 비워 둬도 돼요."],["주소·전화가 매번 비어 있어요","홈의 <b>우리 시설 정보</b>를 등록하면 모든 공문에 자동으로 들어가요."]]},
+ gwanchal:{when:"이용자의 식사·수면·기분·행동 등 생활 모습을 관찰해 기록할 때",
+  steps:["<b>쉬운 입력</b>에서 언제 본 모습인지(아침, 저녁, 외출 중 등) 골라요.","무엇을 보았는지(식사, 수면, 기분·정서 등) 골라요. 여러 개 가능해요.","좋은 모습인지, 걱정되는 모습인지 골라요.","본 그대로 짧게 적어요. 예: 반찬을 스스로 덜어 먹음","오른쪽에 ‘본 것(사실)’과 ‘생각(해석)’이 나뉘어 정리된 것을 확인하고 <b>워드 받기</b>"],
+  must:["‘본 것’에는 사실만, ‘생각’에는 작성자 의견을 나눠 적어요.","이름은 ○○님, 진단명·약 이름은 적지 않아요. (평가지표 B1)"],
+  tips:["지원·조치를 비워 두면 관찰 내용에 맞는 지원 문장이 자동으로 들어가요.","걱정되는 모습이 이어지면 <b>상담일지</b>나 <b>개별지원계획서</b>로 이어서 기록해요.","우리 시설 관찰일지 양식이 있으면 <b>내 서식 첨부</b>로 그 양식에 채워요."],
+  faq:[["사실과 생각이 섞여요","‘○○했음’처럼 본 행동만 먼저 적고, ‘~로 보임’은 생각 칸에 적어요."]]},
+ program:{when:"요리·텃밭·미술·운동·나들이 등 프로그램을 진행한 날 기록을 남길 때",
+  steps:["<b>쉬운 입력</b>에서 오늘 한 프로그램을 고르거나 적어요.","참여 인원을 숫자로 적어요.","참여 모습(즐겁게 끝까지 참여 등)을 골라요.","기억에 남는 모습을 짧게 적어요. 예: ○○님이 물뿌리개를 먼저 챙김","목표·진행 내용·평가가 자동으로 정리된 것을 확인하고 <b>워드 받기</b>"],
+  must:["참여자 이름은 ○○님으로 적어요.","활동 사진에 얼굴이 나오면 동의를 받은 사진만 써요."],
+  tips:["회기마다 쓴 일지를 모으면 연말 <b>결과보고서</b>의 실시 횟수·연인원 근거가 돼요.","메모 사진(손글씨 진행 기록)을 올려 AI에게 칸을 채우게 할 수 있어요.","프로그램을 새로 시작한다면 <b>회의 녹음 서식 만들기</b>에서 ‘프로그램 계획서’도 만들 수 있어요."],
+  faq:[["진행 내용이 너무 일반적이에요","기억에 남는 모습을 한 줄만 더 적으면 그 내용이 반영돼 구체적으로 바뀌어요."]]},
+ gochung:{when:"이용자·보호자·직원의 불편이나 건의를 접수하고 처리 결과를 안내할 때 (평가지표 B3 근거 서류)",
+  steps:["<b>쉬운 입력</b>에서 누가 말했는지, 어떻게 접수했는지 골라요.","어떤 불편이었는지 짧게 적어요. 예: 방이 춥다고 함","처리 내용을 알면 적고, 모르면 비워요. 확인·처리·안내 문장이 자동으로 들어가요.","접수일을 넣으면 <b>처리 기한(30일)</b>이 자동으로 계산돼요.","미리보기 확인 후 <b>워드 받기</b>"],
+  must:["접수부터 처리·안내까지 30일 안에 마치고 결과를 꼭 알려요.","고충을 말한 사람이 불이익을 받지 않도록 비밀을 지켜요."],
+  tips:["고충처리 회의를 했다면 <b>회의록</b>에서 ‘고충처리 회의’를 골라 회의록도 함께 남겨요.","연말에 고충처리 기록을 모아 결과보고서의 ‘고충처리 결과’ 근거로 써요."],
+  faq:[["고충이 0건이에요","0건이어도 고충처리 회의는 열고, ‘접수 0건’으로 회의록을 남겨 두면 평가 증빙이 돼요."]]},
+ gaebyeol:{when:"이용자 한 명 한 명의 욕구를 정리해 목표·지원 내용·점검 일정을 세울 때 (평가지표 C2)",
+  steps:["<b>쉬운 입력</b>에서 지원이 필요한 영역을 골라요. (여러 개 가능)","현재 모습과 바라는 점을 짧게 적어요. 예: 혼자 버스 타 보고 싶음","본인·보호자가 바라는 점을 적어요. (선택)","영역별 목표·지원 내용·점검 일정이 표로 만들어진 것을 확인해요.","<b>워드 받기</b>로 내려받아 본인·보호자 확인을 받아요."],
+  must:["진단명·실명은 적지 않아요.","계획은 본인과 보호자의 의견을 함께 담아야 해요."],
+  tips:["6월 점검, 12월 평가 결과를 다음 해 계획에 반영하면 C2 평가 근거가 이어져요.","상담일지·관찰일지에서 나온 내용을 ‘현재 모습’에 옮겨 쓰면 기록이 서로 연결돼요."],
+  faq:[["목표가 너무 커요","‘한 달에 1번 혼자 버스 타기’처럼 횟수와 기간이 보이게 고쳐요."]]},
+ saeop:{when:"다음 해 사업계획서를 쓸 때 (세부사업·예산·성과 목표 포함)",
+  steps:["<b>① 무엇을 쓸까요</b>에 문서 제목·사업 기간·대상·총예산을 적어요.","<b>② 항목별로 짧게</b> 적어요. 세부사업은 한 줄에 하나씩 ‘사업명 횟수 인원 1회 금액’으로 적으면 <b>연간 횟수·연인원·예산이 자동 계산</b>돼요. 예: 재활프로그램 월2회 5명 1회 5만원","오른쪽 <b>①</b>에서 입력한 내용으로 만든 계획서를 확인하고 <b>워드 받기</b>","문장까지 다듬으려면 <b>② AI로 문장까지 완성하기</b>에서 챗GPT·제미나이·클로드를 눌러요.","AI가 기획안을 보여 주면 확인하고 ‘초안 작성’이라고 답해요."],
+  must:["AI가 만든 숫자·날짜는 반드시 실제 예산서와 맞춰 봐요.","금액은 천원 단위로 자동 표시돼요. (예: 70,000,000 → 70,000천원)"],
+  tips:["작년 결과보고서의 ‘아쉬운 점·개선 방안’을 <b>작년 결과·욕구조사 의견</b> 칸에 넣으면 계획에 자연스럽게 이어져요.","기관에서 받은 사업계획서 양식을 <b>④ 우리 시설 서식</b>에 올리면 그 항목대로 요청문이 만들어져요.","회계 프로그램 화면이나 예산표 사진을 <b>③ 기록 사진</b>에 올리면 AI가 읽어 표로 정리해요."],
+  faq:[["연인원이 이상하게 나와요","인원과 횟수를 숫자로 적었는지 확인해요. 예: 월2회 5명 → 3~12월이면 20회, 연인원 100명"]]},
+ gyeolgwa:{when:"한 해 사업을 마치고 결과보고서를 쓸 때 (계획 대비 실적·이용자 변화·예산 집행)",
+  steps:["사업명·기간·대상·작성자를 적어요.","<b>계획 대비 실적</b>을 ‘사업명 계획 20회 / 실적 19회, 4명’처럼 적으면 달성률이 계산돼요.","<b>이용자 변화</b>에는 실제 있었던 일을 적어요. 예: ○○님 처음 혼자 키오스크 주문","예산 집행·만족도·아쉬운 점을 아는 만큼 적어요.","오른쪽 보고서를 확인하고 <b>워드 받기</b> 또는 <b>AI로 문장까지 완성하기</b>"],
+  must:["실적 숫자는 출석부·프로그램 일지와 맞아야 해요. (현장평가 때 증빙 확인)","이용자 변화는 ‘관찰한 사실 → 의미’로 써요."],
+  tips:["아쉬운 점마다 개선 방안을 짝지어 쓰면 다음 해 사업계획서로 바로 이어져요.","1년 동안 쓴 프로그램 일지·만족도 결과 사진을 올리면 AI가 근거로 함께 정리해요."],
+  faq:[["달성률이 안 나와요","‘계획 20회 / 실적 19회’처럼 계획과 실적을 둘 다 숫자로 적어요."]]},
+ yesan:{when:"사업별 예산과 실제 집행액을 정리해 예산집행보고서를 낼 때",
+  steps:["문서 제목·집행 기간·재원 구분(보조금, 후원금, 자부담)을 적어요.","<b>사업별 예산·집행액</b>을 한 줄에 하나씩 적어요. 예: 재활프로그램 월2회 1회 5만원 실적 18회 → <b>집행률·잔액이 자동 계산</b>돼요.","미집행·변경 사유가 있으면 적어요.","후원금 사용과 공개 방법을 적어요.","오른쪽 보고서 확인 후 <b>워드 받기</b>"],
+  must:["집행액은 회계 장부·영수증과 꼭 맞춰 봐요.","남은 보조금은 반납, 후원금은 이월 등 조치를 함께 적어요."],
+  tips:["회계 프로그램 화면이나 지출 장부 사진을 <b>기록 사진</b>에 올리면 AI가 사업별 합계를 표로 정리해요.","결과보고서의 예산 부분에 같은 숫자를 그대로 쓰면 서류끼리 맞아요."],
+  faq:[["금액 단위가 헷갈려요","원으로 적어도 천원 단위로 자동 바뀌어요. 예: 3,600,000 → 3,600천원"]]},
+ proggye:{when:"새 프로그램을 시작하기 전에 계획서를 만들 때 (회의 녹음으로도 만들 수 있어요)",
+  steps:["프로그램명·기간·대상·담당자를 적어요.","필요성·목적·회기별 내용·예산·평가 방법을 짧게 적어요.","빨간 예시를 보고 우리 시설 내용으로 바꿔요.","미리보기 확인 후 <b>워드 받기</b>"],
+  must:["예산 숫자와 회기 수는 실제 계획과 맞춰 봐요."],
+  tips:["회의에서 프로그램을 논의했다면 <b>회의 녹음 서식 만들기</b>에서 ‘프로그램 계획서’를 고르면 녹음으로 초안이 채워져요.","프로그램을 마치면 <b>프로그램 일지</b>와 <b>결과보고서</b>로 이어서 기록해요."],
+  faq:[]},
+ jeanseo:{when:"운영위원회·법인·재단 등에 새 사업이나 지원을 제안할 때",
+  steps:["제안 제목·제안 대상·기간·대상 인원을 적어요.","제안 배경·목적·주요 내용·소요 예산·기대효과를 짧게 적어요.","요청 사항(예산 지원 검토 등)이 있으면 적어요.","미리보기 확인 후 <b>워드 받기</b>"],
+  must:["예산과 기대효과는 근거가 있는 숫자만 써요."],
+  tips:["회의에서 나온 의견을 녹음했다면 <b>회의 녹음 서식 만들기</b>에서 ‘제안서’를 골라 초안을 만들어요.","재단 공모 양식이 따로 있으면 <b>내 서식 첨부</b>로 그 양식에 채워요."],
+  faq:[]},
+ myform:{em:"📎",name:"내 서식 첨부해서 쓰기",desc:"우리 시설 양식에 그대로 채우기",go:"upload",when:"우리 시설·기관에서 정해 준 워드·한글 양식에 내용을 채우고 싶을 때",
+  steps:["쓰려는 서식 화면에서 <b>내 서식 첨부</b>를 눌러 워드(.docx)나 한글(.hwpx) 파일을 골라요.","오른쪽 미리보기가 <b>우리 시설 양식</b>으로 바뀌어요.","왼쪽에서 평소처럼 질문에 답하고 예시를 보며 적으면, 연결된 칸에 파란 글씨로 채워져요.","연결되지 않은 칸은 맨 아래 <b>내 서식에만 있는 칸</b>에 적어요.","<b>내 서식으로 받기</b>를 누르면 우리 양식 그대로 내려받아요."],
+  must:["예전 한글(.hwp)은 바로 바뀌지 않아요. 한글에서 ‘다른 이름으로 저장 → HWPX 또는 Word’로 저장해 올려요.","실제 이용자 정보가 들어 있는 양식은 빈 양식으로 바꿔서 올려요."],
+  tips:["□ 대면 □ 전화 같은 고르기 칸은 답을 고르면 ■로 바뀌어요.","올린 양식은 이 기기에 기억돼서 다음에 들어와도 그대로 있어요. 원래대로 하려면 <b>앱 기본 서식으로 돌아가기</b>"],
+  faq:[["칸을 못 찾았다고 나와요","표 안에 ‘항목 칸 + 빈칸’이 있는 양식이어야 해요. 그림으로 된 표는 읽지 못해요."]]}
+};
+function manBody(id,m){ const f=FBY[id];
+  return `<div class="man-body">
+    <h4>📌 이럴 때 써요</h4><p>${m.when}</p>
+    <h4>✍️ 이렇게 써요</h4><ol>${m.steps.map(x=>`<li>${x}</li>`).join("")}</ol>
+    <h4>⚠️ 꼭 지켜요</h4><div class="warn"><ul>${m.must.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    <h4>💡 응용 팁</h4><div class="tip"><ul>${m.tips.map(x=>`<li>${x}</li>`).join("")}</ul></div>
+    ${m.faq&&m.faq.length?`<h4>🙋 막힐 때</h4>${m.faq.map(([q,a])=>`<p class="q"><b>Q. ${q}</b><br>→ ${a}</p>`).join("")}`:""}
+    <div class="actions"><button type="button" class="btn b3d" ${id==="rec"?'data-goto="rec"':m.go?`data-goto="${m.go}"`:`data-form="${id}"`}>이 기능 바로 쓰기 →</button></div></div>`; }
+function renderManual(open){
+  const list=[["rec",MAN.rec],...FORMS.map(f=>[f.id,MAN[f.id]]),...RECX.map(f=>[f.id,MAN[f.id]]),["myform",MAN.myform]];
+  app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px">
+    <button class="back b3d" type="button" data-home>← 처음으로</button>
+    <div class="page-head"><p class="label">이용 매뉴얼</p><h2>📘 비서함 이용 매뉴얼</h2><p>서식 이름을 누르면 그 서식의 사용법과 응용 팁이 펼쳐져요.</p></div>
+    <div class="man-list">${list.map(([id,m])=>{ const f=FBY[id]||{}; const em=m&&m.em||f.em, nm=m&&m.name||f.name, d=m&&m.desc||f.desc||"";
+      return m?`<details class="man-item" id="man-${id}"${open===id?" open":""}><summary><span class="em">${em}</span><b>${esc(nm)}</b><span class="d">${esc(d)}</span><i>›</i></summary>${manBody(id,m)}</details>`
+        :`<details class="man-item soon"><summary><span class="em">${em}</span><b>${esc(nm)}</b><span class="d">사용법 준비 중</span></summary></details>`; }).join("")}</div>
+    <p class="man-foot"><button type="button" data-goto="help">처음 쓰는 법</button> · <button type="button" data-goto="help">PC로 보내기</button> · <button type="button" data-goto="help">안전수칙</button></p>
+  </div>`;
+  if(open){ const el=document.getElementById("man-"+open); if(el) setTimeout(()=>el.scrollIntoView({block:"start",behavior:"smooth"}),60); }
+}
+document.addEventListener("click",e=>{ const s=e.target.closest(".man-item.soon>summary"); if(s){ e.preventDefault(); } });
+
 /* ================= 녹음으로 서류 만들기 ================= */
 const REC={text:"",interim:"",on:false,sr:null,mr:null,stream:null,chunks:[],url:"",fname:"",t0:0,timer:null,fid:"hoeui",ans:"",file:null,consent:false};
 const REC_SKIP=new Set(["yokgu","manjok"]);
@@ -3677,7 +3797,7 @@ function renderRec(){
   const F=recForms(), f=FBY[REC.fid]||F[0], hasT=!!(REC.text||"").trim();
   app.innerHTML=`<div class="fade rec-page" style="display:flex;flex-direction:column;gap:18px;--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <button class="back b3d" type="button" data-goto="">← 처음으로</button>
-    <div class="page-head"><p class="label">회의 녹음</p><h2>🎙️ 회의 녹음 서식 만들기</h2>
+    <div class="page-head"><p class="label">회의 녹음</p><h2>🎙️ 회의 녹음 서식 만들기 <button type="button" class="man-link" data-goto="manual-rec">사용법 보기 ›</button></h2>
       <p>회의·상담 녹음을 글로 바꾸고, 원하는 서식을 누르면 AI가 그 서식에 맞춰 초안을 써 줘요. 회의록 · 프로그램 계획서 · 제안서 · 공문 등 어떤 서식이든 돼요.</p></div>
     <section class="card"><h3 class="step-title"><b>1</b>녹음 파일 올리기</h3>
       <div class="rec-live"><label class="pill b3d main rec-big" for="rec-file">🎙️ 녹음 파일 고르기</label><input type="file" id="rec-file" class="sr-file" accept="audio/*,.m4a,.mp3,.wav,.webm,.aac,.amr,.3gp,.ogg">
@@ -3811,7 +3931,7 @@ let up=null; /* {name, ext, zip entries, xmlDocs, fields:[{label, node, value, k
 function renderUpload(){
   app.innerHTML=`<div class="fade" style="display:flex;flex-direction:column;gap:18px;--cc:var(--c-doc);--cc-soft:var(--c-doc-soft);--cc-deep:var(--c-doc-deep)">
     <button class="back b3d" type="button" data-goto="forms">← 서식함</button>
-    <div class="page-head"><p class="label">서식함</p><h2>📤 내 서식 올려서 채우기</h2>
+    <div class="page-head"><p class="label">서식함</p><h2>📤 내 서식 올려서 채우기 <button type="button" class="man-link" data-goto="manual-myform">사용법 보기 ›</button></h2>
       <p>서식 파일을 올리면 빈칸을 찾아 목록으로 보여드려요. 채운 뒤 같은 서식으로 내려받아요.</p></div>
     <section class="card"><h3 class="step-title"><b>1</b>서식 파일 또는 메모 사진 고르기</h3>
       <label class="filebtn b3d" for="up-file">서식 파일 · 메모 사진 고르기</label>
@@ -4774,7 +4894,7 @@ function renderHome(){
         <ul class="glinks">${KAWID.map(([t,u,d])=>`<li><a href="${u}" target="_blank" rel="noopener"><b>${t}</b><span>${d}</span>${ico("link","sm")}</a></li>`).join("")}</ul>
         <p class="gbox-sub org">중앙사회서비스원 바로가기</p>
         <ul class="glinks sub"><li><a href="https://kcpass.or.kr/board/view?boardStyle=&amp;categoryId=&amp;continent=&amp;country=&amp;linkId=LhJZCVwlqt&amp;menuId=MENU002030702000000&amp;no1=8&amp;pageNum=1&amp;rowCnt=10&amp;schText=&amp;schType=0" target="_blank" rel="noopener"><b>2026 평가지표</b><span>장애인공동생활가정</span>${ico("link","sm")}</a></li></ul>
-        <button type="button" class="ghelp" data-goto="help">${ico("help")}<span><b>처음 쓰는 법</b> · PC로 보내기 · 안전수칙</span></button>
+        <div class="ghelp ghelp2"><button type="button" class="gh-main" data-goto="manual">${ico("help")}<b>비서함 이용 매뉴얼</b><em>›</em></button><div class="gh-sub"><button type="button" data-goto="help">처음 쓰는 법</button> · <button type="button" data-goto="help">PC로 보내기</button> · <button type="button" data-goto="help">안전수칙</button></div></div>
       </section>
     </div>
   </div>`;
@@ -5439,7 +5559,7 @@ function route(){
   const gp=document.getElementById("gnb-prof"); if(gp){ gp.classList.toggle("set",!!PROF.name); gp.innerHTML=`<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11 12 4l9 7v9H3z"/><path d="M9 20v-6h6v6"/></svg>${PROF.name?esc(PROF.name):"우리 시설 정보 등록"}`; gp.title=PROF.name?"우리 시설 정보 바꾸기":"한 번 등록하면 모든 서식에 자동으로 들어가요"; }
   const h = (location.hash||"").replace("#","");
   current = null; curForm = null;
-  const isHome = !(/^(t-|c-|form-)/.test(h) || ["fridge","forms","upload","month","help","make","rec"].includes(h));
+  const isHome = !(/^(t-|c-|form-)/.test(h) || ["fridge","forms","upload","month","help","make","rec"].includes(h) || h.startsWith("manual"));
   document.body.classList.toggle("home-mode", isHome);
   if(h.startsWith("t-") && BY[h.slice(2)]){ current = BY[h.slice(2)]; renderTask(current); }
   else if(h.startsWith("c-") && CATS[h.slice(2)]){ renderCat(h.slice(2)); }
@@ -5448,6 +5568,7 @@ function route(){
   else if(h.startsWith("form-") && FBY[h.slice(5)]){ curForm=FBY[h.slice(5)]; renderForm(curForm); }
   else if(h==="upload"){ renderUpload(); }
   else if(h==="rec"){ renderRec(); }
+  else if(h.startsWith("manual")){ renderManual(h.slice(7)); }
   else if(h==="make"){ renderMake(); }
   else if(h==="donate"){ renderDonate(); }
   else if(h==="month"){ renderMonth(); }
